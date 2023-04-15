@@ -10,14 +10,16 @@
     --background: #17171d;
     --text-display: #faebd72f;
     --input-border: none;
+    --explanation: 300;
 }
 
 :root.light {
     --font: #1a1a1a;
-    --header: #896A67;
+    --header: #a1807d;
     --background: #f8faf1;
     --text-display: #DDC8C4;
     --input-border: 1px solid #896A67;
+    --explanation: 400;
 }
 
 body {
@@ -37,24 +39,44 @@ header {
     align-items: center;
     height: 6rem;
 
-    & button {
+    & button,
+    a {
         background-color: transparent;
         border: none;
+        color: var(--font);
+        font-family: inherit;
+        text-decoration: none;
         height: 4rem;
+        margin-left: 1rem;
         display: flex;
         align-items: center;
         gap: 1rem;
 
+        & img {
+            height: 4rem;
+            width: auto;
+        }
+
         & h1 {
             color: var(--font);
-            font-family: 'Righteous', 'Outfit', sans-serif;
-            font-weight: 400;
+            font: 400 3rem 'Righteous', 'Outfit', sans-serif;
         }
     }
+}
 
-    & ul {
-        margin: 0;
-        padding: 0;
+.right-header {
+    margin-right: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    & #profile {
+        font-size: 2rem;
+        font-weight: 400;
+    }
+
+    & svg {
+        color: var(--font);
     }
 }
 
@@ -72,17 +94,17 @@ main {
     align-items: center;
     
     & .container {
-        font-size: 2rem;
+        font-size: 2.2rem;
         display: grid;
-        grid-template-rows: repeat(20, 2rem);
+        grid-template-rows: repeat(24, 2rem);
         grid-template-columns: repeat(32, 2rem);
 
         & #text-display {
             background-color: var(--text-display);
             border: none;
-            border-radius: 1.2rem;
+            border-radius: 1.3rem;
             height: 6em;
-            padding: 1.2rem;
+            padding: 1.1rem;
             grid-row: 0 / 9;
             grid-column: 1 / 33;
         }
@@ -90,8 +112,9 @@ main {
         & #text-entry {
             border: var(--input-border);
             border-radius: 1.2rem;
+            margin-top: 0.4rem;
             padding: 1.2rem;
-            font-size: 2.2rem;
+            font-size: inherit;
             grid-row: 9 /11;
             grid-column: 1 / 33;
 
@@ -100,12 +123,49 @@ main {
             }
         }
 
-        & #stats {
-            grid-row: 12 /21;
+        & #timer {
+            text-align: center;
+            grid-row: 11 / 16;
+            grid-column: 13 / 21;
+        }
+
+        & #results {
+            grid-row: 12 / 18;
             grid-column: 1 / 33;
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+}
+
+#results {
+    & #stats {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    & #explanation {
+        font-size: 1.7rem;
+        text-align: center;
+        width: 140%;
+
+        & .collapsible {
+            background-color: transparent;
+            border: none;
+            color: var(--font);
+            font-family: inherit;
+            font-weight: bold;
+            margin-top: 2rem;
+        }
+
+        & .collapsible-content {
+            font-weight: var(--explanation);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.07s linear;
         }
     }
 }
@@ -118,4 +178,13 @@ main {
     &>* {
         margin: 1rem 0;
     }
+}
+
+a:hover,
+button:hover {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
 }
