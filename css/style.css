@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;700&family=Righteous&display=swap');
+
+:root {
+    font-size: 10px;
+}
+
+:root.dark {
+    --font: #dddddd;
+    --header: #101013;
+    --background: #17171d;
+    --text-display: #faebd72f;
+    --input-border: none;
+}
+
+:root.light {
+    --font: #1a1a1a;
+    --header: #896A67;
+    --background: #f8faf1;
+    --text-display: #DDC8C4;
+    --input-border: 1px solid #896A67;
+}
+
+body {
+    color: var(--font);
+    font-family: 'Outfit', sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: var(--header);
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 6rem;
+
+    & button {
+        background-color: transparent;
+        border: none;
+        height: 4rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        & h1 {
+            color: var(--font);
+            font-family: 'Righteous', 'Outfit', sans-serif;
+            font-weight: 400;
+        }
+    }
+
+    & ul {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+ul, li {
+    display: inline;
+    list-style: none;
+}
+
+main {
+    background-color: var(--background);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    & .container {
+        font-size: 2rem;
+        display: grid;
+        grid-template-rows: repeat(20, 2rem);
+        grid-template-columns: repeat(32, 2rem);
+
+        & #text-display {
+            background-color: var(--text-display);
+            border: none;
+            border-radius: 1.2rem;
+            height: 6em;
+            padding: 1.2rem;
+            grid-row: 0 / 9;
+            grid-column: 1 / 33;
+        }
+        
+        & #text-entry {
+            border: var(--input-border);
+            border-radius: 1.2rem;
+            padding: 1.2rem;
+            font-size: 2.2rem;
+            grid-row: 9 /11;
+            grid-column: 1 / 33;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        & #stats {
+            grid-row: 12 /21;
+            grid-column: 1 / 33;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+    }
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &>* {
+        margin: 1rem 0;
+    }
+}
