@@ -45,11 +45,21 @@ function showContent(e) {
 
 function generateWordList() {
     shuffleWords(words);
-    const testWords = words.slice(0, 250).join(' ');
-    textDisplay.textContent = testWords;
+    const testChars = words.slice(0, 250).join(' ').split('');
+    textDisplay.replaceChildren();
+    appendCharDivs(testChars);
 
     // populate global array for scoring after test
-    charactersToCheckAgainst = testWords.split('');
+    charactersToCheckAgainst = testChars;
+}
+
+function appendCharDivs(chars) {
+    for (let i = 0; i < chars.length; i++) {
+        const charDiv = document.createElement('div');
+        charDiv.className = 'char';
+        charDiv.textContent = chars[i];
+        textDisplay.appendChild(charDiv);
+    }
 }
 
 function startTest() {

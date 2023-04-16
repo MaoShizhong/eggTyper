@@ -161,6 +161,10 @@ main {
     }
 }
 
+.char {
+    display: inline;
+}
+
 #results {
     & #stats {
         width: 100%;
