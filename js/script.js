@@ -60,7 +60,7 @@ function appendCharDivs(chars) {
         charDiv.textContent = chars[i];
         textDisplay.appendChild(charDiv);
     }
-    textDisplay.firstChild.style.borderBottom = '2px solid black';
+    textDisplay.firstChild.style.borderBottom = '2px solid var(--font)';
 }
 
 function startTest() {
@@ -94,19 +94,21 @@ function updateTextDisplay(e) {
         charactersBeingEntered.push(input.value.slice(-1));
         highlightText();
     }
+
+    checkProgressToScroll();
 }
 
 function clearAllHighlighting() {
     const chars = textDisplay.querySelectorAll('div');
     chars.forEach(div => div.removeAttribute('style'));
-    textDisplay.firstChild.style.borderBottom = '2px solid black';
+    textDisplay.firstChild.style.borderBottom = '2px solid var(--font)';
 }
 
 function clearLastHighlight() {
     const i = charactersBeingEntered.length;
     const char = textDisplay.querySelector(`:nth-child(${i + 1})`);
     char.removeAttribute('style');
-    char.style.borderBottom = '2px solid black';
+    char.style.borderBottom = '2px solid var(--font)';
     char.nextSibling.style.borderBottom = null;
 }
 
@@ -115,15 +117,28 @@ function highlightText() {
     const char = textDisplay.querySelector(`:nth-child(${i + 1})`);
 
     if (charactersBeingEntered[i] === charactersToCheckAgainst[i]) {
-        char.style.color = 'blue';
+        char.style.color = '#1a8cff';
     }
     else {
-        char.style.color = 'red';
+        char.style.color = '#800000';
         char.style.backgroundColor = '#f2a2a0';
     }
     // move "cursor"
     char.style.borderBottom = null;
-    char.nextSibling.style.borderBottom = '2px solid black';
+    char.nextSibling.style.borderBottom = '2px solid var(--font)';
+}
+
+function checkProgressToScroll() {
+    // char limit for 3 lines in text display
+    const finalSpaceOnFirstLine = charactersToCheckAgainst.lastIndexOf(' ', 55) + 1;
+    const finalSpaceOnThirdLine = charactersToCheckAgainst.lastIndexOf(' ', 165) + 1;
+
+    if (textDisplay.querySelector(`:nth-child(${finalSpaceOnThirdLine})`).style.borderBottom === '2px solid var(--font)') {
+        const divs = textDisplay.querySelectorAll('div');
+        for (let i = 0; i < finalSpaceOnFirstLine; i++) {
+            divs[i].style.display = 'none';
+        }
+    }
 }
 
 function showResults() {
