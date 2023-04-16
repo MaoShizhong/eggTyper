@@ -1,5 +1,11 @@
+import { words, shuffleWords } from './words.js';
+
 const themeBtn = document.querySelector('#theme');
 const collapsibleBtn = document.querySelector('.collapsible');
+
+// global array to compare 
+const displayCharacters = [];
+const charactersToCheckAgainst = [];
 
 themeBtn.addEventListener('click', changeTheme);
 collapsibleBtn.addEventListener('click', showContent);
@@ -21,3 +27,16 @@ function showContent(e) {
         e.currentTarget.textContent = 'How is this calculated? \u25B2';
     }
 }
+
+function generateWordList(displayChar, scoreChar) {
+    const textDisplay = document.querySelector('#text-display');
+    shuffleWords(words);
+    displayChar = words.slice(0, 200).join(' ').split('');
+    for (let i = 0; i < displayChar.length; i++) {
+        textDisplay.textContent += `${displayChar[i]}`;
+        scoreChar[i] = displayChar[i];
+    }
+}
+
+// initialise
+generateWordList(displayCharacters, charactersToCheckAgainst);

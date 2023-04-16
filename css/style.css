@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;700&family=Righteous&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;700&family=Righteous&family=Inconsolata:wght@300&display=swap');
 
 :root {
     font-size: 10px;
@@ -95,6 +95,7 @@ main {
     
     & .container {
         font-size: 2.2rem;
+        line-height: 2.7rem;
         display: grid;
         grid-template-rows: repeat(24, 2rem);
         grid-template-columns: repeat(32, 2rem);
@@ -103,8 +104,12 @@ main {
             background-color: var(--text-display);
             border: none;
             border-radius: 1.3rem;
+            font-family: 'Inconsolata', monospace;
+            font-weight: 300;
+            overflow: hidden;
+            word-wrap: break-word;
             height: 6em;
-            padding: 1.1rem;
+            padding: 0.8rem 1.5rem 1rem;
             grid-row: 0 / 9;
             grid-column: 1 / 33;
         }
