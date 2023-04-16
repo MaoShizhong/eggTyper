@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 
 <html lang="en" class="light">
-
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -42,7 +41,6 @@
                 </button>
             </div>
         </header>
-
         <main>
             <h1 id="caption">The timer will start when you begin typing below</h1>
             <button id="reset" class="hidden">
@@ -57,27 +55,23 @@
             </button>
             <div class="container">
                 <div id="text-display" aria-label="display area for test words"></div>
-
                 <input id="text-entry" type="text" placeholder="Start typing here" autocomplete="off" autocorrect="off" autofocus>
-
                 <h2 id="timer" aria-label="timer">0:04</h2>
-
                 <div id="results" aria-label="test results" class="hidden">
                     <div id="stats">
                         <div class="stat">
                             <h2>WPM</h2>
-                            <p>89</p>
+                            <p id="wpm">89</p>
                         </div>
                         <div class="stat">
                             <h2>Accuracy</h2>
-                            <p>97%</p>
+                            <p id="accuracy">97%</p>
                         </div>
                         <div class="stat">
                             <h2>Errors</h2>
-                            <p>2</p>
+                            <p id="errors">2</p>
                         </div>
                     </div>
-
                     <div id="explanation">
                         <button class="collapsible">How is this calculated? &#9660</button>
                         <div class="collapsible-content">
@@ -99,8 +93,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            
+            </div>         
         </main>
     </body>
 </html>

@@ -144,8 +144,30 @@ function checkProgressToScroll() {
 function showResults() {
     input.disabled = true;
     clearInterval(clock);
+
+    calculateStats();
     timer.classList.toggle('hidden');
     results.classList.toggle('hidden');
+}
+
+function calculateStats() {
+    const chars = charactersBeingEntered.length;
+    if (chars === 0) {
+        document.querySelector('#wpm').textContent = '0';
+        document.querySelector('#accuracy').textContent = '0%';
+        document.querySelector('#errors').textContent = '0';
+        return;
+    }
+
+    const errors = charactersBeingEntered.filter((c, i) => c !== charactersToCheckAgainst[i]).length;
+    const accuracy = (chars - errors) / chars;
+    const accuracyPercent = Math.round(accuracy * 1000) / 10;
+    const wpm = chars / 5 * (1 / (selectedDuration / 60)) * accuracy;
+
+    // display stats
+    document.querySelector('#wpm').textContent = `${Math.round(wpm)}`;
+    document.querySelector('#accuracy').textContent = `${accuracyPercent === 100 ? 100 : String(accuracyPercent).padEnd(4, '.0')}%`;
+    document.querySelector('#errors').textContent = `${errors}`;
 }
 
 function resetTest() {
