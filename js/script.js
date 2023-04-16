@@ -19,6 +19,8 @@ let clock;
 let testActive = false;
 let selectedDuration = 60;
 let timeRemaining = selectedDuration;
+let firstLineCharLimit = 55;
+let thirdLineCharLimit = 165;
 
 themeBtn.addEventListener('click', changeTheme);
 resetBtn.addEventListener('click', resetTest);
@@ -143,14 +145,16 @@ function highlightText() {
 
 function checkProgressToScroll() {
     // char limit for 3 lines in text display
-    const finalSpaceOnFirstLine = charactersToCheckAgainst.lastIndexOf(' ', 55) + 1;
-    const finalSpaceOnThirdLine = charactersToCheckAgainst.lastIndexOf(' ', 165) + 1;
+    const finalSpaceOnFirstLine = charactersToCheckAgainst.lastIndexOf(' ', firstLineCharLimit) + 1;
+    const finalSpaceOnThirdLine = charactersToCheckAgainst.lastIndexOf(' ', thirdLineCharLimit) + 1;
 
     if (textDisplay.querySelector(`:nth-child(${finalSpaceOnThirdLine})`).style.borderBottom === '2px solid var(--font)') {
         const divs = textDisplay.querySelectorAll('div');
         for (let i = 0; i < finalSpaceOnFirstLine; i++) {
             divs[i].style.display = 'none';
         }
+        firstLineCharLimit += 55;
+        thirdLineCharLimit += 55;
     }
 }
 
@@ -188,6 +192,8 @@ function resetTest() {
     timer.textContent = `${Math.floor(timeRemaining / 60)}:${String(timeRemaining % 60).padStart(2, '0')}`;
     testActive = false;
     input.disabled = false;
+    firstLineCharLimit = 55;
+    thirdLineCharLimit = 165;
 
     generateWordList();
     charactersBeingEntered = [];
