@@ -9,7 +9,7 @@
         <link rel="icon" type="image/x-icon" href="images/favicon.ico">
         <link rel="stylesheet" href="css/style.css">
         <script src="js/script.js" type="module"></script>
-        <title>eggTyper</title>
+        <title>eggTyper | A simple, clean typing test</title>
     </head>
 
     <body>
@@ -44,15 +44,25 @@
         </header>
 
         <main>
-            <h1 id="caption">Start typing to start the timer</h1>
+            <h1 id="caption">The timer will start when you begin typing below</h1>
+            <button id="reset" class="hidden">
+                Click here to reset
+                <svg fill="currentColor" width="3rem" height="3rem" viewBox="-211.2 -211.2 2342.40 2342.40" xmlns="http://www.w3.org/2000/svg" stroke="#000000" stroke-width="28.8">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                    <g id="SVGRepo_iconCarrier">
+                        <path d="M960 0v213.333c411.627 0 746.667 334.934 746.667 746.667S1371.627 1706.667 960 1706.667 213.333 1371.733 213.333 960c0-197.013 78.4-382.507 213.334-520.747v254.08H640V106.667H53.333V320h191.04C88.64 494.08 0 720.96 0 960c0 529.28 430.613 960 960 960s960-430.72 960-960S1489.387 0 960 0" fill-rule="evenodd"/>
+                    </g>
+                </svg>
+            </button>
             <div class="container">
-                <div id="text-display"></div>
+                <div id="text-display" aria-label="display area for test words"></div>
 
-                <input id="text-entry" type="text" autofocus>
+                <input id="text-entry" type="text" placeholder="Start typing here" autocomplete="off" autocorrect="off" autofocus>
 
-                <h2 id="timer">01:00</h2>
+                <h2 id="timer" aria-label="timer">0:04</h2>
 
-                <div id="results" class="hidden">
+                <div id="results" aria-label="test results" class="hidden">
                     <div id="stats">
                         <div class="stat">
                             <h2>WPM</h2>
@@ -89,7 +99,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             
         </main>
