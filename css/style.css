@@ -132,7 +132,7 @@ main {
         font-size: 2.2rem;
         line-height: 2.7rem;
         display: grid;
-        grid-template-rows: repeat(24, 2rem);
+        grid-template-rows: repeat(29, 2rem);
         grid-template-columns: repeat(32, 2rem);
 
         & #text-display {
@@ -144,7 +144,7 @@ main {
             overflow: hidden;
             white-space: break-spaces;
             height: 6em;
-            padding: 0.8rem 1.5rem 1rem;
+            padding: 0.8rem 1.5rem 0.9rem;
             grid-row: 0 / 9;
             grid-column: 1 / 33;
         }

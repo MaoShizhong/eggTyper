@@ -64,7 +64,7 @@ function appendCharDivs(chars) {
         charDiv.textContent = chars[i];
         textDisplay.appendChild(charDiv);
     }
-    textDisplay.firstChild.style.borderBottom = '2px solid var(--font)';
+    textDisplay.firstChild.style.borderLeft = '2px solid var(--font)';
 }
 
 function setDuration(e) {
@@ -76,6 +76,8 @@ function setDuration(e) {
     const currentSelection = document.querySelector('.current');
     currentSelection.classList.remove('current');
     e.target.classList.add('current');
+
+    input.focus();
 }
 
 function startTest() {
@@ -96,10 +98,9 @@ function updateTimer() {
 
 function updateTextDisplay(e) {
     // to catch CTRL+A backspace or other complete clears
-    if (input.value === '') {
+    if (input.value === '' || input.value.length === 1) {
         charactersBeingEntered = [];
         clearAllHighlighting();
-        return;
     }
 
     if (e.inputType === 'deleteContentBackward') {
@@ -117,15 +118,15 @@ function updateTextDisplay(e) {
 function clearAllHighlighting() {
     const chars = textDisplay.querySelectorAll('div');
     chars.forEach(div => div.removeAttribute('style'));
-    textDisplay.firstChild.style.borderBottom = '2px solid var(--font)';
+    textDisplay.firstChild.style.borderLeft = '2px solid var(--font)';
 }
 
 function clearLastHighlight() {
     const i = charactersBeingEntered.length;
     const char = textDisplay.querySelector(`:nth-child(${i + 1})`);
     char.removeAttribute('style');
-    char.style.borderBottom = '2px solid var(--font)';
-    char.nextSibling.style.borderBottom = null;
+    char.style.borderLeft = '2px solid var(--font)';
+    char.nextSibling.style.borderLeft = null;
 }
 
 function highlightText() {
@@ -140,8 +141,8 @@ function highlightText() {
         char.style.backgroundColor = '#f2a2a0';
     }
     // move "cursor"
-    char.style.borderBottom = null;
-    char.nextSibling.style.borderBottom = '2px solid var(--font)';
+    char.style.borderLeft = null;
+    char.nextSibling.style.borderLeft = '2px solid var(--font)';
 }
 
 function checkProgressToScroll() {
@@ -149,7 +150,7 @@ function checkProgressToScroll() {
     const finalSpaceOnFirstLine = charactersToCheckAgainst.lastIndexOf(' ', firstLineCharLimit) + 1;
     const finalSpaceOnThirdLine = charactersToCheckAgainst.lastIndexOf(' ', thirdLineCharLimit) + 1;
 
-    if (textDisplay.querySelector(`:nth-child(${finalSpaceOnThirdLine})`).style.borderBottom === '2px solid var(--font)') {
+    if (textDisplay.querySelector(`:nth-child(${finalSpaceOnThirdLine})`).style.borderLeft === '2px solid var(--font)') {
         const divs = textDisplay.querySelectorAll('div');
         for (let i = 0; i < finalSpaceOnFirstLine; i++) {
             divs[i].style.display = 'none';
@@ -179,12 +180,11 @@ function calculateStats() {
 
     const errors = charactersBeingEntered.filter((c, i) => c !== charactersToCheckAgainst[i]).length;
     const accuracy = (chars - errors) / chars;
-    const accuracyPercent = Math.round(accuracy * 1000) / 10;
     const wpm = chars / 5 * (1 / (selectedDuration / 60)) * accuracy;
 
     // display stats
     document.querySelector('#wpm').textContent = `${Math.round(wpm)}`;
-    document.querySelector('#accuracy').textContent = `${accuracyPercent === 100 ? 100 : String(accuracyPercent).padEnd(4, '.0')}%`;
+    document.querySelector('#accuracy').textContent = `${Math.round(accuracy * 1000) / 10}%`;
     document.querySelector('#errors').textContent = `${errors}`;
 }
 
@@ -208,6 +208,12 @@ function resetTest() {
     resetBtn.classList.toggle('hidden');
     clearTimeout(duration);
     clearInterval(clock);
+
+    // collapse explanation if expanded when test is reset
+    if (collapsibleBtn.nextElementSibling.style.maxHeight !== null) {
+        collapsibleBtn.nextElementSibling.style.maxHeight = null;
+        collapsibleBtn.textContent = 'How is this calculated? \u25BC';
+    }
 }
 
 // initialise
