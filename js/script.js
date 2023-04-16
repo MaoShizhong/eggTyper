@@ -83,6 +83,7 @@ function startTest() {
         testActive = true;
         clock = setInterval(updateTimer, 1000);
         duration = setTimeout(showResults, selectedDuration * 1000);
+        durationBtns.forEach(button => button.disabled = true);
         instruction.classList.add('hidden');
         resetBtn.classList.remove('hidden');
     }
@@ -192,6 +193,7 @@ function resetTest() {
     timer.textContent = `${Math.floor(timeRemaining / 60)}:${String(timeRemaining % 60).padStart(2, '0')}`;
     testActive = false;
     input.disabled = false;
+    durationBtns.forEach(button => button.disabled = false);
     firstLineCharLimit = 55;
     thirdLineCharLimit = 165;
 
