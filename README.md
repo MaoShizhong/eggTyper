@@ -9,3 +9,6 @@ Main skills learnt/practiced:
 - Animated collapsible elements
 - ES6 modules
 - Shuffling arrays via the Fisher-Yates shuffle algorithm (and benefits over other, perhaps simpler shuffling algorithms, mainly performance as well as less permutation biases)
+- Properties of e e.g. .inputType
+- Difference in performance when creating and appending vast numbers of child elements via createElement()/appendChild vs template literals added to .innerHTML
+- Settings timeouts and intervals, as well as clearing them
