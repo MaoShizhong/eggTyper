@@ -124,7 +124,7 @@ main {
             font-family: 'Inconsolata', monospace;
             font-weight: 300;
             overflow: hidden;
-            word-wrap: break-word;
+            white-space: break-spaces;
             height: 6em;
             padding: 0.8rem 1.5rem 1rem;
             grid-row: 0 / 9;

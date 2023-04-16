@@ -60,6 +60,7 @@ function appendCharDivs(chars) {
         charDiv.textContent = chars[i];
         textDisplay.appendChild(charDiv);
     }
+    textDisplay.firstChild.style.borderBottom = '2px solid black';
 }
 
 function startTest() {
@@ -81,16 +82,48 @@ function updateTextDisplay(e) {
     // to catch CTRL+A backspace or other complete clears
     if (input.value === '') {
         charactersBeingEntered = [];
+        clearAllHighlighting();
+        return;
     }
-    else if (e.inputType === 'deleteContentBackward') {
+
+    if (e.inputType === 'deleteContentBackward') {
         charactersBeingEntered.pop();
+        clearLastHighlight();
     }
     else {
         charactersBeingEntered.push(input.value.slice(-1));
+        highlightText();
     }
-    console.log(charactersBeingEntered[charactersBeingEntered.length - 1]);
+}
 
-    // highlightText();
+function clearAllHighlighting() {
+    const chars = textDisplay.querySelectorAll('div');
+    chars.forEach(div => div.removeAttribute('style'));
+    textDisplay.firstChild.style.borderBottom = '2px solid black';
+}
+
+function clearLastHighlight() {
+    const i = charactersBeingEntered.length;
+    const char = textDisplay.querySelector(`:nth-child(${i + 1})`);
+    char.removeAttribute('style');
+    char.style.borderBottom = '2px solid black';
+    char.nextSibling.style.borderBottom = null;
+}
+
+function highlightText() {
+    const i = charactersBeingEntered.length - 1;
+    const char = textDisplay.querySelector(`:nth-child(${i + 1})`);
+
+    if (charactersBeingEntered[i] === charactersToCheckAgainst[i]) {
+        char.style.color = 'blue';
+    }
+    else {
+        char.style.color = 'red';
+        char.style.backgroundColor = '#f2a2a0';
+    }
+    // move "cursor"
+    char.style.borderBottom = null;
+    char.nextSibling.style.borderBottom = '2px solid black';
 }
 
 function showResults() {
@@ -107,9 +140,9 @@ function resetTest() {
     input.disabled = false;
 
     generateWordList();
-    charactersToCheckAgainst = [];
     charactersBeingEntered = [];
     input.value = '';
+    input.focus();
 
     timer.classList.remove('hidden');
     results.classList.add('hidden');
