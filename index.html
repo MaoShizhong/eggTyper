@@ -42,6 +42,13 @@
             </div>
         </header>
         <main>
+            <div id="durations">
+                <button value="15">0:15</button>
+                <button value="30">0:30</button>
+                <button class="current" value="60">1:00</button>
+                <button value="90">1:30</button>
+                <button value="120">2:00</button>
+            </div>
             <h1 id="caption">The timer will start when you begin typing below</h1>
             <button id="reset" class="hidden">
                 Click here to reset
@@ -56,7 +63,7 @@
             <div class="container">
                 <div id="text-display" aria-label="display area for test words"></div>
                 <input id="text-entry" type="text" placeholder="Start typing here" autocomplete="off" autocorrect="off" autofocus>
-                <h2 id="timer" aria-label="timer">0:04</h2>
+                <h2 id="timer" aria-label="timer">1:00</h2>
                 <div id="results" aria-label="test results" class="hidden">
                     <div id="stats">
                         <div class="stat">

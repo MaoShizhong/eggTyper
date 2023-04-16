@@ -1,6 +1,7 @@
 import { words, shuffleWords } from './words.js';
 
 const themeBtn = document.querySelector('#theme');
+const durationBtns = document.querySelectorAll('#durations>button');
 const instruction = document.querySelector('#caption');
 const resetBtn = document.querySelector('#reset');
 const textDisplay = document.querySelector('#text-display');
@@ -16,14 +17,15 @@ let charactersBeingEntered = [];
 let duration;
 let clock;
 let testActive = false;
-let selectedDuration = 4;
-let testDurationInSeconds = selectedDuration;
+let selectedDuration = 60;
+let timeRemaining = selectedDuration;
 
 themeBtn.addEventListener('click', changeTheme);
 resetBtn.addEventListener('click', resetTest);
 input.addEventListener('input', startTest);
 input.addEventListener('input', updateTextDisplay);
 collapsibleBtn.addEventListener('click', showContent);
+durationBtns.forEach(button => button.addEventListener('click', setDuration));
 
 function changeTheme() {
     const root = document.querySelector('html');
@@ -63,6 +65,17 @@ function appendCharDivs(chars) {
     textDisplay.firstChild.style.borderBottom = '2px solid var(--font)';
 }
 
+function setDuration(e) {
+    selectedDuration = e.target.value;
+    timeRemaining = selectedDuration;
+    timer.textContent = `${Math.floor(timeRemaining / 60)}:${String(timeRemaining % 60).padStart(2, '0')}`;
+
+    // change visuals
+    const currentSelection = document.querySelector('.current');
+    currentSelection.classList.remove('current');
+    e.target.classList.add('current');
+}
+
 function startTest() {
     if (!testActive) {
         testActive = true;
@@ -74,8 +87,8 @@ function startTest() {
 }
 
 function updateTimer() {
-    testDurationInSeconds--;
-    timer.textContent = `${Math.floor(testDurationInSeconds / 60)}:${String(testDurationInSeconds % 60).padStart(2, '0')}`;
+    timeRemaining--;
+    timer.textContent = `${Math.floor(timeRemaining / 60)}:${String(timeRemaining % 60).padStart(2, '0')}`;
 }
 
 function updateTextDisplay(e) {
@@ -171,8 +184,8 @@ function calculateStats() {
 }
 
 function resetTest() {
-    testDurationInSeconds = selectedDuration;
-    timer.textContent = `${Math.floor(testDurationInSeconds / 60)}:${String(testDurationInSeconds % 60).padStart(2, '0')}`;
+    timeRemaining = selectedDuration;
+    timer.textContent = `${Math.floor(timeRemaining / 60)}:${String(timeRemaining % 60).padStart(2, '0')}`;
     testActive = false;
     input.disabled = false;
 
