@@ -64,7 +64,7 @@ export class UIFactory {
         text.classList.add('collapsible-content');
         this.explanationText.forEach(paragraph => {
             const p = document.createElement('p');
-            p.textContent = paragraph;
+            p.innerHTML = paragraph;
             text.appendChild(p);
         });
 

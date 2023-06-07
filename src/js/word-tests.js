@@ -19,7 +19,6 @@ export class Test {
     startTest() {
         // * trigger only if test not yet begun (shares input event listener)
         if (!this.active) {
-            console.log(this.timeRemaining);
             this.active = true;
             this.clock = setInterval(() => this.updateTimer(), 1000);
             this.endOfTest = setTimeout(() => this.endTest(), this.timeRemaining * 1000);
@@ -67,6 +66,8 @@ export class Test {
     }
 
     inputChar(e) {
+        const isFirstScroll = UIController.scrollTracker.length === 0;
+
         // * to catch CTRL+A -> keypress
         if (UIController.input.value === '' || UIController.input.value.length === 1) {
             this.charsEntered.length = 0;
@@ -74,21 +75,48 @@ export class Test {
         }
 
         if (e.inputType === 'deleteContentBackward') {
-            this.charsEntered.pop();
-            UIController.clearLastHighlight(this.charsEntered.length);
+            this.deleteChar(isFirstScroll);
+        }
+        else {
+            this.pushChar(e.data);
+            this.assessCorrectness();
+
+            UIController.charsSinceLastScroll++;
+            UIController.checkScrollProgress(this.wordList.chars, isFirstScroll);
+        }
+    }
+
+    deleteChar(isFirstScroll) {
+        this.charsEntered.pop();
+        UIController.clearLastHighlight(this.charsEntered.length);
+
+        // * check to unscroll 1 line
+        if (UIController.charsSinceLastScroll === 0 && !isFirstScroll) {
+            UIController.unscrollLine();
+        }
+        else {
+            UIController.charsSinceLastScroll--;
+        }
+    }
+
+    pushChar(char) {
+        // * convert space to unicode 1en space
+        if (char === ' ') {
+            this.charsEntered.push('\u2002');
         }
         else {
             this.charsEntered.push(UIController.input.value.slice(-1));
-            const i = this.charsEntered.length - 1;
-
-            if (this.charsEntered[i] === this.wordList.chars[i]) {
-                UIController.highlightChar(true, i);
-            }
-            else {
-                UIController.highlightChar(false, i);
-            }
         }
+    }
 
-        UIController.checkScrollProgress(this.wordList.chars);
+    assessCorrectness() {
+        const i = this.charsEntered.length - 1;
+
+        if (this.charsEntered[i] === this.wordList.chars[i]) {
+            UIController.highlightChar(true, i);
+        }
+        else {
+            UIController.highlightChar(false, i);
+        }
     }
 }

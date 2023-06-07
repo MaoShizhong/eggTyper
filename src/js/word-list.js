@@ -1,7 +1,7 @@
 export class WordList {
     constructor(wordArr) {
         this.words = WordList.shuffleWords(wordArr);
-        this.chars = this.words.slice(0, 250).join(' ').split('');
+        this.chars = this.words.slice(0, 400).join('\u2002').split('');
     }
 
     static shuffleWords(arr) {

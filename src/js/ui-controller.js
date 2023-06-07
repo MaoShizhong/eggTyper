@@ -3,6 +3,8 @@ export class UIController {
     static textDisplay = document.querySelector('#text-display');
     static firstLineCharLimit = 55;
     static thirdLineCharLimit = 165;
+    static charsSinceLastScroll = 0;
+    static scrollTracker = [];
     static clock;
     static timer = document.querySelector('#timer');
     static resetBtn = document.querySelector('#reset');
@@ -12,6 +14,10 @@ export class UIController {
         const root = document.querySelector('html');
         root.classList.toggle('dark');
         root.classList.toggle('light');
+    }
+
+    static getCurrentDurationInS() {
+        return document.querySelector('.current').value;
     }
 
     static clearTextDisplay() {
@@ -43,6 +49,11 @@ export class UIController {
     }
 
     static clearAllHighlighting() {
+        // * reset scrolling tracker
+        this.scrollTracker.length = 0;
+        this.firstLineCharLimit = 55;
+        this.thirdLineCharLimit = 165;
+
         const divs = this.textDisplay.querySelectorAll('div');
         divs.forEach(div => div.removeAttribute('style'));
         this.textDisplay.firstElementChild.style.boxShadow = '-2px 0 var(--font)';
@@ -61,20 +72,45 @@ export class UIController {
         char.nextElementSibling.style.boxShadow = '-2px 0 var(--font)';
     }
 
-    static checkScrollProgress(charArr) {
+    static checkScrollProgress(charArr, isFirstScroll) {
         // * char limit for 3 lines in text display
-        const indexFinalSpaceOnFirstLine = charArr.lastIndexOf(' ', this.firstLineCharLimit) + 1;
-        const indexFinalSpaceOnThirdLine = charArr.lastIndexOf(' ', this.thirdLineCharLimit) + 1;
+        const indexFinalSpaceFirstLine = charArr.lastIndexOf('\u2002', this.firstLineCharLimit) + 1;
+        const indexFinalSpaceThirdLine = charArr.lastIndexOf('\u2002', this.thirdLineCharLimit) + 1;
 
-        const finalSpaceOnThirdLine = this.textDisplay.querySelector(`:nth-child(${indexFinalSpaceOnThirdLine})`);
-        if (finalSpaceOnThirdLine.style.borderLeft === '2px solid var(--font)') {
+        const finalSpaceThirdLine = this.textDisplay.querySelector(`:nth-child(${indexFinalSpaceThirdLine})`);
+        if (finalSpaceThirdLine.style.boxShadow === '-2px 0 var(--font)') {
             const divs = this.textDisplay.querySelectorAll('div');
-            for (let i = 0; i < indexFinalSpaceOnFirstLine; i++) {
+            for (let i = 0; i < indexFinalSpaceFirstLine; i++) {
                 divs[i].style.display = 'none';
             }
+            // * advance the tracker "1 line" approx. 55ch
             this.firstLineCharLimit += 55;
             this.thirdLineCharLimit += 55;
+
+            // * update tracker so backspacing can revert scrolling
+            this.scrollTracker.push({
+                indexFirstChar: isFirstScroll ? 0 : this.scrollTracker.at(-1).indexLastChar,
+                indexLastChar: indexFinalSpaceFirstLine,
+                get charsSinceScroll() {
+                    return isFirstScroll ? indexFinalSpaceThirdLine : this.indexLastChar - this.indexFirstChar;
+                },
+            });
+            this.charsSinceLastScroll = 0;
         }
+    }
+
+    static unscrollLine() {
+        const lineToUnscroll = this.scrollTracker.at(-1);
+        const divs = this.textDisplay.querySelectorAll('div');
+        for (let i = lineToUnscroll.indexLastChar; i >= lineToUnscroll.indexFirstChar; i--) {
+            divs[i].style.display = 'inline';
+        }
+
+        // * revert tracker 1 line
+        this.scrollTracker.pop();
+        this.charsSinceLastScroll = this.scrollTracker.length ? this.scrollTracker.at(-1).charsSinceScroll : 0;
+        this.firstLineCharLimit -= 55;
+        this.thirdLineCharLimit -= 55;
     }
 
     static updateTimer(duration) {
@@ -97,23 +133,25 @@ export class UIController {
     }
 
     static resetUI() {
+        document.querySelectorAll('*:disabled').forEach(el => el.disabled = false);
+
+        const results = document.querySelector('#results');
+        if (results) {
+            results.remove();
+        }
+
+        this.timer.classList.remove('hidden');
+        this.instructions.classList.remove('hidden');
+        this.resetBtn.classList.add('hidden');
+        const currentDuration = document.querySelector('.current').value;
+        this.updateTimer(currentDuration);
+
+        // * reset scrolling parameters
         this.firstLineCharLimit = 55;
         this.thirdLineCharLimit = 165;
         this.input.value = '';
         this.input.focus();
         this.clearTextDisplay();
-
-        document.querySelectorAll('*:disabled').forEach(el => el.disabled = false);
-
-        const results = document.querySelector('#results');
-        if (results) {
-            results.replaceChildren();
-            results.remove();
-        }
-
-        this.timer.classList.remove('hidden');
-        const currentDuration = document.querySelector('.current').value;
-        this.updateTimer(currentDuration);
     }
 
     static toggleCollapsible(e) {
