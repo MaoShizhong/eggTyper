@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html lang="en" class="light">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>eggTyper | A clean, minimalist typing experience</title>
+    </head>
+
+    <body>
+        <header>
+            <a id="logo" href="index.html">
+                <img src="../images/logo.png" alt="logo">
+                <h1 aria-label="website name">eggTyper</h1>
+            </a>
+            <div class="right-header">
+                <button id="theme" aria-label="click to change theme">
+                    <svg width="2.6rem" height="2.6rem" viewBox="0 0 32 32"
+                        fill="currentColor" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" stroke="#1a1a1a"
+                        stroke-width="0.00032">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0" />
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <g id="SVGRepo_iconCarrier">
+                            <title>contrast</title>
+                            <path
+                                d="M0 16q0 3.264 1.28 6.24t3.392 5.088 5.12 3.424 6.208 1.248q3.264 0 6.24-1.248t5.088-3.424 3.392-5.088 1.28-6.24-1.28-6.208-3.392-5.12-5.088-3.392-6.24-1.28q-3.264 0-6.208 1.28t-5.12 3.392-3.392 5.12-1.28 6.208zM4 16q0-3.264 1.6-6.016t4.384-4.352 6.016-1.632 6.016 1.632 4.384 4.352 1.6 6.016-1.6 6.048-4.384 4.352-6.016 1.6-6.016-1.6-4.384-4.352-1.6-6.048zM16 26.016q2.72 0 5.024-1.344t3.648-3.648 1.344-5.024-1.344-4.992-3.648-3.648-5.024-1.344v20z" />
+                        </g>
+                    </svg>
+                </button>
+                <button id="profile" aria-label="click to login">
+                    <svg width="4.8rem" height="4.8rem" viewBox="0 0 24 24"
+                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0" />
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <g id="SVGRepo_iconCarrier">
+                            <path
+                                d="M12.12 12.78C12.05 12.77 11.96 12.77 11.88 12.78C10.12 12.72 8.71997 11.28 8.71997 9.50998C8.71997 7.69998 10.18 6.22998 12 6.22998C13.81 6.22998 15.28 7.69998 15.28 9.50998C15.27 11.28 13.88 12.72 12.12 12.78Z"
+                                stroke="currentColor" stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path
+                                d="M18.74 19.3801C16.96 21.0101 14.6 22.0001 12 22.0001C9.40001 22.0001 7.04001 21.0101 5.26001 19.3801C5.36001 18.4401 5.96001 17.5201 7.03001 16.8001C9.77001 14.9801 14.25 14.9801 16.97 16.8001C18.04 17.5201 18.64 18.4401 18.74 19.3801Z"
+                                stroke="currentColor" stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path
+                                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                                stroke="currentColor" stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </g>
+                    </svg>
+                    Login
+                </button>
+            </div>
+        </header>
+        <main>
+            <div id="durations">
+                <button value="15">0:15</button>
+                <button value="30">0:30</button>
+                <button class="current" value="60">1:00</button>
+                <button value="90">1:30</button>
+                <button value="120">2:00</button>
+            </div>
+            <h1 id="caption">The timer will start when you begin typing below
+            </h1>
+            <button id="reset" class="hidden">
+                <p>Click here to reset</p>
+                <svg fill="currentColor" width="3rem" height="3rem"
+                    viewBox="-211.2 -211.2 2342.40 2342.40"
+                    xmlns="http://www.w3.org/2000/svg" stroke="#000000"
+                    stroke-width="28.8">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0" />
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <g id="SVGRepo_iconCarrier">
+                        <path
+                            d="M960 0v213.333c411.627 0 746.667 334.934 746.667 746.667S1371.627 1706.667 960 1706.667 213.333 1371.733 213.333 960c0-197.013 78.4-382.507 213.334-520.747v254.08H640V106.667H53.333V320h191.04C88.64 494.08 0 720.96 0 960c0 529.28 430.613 960 960 960s960-430.72 960-960S1489.387 0 960 0"
+                            fill-rule="evenodd" />
+                    </g>
+                </svg>
+            </button>
+            <div class="container">
+                <div id="text-display" aria-label="display area for test words">
+                </div>
+                <input id="text-entry" type="text"
+                    placeholder="Start typing here" autocomplete="off"
+                    autocorrect="off" autofocus>
+                <h2 id="timer" aria-label="timer">1:00</h2>
+            </div>
+        </main>
+    </body>
+</html>

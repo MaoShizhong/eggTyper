@@ -3,8 +3,9 @@
 ## eggTyper | A clean, simple typing speed tester
 <br>
 
-### Description:
+![screenshot](./eggTyper.png)
 
+### Description:
 
 This is eggTyper, inspired by an annoyance with the overabundance of ugly, cluttered typing speed websites out there (bar a few).
 
@@ -50,3 +51,5 @@ Main skills learnt/practiced (relative to when the project began):
 - Properties of e (e.g. `.inputType`)
 - Difference in performance when creating and appending vast numbers of child elements via createElement()/appendChild vs template literals added to .innerHTML
 - Settings timeouts and intervals, as well as clearing them
+
+Now refactored to make use of Webpack5 and ES6 classes - improved scalability.
