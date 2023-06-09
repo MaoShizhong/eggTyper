@@ -3,9 +3,19 @@
 ## eggTyper | A clean, simple typing speed tester
 <br>
 
+### <b>Major changes:</b>
+
+- Refactor to use Webpack5 and ES6 classes
+- Add multiple new test configurations (words/sentences, capilisation, numbers etc.)
+- Uses quote-library package https://www.npmjs.com/package/quote-library
+
+<br>
+
 ![screenshot](./eggTyper.png)
 
-### Description:
+<br>
+
+### <b>Description:</b>
 
 This is eggTyper, inspired by an annoyance with the overabundance of ugly, cluttered typing speed websites out there (bar a few).
 
