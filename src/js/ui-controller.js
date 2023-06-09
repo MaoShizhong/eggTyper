@@ -16,10 +16,6 @@ export class UIController {
         root.classList.toggle('light');
     }
 
-    static getCurrentDurationInS() {
-        return document.querySelector('.current').value;
-    }
-
     static clearTextDisplay() {
         this.textDisplay.replaceChildren();
     }
@@ -133,7 +129,9 @@ export class UIController {
     }
 
     static resetUI() {
-        document.querySelectorAll('*:disabled').forEach(el => el.disabled = false);
+        // * re-enable all disabled buttons
+        document.querySelectorAll('*:not(input:not(.test-type)):disabled').forEach(el => el.disabled = false);
+        // * except test options if the current test is 
 
         const results = document.querySelector('#results');
         if (results) {
@@ -164,6 +162,19 @@ export class UIController {
         else {
             collapsibleContent.style.maxHeight = `${collapsibleContent.scrollHeight}px`;
             e.currentTarget.textContent = 'How is this calculated? \u25B2';
+        }
+    }
+
+    static toggleValidTestTypeOptions(e) {
+        const wordsNumsExclusiveOptions = document.querySelectorAll('dialog input:not(.test-type)');
+        wordsNumsExclusiveOptions.forEach(input => {
+            input.disabled = e.target.value === 'sentences';
+        });
+    }
+
+    static closeModal(modal, e) {
+        if (e.target.nodeName === 'DIALOG') {
+            modal.close();
         }
     }
 }

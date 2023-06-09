@@ -1,4 +1,4 @@
-import { UIController } from './ui-controller';
+import { UIController } from './ui-controller.js';
 
 export class UIFactory {
     static explanationText = [

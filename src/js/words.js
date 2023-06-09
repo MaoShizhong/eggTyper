@@ -1,5 +1,7 @@
+import randQuote from "quote-library";
+
 export class Words {
-    static words500 = [
+    static words500NoCaps = [
         'the', 'be', 'of', 'you', 'it', 'have', 'to', 'for', 'do', 'he', 'with', 'on', 'this', 'not', 'field',
         'we', 'that', 'develop', 'but', 'they', 'say', 'at', 'what', 'his', 'from', 'go', 'or', 'by', 'get',
         'she', 'my', 'can', 'know', 'if', 'me', 'your', 'all', 'who', 'their', 'will', 'would', 'make', 'just',
@@ -43,4 +45,20 @@ export class Words {
         'pet', 'either', 'toward', 'leader', 'photo', 'wear', 'space', 'project', 'return', 'close',
         'special', 'field',
     ];
+
+    static get words500FirstCaps() {
+        return this.words500NoCaps.map(word => word[0].toUpperCase() + word.slice(1));
+    }
+
+    static get words500MixedFirstCaps() {
+        return this.words500NoCaps.map(word => (Math.random() > 0.5) ? word[0].toUpperCase() + word.slice(1) : word);
+    }
+
+    static get randomQuote() {
+        const quote = [];
+        do {
+            quote.push(randQuote.randomQuote().quoteText);
+        } while (quote.length < 25);
+        return quote;
+    }
 }

@@ -1,7 +1,14 @@
+import { Test } from './word-tests.js';
+
 export class WordList {
     constructor(wordArr) {
-        this.words = WordList.shuffleWords(wordArr);
-        this.chars = this.words.slice(0, 400).join('\u2002').split('');
+        if (Test.includeNumbers) {
+            wordArr = [...wordArr, ...WordList.add200RandomNumbers()];
+        }
+        this.words = Test.isSentences ? wordArr : WordList.shuffleWords(wordArr);
+
+        // * \u2002 space to allow wrapping but prevent white space collapse in HTML
+        this.chars = this.words.slice(0, 400).join(' ').replaceAll(' ', '\u2002').split('');
     }
 
     static shuffleWords(arr) {
@@ -10,5 +17,20 @@ export class WordList {
             [arr[i], arr[j]] = [arr[j], arr[i]];
         }
         return arr;
+    }
+
+    static add200RandomNumbers() {
+        return Array.from({ length: 200 }, () => {
+            // * remove weighting towards more digits
+            const numOfDigits = Math.floor(Math.random() * 3) + 1;
+            switch (numOfDigits) {
+                case 1:
+                    return Math.floor(Math.random() * 10);
+                case 2:
+                    return Math.floor(Math.random() * 90) + 10;
+                case 3:
+                    return Math.floor(Math.random() * 900) + 100;
+            }
+        });
     }
 }

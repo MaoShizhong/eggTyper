@@ -1,14 +1,19 @@
 import { UIController } from './ui-controller.js';
 import { UIFactory } from './ui-factory.js';
 import { WordList } from './word-list.js';
+import { Words } from './words.js';
 
 export class Test {
-    constructor(duration, words) {
+    static isSentences = false;
+    static selectedWordList = Words.words500NoCaps;
+    static includeNumbers = false;
+    static durationInS = 60;
+
+    constructor(words = Test.selectedWordList) {
         this.clock;
         this.endOfTest;
         this.active = false;
-        this.duration = duration;
-        this.timeRemaining = duration;
+        this.timeRemainingInS = Test.durationInS;
         this.wordList = new WordList(words);
         this.charsEntered = [];
 
@@ -21,7 +26,7 @@ export class Test {
         if (!this.active) {
             this.active = true;
             this.clock = setInterval(() => this.updateTimer(), 1000);
-            this.endOfTest = setTimeout(() => this.endTest(), this.timeRemaining * 1000);
+            this.endOfTest = setTimeout(() => this.endTest(), this.timeRemainingInS * 1000);
             UIController.toggleActiveTestUI();
         }
     }
@@ -51,17 +56,17 @@ export class Test {
 
     calculateWPM(chars, accuracy) {
         if (!chars) return 0;
-        return chars / 5 * (1 / (this.duration / 60)) * accuracy;
+        return chars / 5 * (1 / (Test.durationInS / 60)) * accuracy;
     }
 
     updateTimer() {
-        UIController.updateTimer(--this.timeRemaining);
+        UIController.updateTimer(--this.timeRemainingInS);
     }
 
     setDuration(btn) {
-        this.duration = btn.value;
-        this.timeRemaining = btn.value;
-        UIController.updateTimer(this.timeRemaining);
+        Test.durationInS = btn.value;
+        this.timeRemainingInS = btn.value;
+        UIController.updateTimer(this.timeRemainingInS);
         UIController.updateDurationBtns(btn);
     }
 
@@ -118,5 +123,38 @@ export class Test {
         else {
             UIController.highlightChar(false, i);
         }
+    }
+
+    static changeTest(modal, e) {
+        if (document.querySelector('.test-type:checked').value === 'sentences') {
+            Test.selectedWordList = Words.randomQuote;
+            Test.includeNumbers = false;
+        }
+        else {
+            const capitals = document.querySelector('input[name="capitals"]:checked').value;
+            const numbers = document.querySelector('input[name="numbers"]:checked').value;
+            Test.changeWordList(capitals);
+            Test.setNumbersInclusion(numbers);
+        }
+
+        e.preventDefault();
+        modal.close();
+    }
+
+    static changeWordList(capitals) {
+        switch (capitals) {
+            case 'no-caps':
+                Test.selectedWordList = Words.words500NoCaps;
+                break;
+            case 'all-first-caps':
+                Test.selectedWordList = Words.words500FirstCaps;
+                break;
+            case 'some-first-caps':
+                Test.selectedWordList = Words.words500MixedFirstCaps;
+        }
+    }
+
+    static setNumbersInclusion(numbers) {
+        Test.includeNumbers = numbers === 'inc-numbers';
     }
 }
