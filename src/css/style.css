@@ -4,28 +4,8 @@
     font-size: 10px;
 }
 
-:root.dark {
-    --faded: #444444;
-    --font: #dddddd;
-    --header: #101013;
-    --background: #17171d;
-    --text-display: #faebd72f;
-    --input-border: none;
-    --explanation: 300;
-}
-
-:root.light {
-    --faded: #8b8b8b;
-    --font: #1a1a1a;
-    --header: #a1807d;
-    --background: #f8faf1;
-    --text-display: #DDC8C4;
-    --input-border: 1px solid #896A67;
-    --explanation: 400;
-}
-
 body {
-    color: var(--font);
+    color: var(--general-font);
     font-family: 'Outfit', sans-serif;
     margin: 0;
     display: flex;
@@ -45,7 +25,7 @@ header {
     a {
         background-color: transparent;
         border: none;
-        color: var(--font);
+        color: var(--header-font);
         font-family: inherit;
         text-decoration: none;
         height: 4rem;
@@ -60,7 +40,7 @@ header {
         }
 
         & h1 {
-            color: var(--font);
+            color: var(--header-font);
             font: 400 3rem 'Righteous', 'Outfit', sans-serif;
         }
     }
@@ -70,15 +50,10 @@ header {
     margin-right: 1.4rem;
     display: flex;
     align-items: center;
-    gap: 2rem;
-
-    & #profile {
-        font-size: 2rem;
-        font-weight: 400;
-    }
+    gap: 1rem;
 
     & svg {
-        color: var(--font);
+        color: var(--header-font);
 
         &[id="theme-icon"] {
             transition: 200ms ease;
@@ -87,6 +62,11 @@ header {
                 transform: scale(1.2);
             }
         }
+    }
+
+    & > #profile {
+        font-size: 2rem;
+        font-weight: 400;
     }
 }
 
@@ -109,136 +89,6 @@ header {
 
         &:hover:not(:disabled) {
             transform: scale(1.3);
-        }
-    }
-}
-
-main {
-    position: relative;
-    background-color: var(--background);
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    user-select: none;
-
-    & button:first-child {
-        background-color: transparent;
-        border: none;
-        font-family: inherit;
-        font-size: 2rem;
-    }
-
-    & #caption {
-        margin-bottom: 0.4rem;
-        padding-bottom: 0.6rem;
-    }
-
-    & #reset {
-        background-color: transparent;
-        border: none;
-        color: var(--font);
-        font-family: inherit;
-        font-size: 2rem;
-        margin-bottom: 1.6rem;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        transition: 200ms ease;
-
-        & > p {
-            margin: 0;
-        }
-
-        &:hover {
-            transform: scale(1.1);
-        }
-    }
-    
-    & .container {
-        font-size: 2.2rem;
-        line-height: 2.7rem;
-        display: grid;
-        grid-template-rows: repeat(29, 2rem);
-        grid-template-columns: repeat(32, 2rem);
-
-        & #text-display {
-            background-color: var(--text-display);
-            border: none;
-            border-radius: 1.3rem;
-            font-family: 'Inconsolata', monospace;
-            font-weight: 300;
-            overflow: hidden;
-            white-space: normal;
-            height: 6em;
-            padding: 0.8rem 1.5rem 0.9rem;
-            grid-row: 0 / 9;
-            grid-column: 1 / 33;
-            user-select: text;
-        }
-        
-        & #text-entry {
-            border: var(--input-border);
-            border-radius: 1.2rem;
-            margin-top: 0.4rem;
-            padding: 1.2rem;
-            font-size: inherit;
-            grid-row: 9 /11;
-            grid-column: 1 / 33;
-
-            &:focus {
-                outline: none;
-            }
-        }
-
-        & #timer {
-            text-align: center;
-            grid-row: 11 / 16;
-            grid-column: 13 / 21;
-        }
-
-        & #results {
-            grid-row: 12 / 18;
-            grid-column: 1 / 33;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-    }
-}
-
-.char {
-    display: inline;
-}
-
-#results {
-    & #stats {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    & #explanation {
-        font-size: 1.7rem;
-        text-align: center;
-        width: 140%;
-
-        & .collapsible {
-            background-color: transparent;
-            border: none;
-            color: var(--font);
-            font-family: inherit;
-            font-weight: bold;
-            margin-top: 2rem;
-        }
-
-        & .collapsible-content {
-            font-weight: var(--explanation);
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.07s linear;
         }
     }
 }
@@ -267,85 +117,6 @@ button:hover {
     transform: scale(1.3);
 }
 
-dialog {
-    background-color: var(--background);
-    border-radius: 3rem;
-    padding: 0;
-    visibility: hidden;
-    transform: scale(0.1);
-    transition: transform 200ms ease;
-
-    &.open {
-        visibility: visible;
-        transform: scale(1);
-    }
-
-    & > form {
-        color: var(--font);
-        font-size: 1.8rem;
-        display: flex;
-        flex-direction: column;
-        user-select: none;
-        padding: 2rem;
-
-        & > .form-btns {
-            align-self: flex-end;
-            margin-top: 4rem;
-
-            & > button {
-                border: none;
-                background-color: transparent;
-                font-size: 1.4rem;
-                font-weight: bold;
-                margin-left: 0.2rem;
-            }
-        }
-
-        & input {
-            display: none;
-
-            &:disabled {
-                transform: none;
-                color: var(--faded);
-            }
-        }
-
-        & .options {
-            margin-inline: 1.5rem;
-            display: flex;
-            justify-content: center;
-            gap: 4rem;
-        }
-
-        & label {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            font-size: 1.4rem;
-
-            &:hover:not(:has(+ input:disabled)) {
-                cursor: pointer;
-            }
-        }
-
-        & label:has(+ input:checked:not(:disabled)) > svg {
-            color: var(--font);
-            transform: scale(1.3);
-        }
-
-        & svg {
-            height: 5rem;
-            margin-bottom: 0.5rem;
-            color: var(--faded);
-            transition: 200ms ease;
-        }
-    }
-}
-
-dialog::backdrop {
-    backdrop-filter: brightness(60%);
-}
 
 .colour-scale-animated {
     color: var(--faded);
@@ -354,6 +125,6 @@ dialog::backdrop {
 
 .colour-scale-animated:hover:not(:disabled),
 label:has(+ input:not(:disabled)) > svg:hover  {
-    color: var(--font);
+    color: var(--general-font);
     transform: scale(1.2);
 }

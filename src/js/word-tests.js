@@ -18,7 +18,7 @@ export class Test {
         this.charsEntered = [];
 
         UIController.resetUI();
-        UIController.appendTestCharDivs(this.wordList.chars);
+        UIController.appendTestChars(this.wordList.chars);
     }
 
     startTest() {

@@ -20,12 +20,11 @@ export class UIController {
         this.textDisplay.replaceChildren();
     }
 
-    static appendTestCharDivs(charArr) {
+    static appendTestChars(charArr) {
         charArr.forEach((char) => {
-            const charDiv = document.createElement('div');
-            charDiv.className = 'char';
-            charDiv.textContent = char;
-            this.textDisplay.appendChild(charDiv);
+            const charSpan = document.createElement('span');
+            charSpan.textContent = char;
+            this.textDisplay.appendChild(charSpan);
         });
         this.textDisplay.firstElementChild.style.boxShadow = '-2px 0 var(--font)';
     }
@@ -50,8 +49,8 @@ export class UIController {
         this.firstLineCharLimit = 55;
         this.thirdLineCharLimit = 165;
 
-        const divs = this.textDisplay.querySelectorAll('div');
-        divs.forEach(div => div.removeAttribute('style'));
+        const chars = this.textDisplay.querySelectorAll('span');
+        chars.forEach(char => char.removeAttribute('style'));
         this.textDisplay.firstElementChild.style.boxShadow = '-2px 0 var(--font)';
     }
 
@@ -75,9 +74,9 @@ export class UIController {
 
         const finalSpaceThirdLine = this.textDisplay.querySelector(`:nth-child(${indexFinalSpaceThirdLine})`);
         if (finalSpaceThirdLine.style.boxShadow === '-2px 0 var(--font)') {
-            const divs = this.textDisplay.querySelectorAll('div');
+            const chars = this.textDisplay.querySelectorAll('span');
             for (let i = 0; i < indexFinalSpaceFirstLine; i++) {
-                divs[i].style.display = 'none';
+                chars[i].style.display = 'none';
             }
             // * advance the tracker "1 line" approx. 55ch
             this.firstLineCharLimit += 55;
@@ -97,9 +96,9 @@ export class UIController {
 
     static unscrollLine() {
         const lineToUnscroll = this.scrollTracker.at(-1);
-        const divs = this.textDisplay.querySelectorAll('div');
+        const chars = this.textDisplay.querySelectorAll('span');
         for (let i = lineToUnscroll.indexLastChar; i >= lineToUnscroll.indexFirstChar; i--) {
-            divs[i].style.display = 'inline';
+            chars[i].style.display = null;
         }
 
         // * revert tracker 1 line

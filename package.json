@@ -15,10 +15,10 @@
   "devDependencies": {
     "css-loader": "^6.8.1",
     "html-loader": "^4.2.0",
-    "html-webpack-plugin": "^5.5.2",
+    "html-webpack-plugin": "^5.5.3",
     "image-webpack-loader": "^8.1.0",
     "postcss": "^8.4.24",
-    "postcss-loader": "^7.3.2",
+    "postcss-loader": "^7.3.3",
     "postcss-nested": "^6.0.1",
     "style-loader": "^3.3.3",
     "webpack": "^5.86.0",
