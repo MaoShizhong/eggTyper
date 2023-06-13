@@ -71,10 +71,11 @@ dialog {
 
 #themes {
     background-color: var(--header);
+    border-color: var(--header-font);
     color: var(--header-font);
     position: absolute;
     top: 2rem;
-    right: 9rem;
+    right: 8.3rem;
     left: auto;
     padding: 1rem 1.5rem;
 

@@ -1,4 +1,4 @@
-import { UIController } from './ui-controller.js';
+import { TestUIController } from './test-ui-controller.js';
 import { UIFactory } from './ui-factory.js';
 import { WordList } from './word-list.js';
 import { Words } from './words.js';
@@ -17,8 +17,8 @@ export class Test {
         this.wordList = new WordList(words);
         this.charsEntered = [];
 
-        UIController.resetUI();
-        UIController.appendTestChars(this.wordList.chars);
+        TestUIController.resetUI();
+        TestUIController.appendTestChars(this.wordList.chars);
     }
 
     startTest() {
@@ -27,14 +27,14 @@ export class Test {
             this.active = true;
             this.clock = setInterval(() => this.updateTimer(), 1000);
             this.endOfTest = setTimeout(() => this.endTest(), this.timeRemainingInS * 1000);
-            UIController.toggleActiveTestUI();
+            TestUIController.toggleActiveTestUI();
         }
     }
 
     endTest() {
         clearInterval(this.clock);
-        UIController.timer.classList.add('hidden');
-        UIController.input.disabled = true;
+        TestUIController.timer.classList.add('hidden');
+        TestUIController.input.disabled = true;
 
         const chars = this.charsEntered.length;
         const errors = this.countErrors(chars);
@@ -60,23 +60,29 @@ export class Test {
     }
 
     updateTimer() {
-        UIController.updateTimer(--this.timeRemainingInS);
+        TestUIController.updateTimer(--this.timeRemainingInS);
     }
 
     setDuration(btn) {
         Test.durationInS = btn.value;
         this.timeRemainingInS = btn.value;
-        UIController.updateTimer(this.timeRemainingInS);
-        UIController.updateDurationBtns(btn);
+        TestUIController.updateTimer(this.timeRemainingInS);
+        TestUIController.updateDurationBtns(btn);
+    }
+
+    typeInput(e) {
+        console.log(this);
+        this.startTest();
+        this.inputChar(e);
     }
 
     inputChar(e) {
-        const isFirstScroll = UIController.scrollTracker.length === 0;
+        const isFirstScroll = TestUIController.scrollTracker.length === 0;
 
         // * to catch CTRL+A -> keypress
-        if (UIController.input.value === '' || UIController.input.value.length === 1) {
+        if (TestUIController.input.value === '' || TestUIController.input.value.length === 1) {
             this.charsEntered.length = 0;
-            UIController.clearAllHighlighting();
+            TestUIController.clearAllHighlighting();
         }
 
         if (e.inputType === 'deleteContentBackward') {
@@ -86,21 +92,21 @@ export class Test {
             this.pushChar(e.data);
             this.assessCorrectness();
 
-            UIController.charsSinceLastScroll++;
-            UIController.checkScrollProgress(this.wordList.chars, isFirstScroll);
+            TestUIController.charsSinceLastScroll++;
+            TestUIController.checkScrollProgress(this.wordList.chars, isFirstScroll);
         }
     }
 
     deleteChar(isFirstScroll) {
         this.charsEntered.pop();
-        UIController.clearLastHighlight(this.charsEntered.length);
+        TestUIController.clearLastHighlight(this.charsEntered.length);
 
         // * check to unscroll 1 line
-        if (UIController.charsSinceLastScroll === 0 && !isFirstScroll) {
-            UIController.unscrollLine();
+        if (TestUIController.charsSinceLastScroll === 0 && !isFirstScroll) {
+            TestUIController.unscrollLine();
         }
         else {
-            UIController.charsSinceLastScroll--;
+            TestUIController.charsSinceLastScroll--;
         }
     }
 
@@ -110,7 +116,7 @@ export class Test {
             this.charsEntered.push('\u2002');
         }
         else {
-            this.charsEntered.push(UIController.input.value.slice(-1));
+            this.charsEntered.push(TestUIController.input.value.slice(-1));
         }
     }
 
@@ -118,14 +124,14 @@ export class Test {
         const i = this.charsEntered.length - 1;
 
         if (this.charsEntered[i] === this.wordList.chars[i]) {
-            UIController.highlightChar(true, i);
+            TestUIController.highlightChar(true, i);
         }
         else {
-            UIController.highlightChar(false, i);
+            TestUIController.highlightChar(false, i);
         }
     }
 
-    static changeTest(modal, e) {
+    static changeTest(modal, test, e) {
         if (document.querySelector('.test-type:checked').value === 'sentences') {
             Test.selectedWordList = Words.randomQuote;
             Test.includeNumbers = false;
@@ -139,6 +145,8 @@ export class Test {
 
         e.preventDefault();
         modal.close();
+        modal.classList.remove('open');
+        test = new Test();
     }
 
     static changeWordList(capitals) {

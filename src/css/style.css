@@ -108,6 +108,10 @@ button:hover {
     cursor: pointer;
 }
 
+button:disabled {
+    filter: opacity(40%) ;
+}
+
 .hidden {
     display: none !important;
 }
