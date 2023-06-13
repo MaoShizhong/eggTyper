@@ -7,7 +7,10 @@ import '../css/main.css';
 
 const themeBtn = document.querySelector('#theme-btn');
 const themes = document.querySelector('#themes > ul');
-const durationBtns = document.querySelectorAll('#durations > button');
+const durationBtns = document.querySelectorAll('#durations > button:not(:last-child)');
+const customDurationBtn = document.querySelector('#custom');
+const customDurationModal = document.querySelector('#custom-duration');
+const applyCustomDuration = document.querySelector('#custom-apply');
 const resetBtn = document.querySelector('#reset');
 const input = document.querySelector('#text-entry');
 const dialogs = document.querySelectorAll('dialog');
@@ -20,6 +23,7 @@ const testTypes = document.querySelectorAll('.test-type');
 UIController.changeTheme('Mocha Rose');
 let test = new Test(Words.words500NoCaps);
 
+// * event listeners
 input.addEventListener('input', (e) => test.typeInput(e));
 resetBtn.addEventListener('click', createNewTest);
 durationBtns.forEach(button => {
@@ -28,11 +32,17 @@ durationBtns.forEach(button => {
 testTypes.forEach(btn => {
     btn.addEventListener('click', UIController.toggleValidTestTypeOptions);
 });
-[themeBtn, testOptionsBtn].forEach(btn => {
+[themeBtn, testOptionsBtn, customDurationBtn].forEach(btn => {
     btn.addEventListener('click', UIController.toggleDialog);
 });
-testOptionsModal.addEventListener('click', (e) => UIController.closeModaOnClickOutside(e.target, e));
-applyTestOptions.addEventListener('click', (e) => Test.changeTest(testOptionsModal, test, e));
+[customDurationModal, testOptionsModal].forEach(modal => {
+    modal.addEventListener('click', (e) => UIController.closeModaOnClickOutside(e.target, e));
+});
+applyTestOptions.addEventListener('click', (e) => {
+    Test.changeTest(testOptionsModal, e);
+    test = new Test();
+});
+applyCustomDuration.addEventListener('click', (e) => test.setCustomDuration(customDurationBtn, e));
 themes.addEventListener('click', UIController.selectTheme);
 dialogs.forEach(dialog => dialog.addEventListener('close', (e) => e.target.classList.remove('open')));
 
@@ -44,4 +54,24 @@ function createNewTest() {
     clearInterval(test.clock);
     clearTimeout(test.endOfTest);
     test = new Test();
+
+    // * remove esc resetting
+    document.removeEventListener('keydown', Test.resetOnEscape);
 }
+
+
+// ! delete when login implemented
+document.querySelector('#profile').addEventListener('mouseenter', () => {
+    const WIP = document.createElement('h1');
+    WIP.id = 'WIP';
+    WIP.innerHTML = 'Work in progress<br>other features yet to come';
+    WIP.style.position = 'fixed';
+    WIP.style.textAlign = 'right';
+    WIP.style.top = '6rem';
+    WIP.style.right = '2rem';
+    WIP.style.color = 'var(--general-font)';
+    document.querySelector('body').appendChild(WIP);
+});
+document.querySelector('#profile').addEventListener('mouseleave', () => {
+    document.querySelector('#WIP').remove();
+});

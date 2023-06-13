@@ -122,8 +122,8 @@ export class TestUIController {
     }
 
     static resetUI() {
-        // * re-enable all disabled buttons
-        document.querySelectorAll('*:not(dialog input:not(.test-type)):disabled').forEach(el => el.disabled = false);
+        // * re-enable all disabled buttons/inputs
+        document.querySelectorAll('*:not(input[type="radio"]):disabled').forEach(el => el.disabled = false);
 
         const results = document.querySelector('#results');
         if (results) {

@@ -27,7 +27,7 @@ dialog {
             }
         }
 
-        & input {
+        & input[type="radio"] {
             display: none;
 
             &:disabled {
@@ -67,6 +67,42 @@ dialog {
             transition: 200ms ease;
         }
     }
+}
+
+#custom-duration > form {  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    & > h4 {
+        margin-top: 0;
+    }
+
+    & > input {
+        background-color: var(--text-display);
+        border: var(--input-border);
+        border-radius: 1rem;
+        color: var(--text-display-font);
+        font-size: 3rem;
+        padding: 1rem;
+        width: 15rem;
+        text-align: center;
+
+        &:focus:not(:focus-visible) {
+            outline: none;
+        }
+    }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
 }
 
 #themes {

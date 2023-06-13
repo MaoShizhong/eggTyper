@@ -80,13 +80,29 @@
                 <button class="current" value="60">1:00</button>
                 <button value="90">1:30</button>
                 <button value="120">2:00</button>
+                <button id="custom">Custom</button>
             </div>
+
+            <dialog id="custom-duration">
+                <form>
+                    <h4>Enter duration<br>in seconds (1-600):</h4>
+                    <input id="custom-input" type="number"
+                        aria-label="Enter custom test duration">
+                    <p id="duration-error"></p>
+                    <div class="form-btns">
+                        <button class="colour-scale-animated"
+                            formmethod="dialog">Cancel</button>
+                        <button class="colour-scale-animated"
+                            id="custom-apply">Apply</button>
+                    </div>
+                </form>
+            </dialog>
 
             <h1 id="caption">The timer will start when you begin typing below
             </h1>
 
             <button id="reset" class="hidden">
-                <p>Click here to reset</p>
+                <p>Click here (or press ESC) to reset</p>
                 <svg fill="currentColor" width="3rem" height="3rem"
                     viewBox="-211.2 -211.2 2342.40 2342.40" stroke="#000000"
                     stroke-width="28.8">

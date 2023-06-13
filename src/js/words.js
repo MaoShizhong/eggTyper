@@ -56,9 +56,7 @@ export class Words {
 
     static get randomQuote() {
         const quote = [];
-        do {
-            quote.push(randQuote.randomQuote().quoteText);
-        } while (quote.length < 25);
+        while (quote.length < 30) quote.push(randQuote.randomQuote().quoteText);
         return quote;
     }
 }

@@ -1,4 +1,5 @@
 import { TestUIController } from './test-ui-controller.js';
+import { UIController } from './ui-controller.js';
 import { UIFactory } from './ui-factory.js';
 import { WordList } from './word-list.js';
 import { Words } from './words.js';
@@ -15,10 +16,12 @@ export class Test {
         this.active = false;
         this.timeRemainingInS = Test.durationInS;
         this.wordList = new WordList(words);
+        this.additionalWordlists = 0;
         this.charsEntered = [];
 
         TestUIController.resetUI();
         TestUIController.appendTestChars(this.wordList.chars);
+        this.checkIfWordlistNeedsExtending(this.timeRemainingInS);
     }
 
     startTest() {
@@ -28,6 +31,9 @@ export class Test {
             this.clock = setInterval(() => this.updateTimer(), 1000);
             this.endOfTest = setTimeout(() => this.endTest(), this.timeRemainingInS * 1000);
             TestUIController.toggleActiveTestUI();
+
+            // * allow esc reset
+            document.addEventListener('keydown', Test.resetOnEscape);
         }
     }
 
@@ -64,14 +70,32 @@ export class Test {
     }
 
     setDuration(btn) {
-        Test.durationInS = btn.value;
         this.timeRemainingInS = btn.value;
         TestUIController.updateTimer(this.timeRemainingInS);
         TestUIController.updateDurationBtns(btn);
+
+        this.checkIfWordlistNeedsExtending(this.timeRemainingInS, Test.durationInS);
+
+        Test.durationInS = btn.value;
+    }
+
+    checkIfWordlistNeedsExtending(duration, previousDuration = 180) {
+        const thresholds = [180, 360, 540, 720];
+        const numberOfAdditions = thresholds.findIndex((n) => n > duration);
+
+        for (let i = 0; i < numberOfAdditions - this.additionalWordlists; i++) {
+            this.increaseWordlistLength();
+        }
+    }
+
+    increaseWordlistLength() {
+        const additionalWordlist = new WordList(Test.selectedWordList);
+        additionalWordlist.chars.unshift('\u2002');
+        TestUIController.appendTestChars(additionalWordlist.chars);
+        this.additionalWordlists++;
     }
 
     typeInput(e) {
-        console.log(this);
         this.startTest();
         this.inputChar(e);
     }
@@ -131,7 +155,26 @@ export class Test {
         }
     }
 
-    static changeTest(modal, test, e) {
+    setCustomDuration(customDurationBtn, e) {
+        const duration = document.querySelector('#custom-input');
+        const error = document.querySelector('#duration-error');
+
+        if (duration.value > 0 && duration.value <= 600) {
+            customDurationBtn.value = duration.value;
+            UIController.modals['custom'].close();
+            this.setDuration(customDurationBtn);
+
+            // * clear input/text fields
+            duration.value = '';
+            error.innerText = '';
+        }
+        else {
+            error.innerText = 'Min. 1s\nMax. 600s';
+        }
+        e.preventDefault();
+    }
+
+    static changeTest(modal, e) {
         if (document.querySelector('.test-type:checked').value === 'sentences') {
             Test.selectedWordList = Words.randomQuote;
             Test.includeNumbers = false;
@@ -146,7 +189,6 @@ export class Test {
         e.preventDefault();
         modal.close();
         modal.classList.remove('open');
-        test = new Test();
     }
 
     static changeWordList(capitals) {
@@ -164,5 +206,9 @@ export class Test {
 
     static setNumbersInclusion(numbers) {
         Test.includeNumbers = numbers === 'inc-numbers';
+    }
+
+    static resetOnEscape(e) {
+        if (e.key === 'Escape') document.querySelector('#reset').click();
     }
 }

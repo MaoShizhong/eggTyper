@@ -8,7 +8,7 @@ export class WordList {
         this.words = Test.isSentences ? wordArr : WordList.shuffleWords(wordArr);
 
         // * \u2002 space to allow wrapping but prevent white space collapse in HTML
-        this.chars = this.words.slice(0, 400).join(' ').replaceAll(' ', '\u2002').split('');
+        this.chars = this.words.join(' ').replaceAll(' ', '\u2002').split('');
     }
 
     static shuffleWords(arr) {

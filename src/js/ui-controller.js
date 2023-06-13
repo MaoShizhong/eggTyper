@@ -1,12 +1,14 @@
 import { themes } from './themes.js';
 
 export class UIController {
-    static themeSelect = document.querySelector('#themes');
-    static testOptionsModal = document.querySelector('#test-config');
+    static modals = {
+        'theme-btn': document.querySelector('#themes'),
+        'test-options': document.querySelector('#test-config'),
+        'custom': document.querySelector('#custom-duration'),
+    };
 
     static selectTheme(e) {
         if (e.target.tagName === 'LI') {
-            console.log(this.children);
             [...this.children].forEach(li => {
                 if (li.textContent.includes('--')) li.textContent = li.textContent.slice(3, -3);
             });
@@ -31,7 +33,7 @@ export class UIController {
         cssVariables.forEach((variable, i) => {
             root.style.setProperty(variable, themes[theme][i]);
         });
-        this.closeDialog(this.themeSelect);
+        this.closeDialog(this.modals['theme-btn']);
     }
 
     static toggleCollapsible(e) {
@@ -56,7 +58,7 @@ export class UIController {
 
     static toggleDialog() {
         // * this === button pressed
-        const dialog = this.id === 'theme-btn' ? UIController.themeSelect : UIController.testOptionsModal;
+        const dialog = UIController.modals[this.id];
 
         if (dialog.classList.contains('open')) UIController.closeDialog(dialog);
         else UIController.openDialog(dialog);
