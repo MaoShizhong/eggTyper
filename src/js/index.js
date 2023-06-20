@@ -1,11 +1,10 @@
 import { Test } from './word-tests.js';
 import { Words } from './words.js';
 import { UIController } from './ui-controller.js';
-import cssHasPseudo from 'css-has-pseudo/browser';
 import '../css/style.css';
 import '../css/dialogs.css';
 import '../css/main.css';
-
+import cssHasPseudo from 'css-has-pseudo/browser';
 cssHasPseudo(document, { hover: true });
 
 const themeBtn = document.querySelector('#theme-btn');

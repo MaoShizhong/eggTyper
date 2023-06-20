@@ -29,7 +29,7 @@ module.exports = {
                         options: {
                             postcssOptions: {
                                 plugins: [
-                                    ['postcss-nesting',],
+                                    [require('postcss-nested')],
                                     ['css-has-pseudo',],
                                 ]
                             }
