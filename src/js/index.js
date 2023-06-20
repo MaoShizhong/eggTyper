@@ -1,9 +1,12 @@
 import { Test } from './word-tests.js';
 import { Words } from './words.js';
 import { UIController } from './ui-controller.js';
+import cssHasPseudo from 'css-has-pseudo/browser';
 import '../css/style.css';
 import '../css/dialogs.css';
 import '../css/main.css';
+
+cssHasPseudo(document, { hover: true });
 
 const themeBtn = document.querySelector('#theme-btn');
 const themes = document.querySelector('#themes > ul');
@@ -24,6 +27,7 @@ UIController.changeTheme('Mocha Rose');
 let test = new Test(Words.words500NoCaps);
 
 // * event listeners
+window.addEventListener('keydown', preventCtrlBackspace);
 input.addEventListener('input', (e) => test.typeInput(e));
 resetBtn.addEventListener('click', createNewTest);
 durationBtns.forEach(button => {
@@ -57,6 +61,10 @@ function createNewTest() {
 
     // * remove esc resetting
     document.removeEventListener('keydown', Test.resetOnEscape);
+}
+
+function preventCtrlBackspace(e) {
+    if (e.ctrlKey && e.key === 'Backspace') e.preventDefault();
 }
 
 
