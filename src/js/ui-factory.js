@@ -3,14 +3,14 @@ import { UIController } from './ui-controller.js';
 export class UIFactory {
     static explanationText = [
         'Your net words-per-minute (WPM) takes your gross WPM and adjusts it based on your accuracy.',
-        'Since words can vary in length, a "word" in this case is defined as a distinct block of 5'
-        + 'characters (including spaces). Therefore, the number of words typed is defined'
+        'Since words can vary in length, a "word" in this case is defined as a distinct block of 5 '
+        + 'characters (including spaces). Therefore, the number of words typed is defined '
         + 'as the total number of typed characters divided by 5.',
-        'To get your net WPM (the displayed metric), simply divide the total number of characters'
-        + 'typed by 5, then normalise for 1 minute and multiply by the accuracy.<br>',
-        'E.g. 500 characters in 2 minutes (120 seconds), of which 18 were incorrect, will result in an'
-        + 'accuracy of 96.4%.<br>500 characters equates to 100 words in 2 minutes'
-        + 'which normalises to a gross WPM of 50.<br>Multiply 50 by the accuracy (96.4%) and round to'
+        'To get your net WPM (the displayed metric), simply divide the total number of characters '
+        + 'typed by 5, then normalise for 1 minute and multiply by the accuracy.',
+        'E.g. 500 characters in 2 minutes (120 seconds), of which 18 were incorrect, will result in an '
+        + 'accuracy of 96.4%.<br>500 characters equates to 100 words in 2 minutes '
+        + 'which normalises to a gross WPM of 50.<br>Multiply 50 by the accuracy (96.4%) and round to '
         + 'get a final result of 48 WPM.',
     ];
 
@@ -24,7 +24,7 @@ export class UIFactory {
 
         results.appendChild(stats);
         results.appendChild(explanation);
-        document.querySelector('.container').appendChild(results);
+        document.querySelector('main').appendChild(results);
     }
 
     static createStats() {
@@ -62,6 +62,7 @@ export class UIFactory {
 
         const text = document.createElement('div');
         text.classList.add('collapsible-content');
+        text.style.maxHeight = 0;
         this.explanationText.forEach(paragraph => {
             const p = document.createElement('p');
             p.innerHTML = paragraph;

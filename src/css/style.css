@@ -10,7 +10,7 @@ body {
     margin: 0;
     display: flex;
     flex-direction: column;
-    min-height: 100svh;
+    min-height: 100vh;
 }
 
 header {
@@ -24,7 +24,6 @@ header {
     & button,
     a {
         background-color: transparent;
-        border: none;
         color: var(--header-font);
         font-family: inherit;
         text-decoration: none;
@@ -78,7 +77,6 @@ header {
 
     & button {
         background-color: transparent;
-        border: none;
         color: var(--faded);
         font-family: inherit;
         font-size: 2rem;
@@ -101,6 +99,10 @@ header {
     &>* {
         margin: 1rem 0;
     }
+}
+
+button {
+    border: none;
 }
 
 a:hover,

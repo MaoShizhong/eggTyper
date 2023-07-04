@@ -22,7 +22,7 @@ const applyTestOptions = document.querySelector('#apply');
 const testTypes = document.querySelectorAll('.test-type');
 
 // * initialise
-UIController.changeTheme('Mocha Rose');
+UIController.changeTheme('Midnight');
 let test = new Test(Words.words500NoCaps);
 
 // * event listeners

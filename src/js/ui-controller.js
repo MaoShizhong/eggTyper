@@ -30,21 +30,22 @@ export class UIController {
             '--input-border',
             '--explanation',
         ];
-        cssVariables.forEach((variable, i) => {
-            root.style.setProperty(variable, themes[theme][i]);
-        });
+
+        cssVariables.forEach(variable => root.style.setProperty(variable, themes[theme][variable]));
+
         this.closeDialog(this.modals['theme-btn']);
     }
 
     static toggleCollapsible(e) {
-        // * this === collapsible btn
+        // this === collapsible btn
         const collapsibleContent = this.nextElementSibling;
-        if (collapsibleContent.style.maxHeight) {
-            collapsibleContent.style.maxHeight = null;
+
+        if (collapsibleContent.style.maxHeight === '0px') {
+            collapsibleContent.style.maxHeight = 'max-content';
             e.currentTarget.textContent = 'How is this calculated? \u25BC';
         }
         else {
-            collapsibleContent.style.maxHeight = `${collapsibleContent.scrollHeight}px`;
+            collapsibleContent.style.maxHeight = 0;
             e.currentTarget.textContent = 'How is this calculated? \u25B2';
         }
     }
