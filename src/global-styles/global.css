@@ -1,9 +1,39 @@
+@font-face {
+    font-family: 'Jost';
+    font-weight: 400;
+    src: local('Jost-Regular'), local('Jost Regular'),
+        url('./fonts/Jost-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Jost';
+    font-weight: bold;
+    src: local('Jost-Bold'), local('Jost Bold'), url('./fonts/Jost-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Righteous';
+    font-weight: 400;
+    src: local('Righteous-Regular'), local('Righteous Regular'),
+        url('./fonts/Righteous-Regular.ttf') format('truetype');
+}
+
 * {
     box-sizing: border-box;
+    font-family: Jost, system-ui, sans-serif;
 }
 
 body {
     margin: 0;
+}
+
+button {
+    border: none;
+    padding: 0;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 #root {

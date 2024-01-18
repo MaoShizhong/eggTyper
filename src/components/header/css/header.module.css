@@ -1,0 +1,30 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+
+    & a {
+        color: unset;
+        text-decoration: none;
+    }
+}
+
+.logo {
+    align-items: center;
+    display: flex;
+    font-family: Righteous, Jost, system-ui, sans-serif;
+    font-size: x-large;
+    gap: 6px;
+}
+
+.right {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+}
+
+.theme {
+    background-color: transparent;
+    display: grid;
+    place-content: center;
+}
