@@ -1,17 +1,7 @@
-export type TopScores = [
-    number?,
-    number?,
-    number?,
-    number?,
-    number?,
-    number?,
-    number?,
-    number?,
-    number?,
-    number?
-];
-
 export type User = {
     username: string;
-    top10Scores: TopScores;
+    topScores: number[];
 } | null;
+
+const TestTypes = ['words', 'quotes'] as const;
+export type TestType = (typeof TestTypes)[number];

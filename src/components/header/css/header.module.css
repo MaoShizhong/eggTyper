@@ -12,7 +12,7 @@
 .logo {
     align-items: center;
     display: flex;
-    font-family: Righteous, Jost, system-ui, sans-serif;
+    font-family: Righteous, var(--font-standard);
     font-size: x-large;
     gap: 6px;
 }

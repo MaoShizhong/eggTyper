@@ -20,10 +20,11 @@
 
 * {
     box-sizing: border-box;
-    font-family: Jost, system-ui, sans-serif;
+    font-family: inherit;
 }
 
 body {
+    font-family: var(--font-standard);
     margin: 0;
 }
 
