@@ -15,7 +15,10 @@
     padding: 12px;
 
     & > div {
+        --cursor-width: 2px;
+
         overflow: hidden;
+        padding-inline: var(--cursor-width);
     }
 }
 
@@ -28,4 +31,17 @@
 .input {
     border: 1px solid black;
     border-radius: 6px;
+}
+
+.correct {
+    color: #03aecc;
+}
+
+.wrong {
+    background-color: #dbb4b4;
+    color: red;
+}
+
+.current {
+    box-shadow: calc(var(--cursor-width) * -1) 0 black;
 }
