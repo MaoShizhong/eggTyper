@@ -5,8 +5,6 @@ import { ThemeButton } from './components/theme_picker/ThemeButton';
 import { ThemePicker } from './components/theme_picker/ThemePicker';
 import { useTheme } from './helpers/hooks';
 
-
-
 export function App() {
     const [theme, setTheme] = useTheme();
     const [isThemePickerShowing, setIsThemePickerShowing] = useState(false);
