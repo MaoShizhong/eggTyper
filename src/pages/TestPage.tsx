@@ -1,11 +1,11 @@
 import { Test } from '../components/words/Test';
-import testStyles from './css/test_page.module.css';
+import pageStyles from './css/pages.module.css';
 
 type TestProps = {};
 
 export function TestPage({}: TestProps) {
     return (
-        <main className={testStyles.main}>
+        <main className={`${pageStyles.main} ${pageStyles.testPage}`}>
             <Test />
         </main>
     );

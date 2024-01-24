@@ -1,4 +1,6 @@
 .header {
+    background-color: var(--header);
+    color: var(--text-header);
     display: flex;
     justify-content: space-between;
     padding: 8px;
@@ -25,6 +27,7 @@
 
 .theme {
     background-color: transparent;
+    color: var(--font-header);
     display: grid;
     place-content: center;
 }

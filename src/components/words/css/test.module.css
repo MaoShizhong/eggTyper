@@ -1,4 +1,5 @@
 .test {
+    color: var(--text-main);
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -11,37 +12,42 @@
 }
 
 .words_container {
+    background-color: var(--words-box);
     font-family: var(--font-mono);
     padding: 12px;
 
     & > div {
         --cursor-width: 2px;
+        color: var(--text-words-box);
 
         overflow: hidden;
         padding-inline: var(--cursor-width);
+        white-space: pre-wrap;
     }
 }
 
 .input {
+    border: var(--input-border);
     font-size: large;
     padding: 4px 6px;
 }
 
 .words_container,
 .input {
-    border: 1px solid black;
     border-radius: 6px;
 }
 
 .correct {
+    /* TODO: Use var(--correct) when customisable */
     color: #03aecc;
 }
 
 .wrong {
     background-color: #dbb4b4;
+    /* TODO: Use var(--wrong) when customisable */
     color: red;
 }
 
 .current {
-    box-shadow: calc(var(--cursor-width) * -1) 0 black;
+    box-shadow: calc(var(--cursor-width) * -1) 0 var(--text-header);
 }
