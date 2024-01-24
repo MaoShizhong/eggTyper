@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { THEMES, ThemeName } from './themes';
+import { SetThemeAction, THEMES, ThemeName } from './themes';
 
-type ThemeSetter = [ThemeName, (defaultTheme: ThemeName) => void];
+type ThemeSetter = [ThemeName, SetThemeAction];
+const DEFAULT_THEME: ThemeName = 'Cappuccino';
 
-export function useTheme(defaultTheme: ThemeName): ThemeSetter {
-    const [currentTheme, setCurrentTheme] = useState(defaultTheme);
+export function useTheme(): ThemeSetter {
+    const [currentTheme, setCurrentTheme] = useState(DEFAULT_THEME);
 
     function setTheme(theme: ThemeName): void {
         const root = document.querySelector<HTMLHtmlElement>(':root');
@@ -20,7 +21,7 @@ export function useTheme(defaultTheme: ThemeName): ThemeSetter {
         if (theme !== currentTheme) setCurrentTheme(theme);
     }
 
-    setTheme(defaultTheme);
+    setTheme(currentTheme);
 
     return [currentTheme, setTheme];
 }

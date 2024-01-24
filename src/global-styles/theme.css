@@ -1,4 +1,5 @@
 :root {
     --font-standard: Jost, system-ui, sans-serif;
     --font-mono: Incosolata, monospace;
+    --transition: 120ms;
 }

@@ -4,6 +4,7 @@
     display: flex;
     justify-content: space-between;
     padding: 8px;
+    position: relative;
 
     & a {
         color: unset;
@@ -25,9 +26,3 @@
     gap: 12px;
 }
 
-.theme {
-    background-color: transparent;
-    color: var(--font-header);
-    display: grid;
-    place-content: center;
-}

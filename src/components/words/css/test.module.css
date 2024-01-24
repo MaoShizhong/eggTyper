@@ -49,5 +49,5 @@
 }
 
 .current {
-    box-shadow: calc(var(--cursor-width) * -1) 0 var(--text-header);
+    box-shadow: calc(var(--cursor-width) * -1) 0 var(--text-words-box);
 }

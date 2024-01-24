@@ -1,10 +1,8 @@
 import { ProfileButton } from './ProfileButton';
-import { ThemeButton } from './ThemeButton';
 import headerStyles from './css/header.module.css';
 
-type HeaderProps = {};
+export function Header() {
 
-export function Header({}: HeaderProps) {
     return (
         <header className={headerStyles.header}>
             <a href="/" className={headerStyles.logo} aria-label="link to main page">
@@ -13,7 +11,6 @@ export function Header({}: HeaderProps) {
             </a>
 
             <div className={headerStyles.right}>
-                <ThemeButton />
                 <ProfileButton />
             </div>
         </header>
