@@ -4,7 +4,8 @@ export type User = {
 } | null;
 
 const Tests = ['words', 'quotes'] as const;
-export type TestType = {
-    type: (typeof Tests)[number];
+export type TestType = (typeof Tests)[number];
+export type TestOptions = {
+    type: TestType;
     duration: number;
 };

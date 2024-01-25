@@ -2,15 +2,15 @@ import { TestType } from '../../types/types';
 import testStyles from './css/test.module.css';
 
 type WordsProps = {
+    testType: TestType;
     words: string;
     letterCorrectness: boolean[];
     fontSize: number;
-    testType: TestType;
 };
 
 const ROWS = 5;
 
-export function Words({ words, letterCorrectness, fontSize, testType }: WordsProps) {
+export function Words({ testType, words, letterCorrectness, fontSize }: WordsProps) {
     const lineHeight = fontSize * 1.5;
     return (
         <div className={testStyles.words_container}>
