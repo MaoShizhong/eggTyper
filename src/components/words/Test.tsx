@@ -1,18 +1,21 @@
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { DEFAULT_DURATION, ONE_SECOND } from '../../helpers/constants';
 import { TestType } from '../../types/types';
 import { Words } from './Words';
 import testStyles from './css/test.module.css';
 
-type TestProps = {};
-
 const words =
     'Words WordsWordsWords Words WordsWordsWords Words WordsWordsWords Words WordsWordsWords Words WordsWordsWords Words WordsWordsWords Words WordsWordsWords Words WordsWordsWords Words WordsWordsWords Words WordsWordsWords Words WordsWordsWords Words WordsWordsWords Words WordsWordsWords Words WordsWordsWords WordsWordsWords Words WordsWordsWords WordsWordsWords Words WordsWordsWords';
 
-export function Test({}: TestProps) {
-    const [testType, setTestType] = useState<TestType>('words');
+export function Test() {
+    const [testType, setTestType] = useState<TestType>({
+        type: 'words',
+        duration: DEFAULT_DURATION,
+    });
     const [fontSize, setFontSize] = useState(20); // ! Will need input/slider
+    const [testStarted, setTestStarted] = useState(false);
+    const [timeRemaining, setTimeRemaining] = useState(testType.duration);
     const [resetWordsStateOnNewTest, setResetWordsStateOnNewTest] = useState(Math.random());
-    const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
     const [letterCorrectness, setLetterCorrectness] = useState<boolean[]>([]);
 
     const inputRef = useRef<HTMLInputElement>(null);
@@ -32,16 +35,52 @@ export function Test({}: TestProps) {
         }
     }
 
-    function resetTest(): void {
+    const resetTest = useCallback((): void => {
+        setTestStarted(false);
+        setTimeRemaining(testType.duration);
         setResetWordsStateOnNewTest(Math.random());
         setLetterCorrectness([]);
 
         if (inputRef.current) inputRef.current.value = '';
-    }
+    }, [testType.duration]);
+
+    // Trigger on test start
+    useEffect((): (() => void) | void => {
+        if (!testStarted) {
+            resetTest();
+            return;
+        }
+
+        function resetTestOnEsc(e: KeyboardEvent): void {
+            if (e.code === 'Escape') resetTest();
+        }
+
+        window.addEventListener('keydown', resetTestOnEsc);
+        const testTimer = setInterval((): void => {
+            setTimeRemaining((prev): number => prev - ONE_SECOND);
+        }, ONE_SECOND);
+
+        return (): void => {
+            window.removeEventListener('keydown', resetTestOnEsc);
+            clearInterval(testTimer);
+        };
+    }, [testStarted, resetTest]);
+
+    useEffect((): void => {
+        if (timeRemaining <= 0) resetTest();
+    }, [timeRemaining, resetTest]);
 
     return (
         <section className={testStyles.test}>
-            <h1>The timer will start when you begin typing below</h1>
+            <h1 className={testStyles.heading}>
+                {testStarted ? (
+                    <button onClick={resetTest}>
+                        Click here or press <kbd>Esc</kbd> to reset
+                    </button>
+                ) : (
+                    'The timer will start when you begin typing below'
+                )}
+            </h1>
             <Words
                 key={resetWordsStateOnNewTest}
                 words={words}
@@ -53,12 +92,13 @@ export function Test({}: TestProps) {
                 className={testStyles.input}
                 type="text"
                 placeholder="Start typing here"
-                onInput={markLetterCorrectness}
+                onInput={(e: FormEvent<HTMLInputElement>): void => {
+                    if (!testStarted) setTestStarted(true);
+                    markLetterCorrectness(e);
+                }}
                 ref={inputRef}
             />
-
-            {/* Change to actual reset when test behaviour implemented */}
-            <button onClick={resetTest}>reset</button>
+            <div>{timeRemaining}</div>
         </section>
     );
 }

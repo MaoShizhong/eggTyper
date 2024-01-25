@@ -5,9 +5,18 @@
     gap: 8px;
     margin-inline: 16px;
     width: min(800px, 92vw);
+}
 
-    & > h1 {
-        text-align: center;
+.heading {
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+
+    & > button {
+        background-color: transparent;
+        color: inherit;
+        font-size: inherit;
+        font-weight: inherit;
     }
 }
 
@@ -18,8 +27,8 @@
 
     & > div {
         --cursor-width: 2px;
-        color: var(--text-words-box);
 
+        color: var(--text-words-box);
         overflow: hidden;
         padding-inline: var(--cursor-width);
         white-space: pre-wrap;

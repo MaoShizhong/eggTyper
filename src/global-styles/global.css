@@ -1,20 +1,27 @@
 @font-face {
     font-family: 'Jost';
     font-weight: 400;
-    src: local('Jost-Regular'), local('Jost Regular'),
+    src:
+        local('Jost-Regular'),
+        local('Jost Regular'),
         url('./fonts/Jost-Regular.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'Jost';
     font-weight: bold;
-    src: local('Jost-Bold'), local('Jost Bold'), url('./fonts/Jost-Bold.ttf') format('truetype');
+    src:
+        local('Jost-Bold'),
+        local('Jost Bold'),
+        url('./fonts/Jost-Bold.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'Righteous';
     font-weight: 400;
-    src: local('Righteous-Regular'), local('Righteous Regular'),
+    src:
+        local('Righteous-Regular'),
+        local('Righteous Regular'),
         url('./fonts/Righteous-Regular.ttf') format('truetype');
 }
 
@@ -46,4 +53,11 @@ button {
 
 main {
     flex: 1;
+}
+
+kbd {
+    border: 1px solid var(--text-main);
+    border-radius: 3px;
+    color: var(--text-main);
+    padding: 1px 2px;
 }

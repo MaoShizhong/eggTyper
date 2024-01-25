@@ -3,5 +3,8 @@ export type User = {
     topScores: number[];
 } | null;
 
-const TestTypes = ['words', 'quotes'] as const;
-export type TestType = (typeof TestTypes)[number];
+const Tests = ['words', 'quotes'] as const;
+export type TestType = {
+    type: (typeof Tests)[number];
+    duration: number;
+};
