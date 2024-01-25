@@ -12,7 +12,7 @@ export function Test() {
         type: 'words',
         duration: DEFAULT_TEST_DURATION,
     });
-    const [testWords, setTestWords] = useState(getTestWords(testType.type));
+    const [testWords, setTestWords] = useState(getTestWords(testType).join(' '));
     const [fontSize, setFontSize] = useState(20); // ! Will need input/slider
     const [testStarted, setTestStarted] = useState(false);
     const [timeRemaining, setTimeRemaining] = useState(testType.duration);
