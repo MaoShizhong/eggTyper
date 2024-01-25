@@ -1,6 +1,7 @@
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { DEFAULT_DURATION, ONE_SECOND } from '../../helpers/constants';
+import { DEFAULT_TEST_DURATION, ONE_SECOND } from '../../helpers/constants';
 import { TestType } from '../../types/types';
+import { Timer } from './Timer';
 import { Words } from './Words';
 import testStyles from './css/test.module.css';
 
@@ -10,12 +11,13 @@ const words =
 export function Test() {
     const [testType, setTestType] = useState<TestType>({
         type: 'words',
-        duration: DEFAULT_DURATION,
+        duration: DEFAULT_TEST_DURATION,
     });
     const [fontSize, setFontSize] = useState(20); // ! Will need input/slider
     const [testStarted, setTestStarted] = useState(false);
     const [timeRemaining, setTimeRemaining] = useState(testType.duration);
-    const [resetWordsStateOnNewTest, setResetWordsStateOnNewTest] = useState(Math.random());
+    const [showingResults, setShowingResults] = useState(false);
+    const [resetWordsStateOnNewTest, setResetWordsStateOnNewTest] = useState(0);
     const [letterCorrectness, setLetterCorrectness] = useState<boolean[]>([]);
 
     const inputRef = useRef<HTMLInputElement>(null);
@@ -38,7 +40,8 @@ export function Test() {
     const resetTest = useCallback((): void => {
         setTestStarted(false);
         setTimeRemaining(testType.duration);
-        setResetWordsStateOnNewTest(Math.random());
+        setShowingResults(false);
+        setResetWordsStateOnNewTest((prev) => prev + 1);
         setLetterCorrectness([]);
 
         if (inputRef.current) inputRef.current.value = '';
@@ -67,8 +70,11 @@ export function Test() {
     }, [testStarted, resetTest]);
 
     useEffect((): void => {
-        if (timeRemaining <= 0) resetTest();
-    }, [timeRemaining, resetTest]);
+        if (timeRemaining <= 0) {
+            setTestStarted(false);
+            setShowingResults(true);
+        }
+    }, [timeRemaining]);
 
     return (
         <section className={testStyles.test}>
@@ -98,7 +104,7 @@ export function Test() {
                 }}
                 ref={inputRef}
             />
-            <div>{timeRemaining}</div>
+            <Timer timeRemaining={timeRemaining} />
         </section>
     );
 }

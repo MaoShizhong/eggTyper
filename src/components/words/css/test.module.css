@@ -46,6 +46,12 @@
     border-radius: 6px;
 }
 
+.timer {
+    font-size: x-large;
+    font-weight: bold;
+    margin-inline: auto;
+}
+
 .correct {
     /* TODO: Use var(--correct) when customisable */
     color: #03aecc;
