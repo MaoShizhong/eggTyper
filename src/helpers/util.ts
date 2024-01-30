@@ -1,26 +1,9 @@
-import randQuote from 'quote-library';
 import { wordList } from 'random-words';
 import { TestOptions } from '../types/types';
-import {
-    ONE_HOUR,
-    ONE_MINUTE,
-    ONE_SECOND,
-    QUOTES_LOADED_PER_TEST_MINUTE,
-    WORDS_LOADED_PER_TEST_MINUTE,
-} from './constants';
+import { ONE_HOUR, ONE_MINUTE, ONE_SECOND, WORDS_PER_WORDBLOCK } from './constants';
 
-export function getTestWords({ type, duration }: TestOptions): string[] {
-    const minutes = Math.ceil(duration / ONE_MINUTE);
-
-    if (type === 'quotes') {
-        const quotes: string[] = [];
-        while (quotes.length < minutes * QUOTES_LOADED_PER_TEST_MINUTE) {
-            quotes.push(randQuote.randomQuote().quoteText);
-        }
-        return quotes;
-    } else {
-        return shuffleInPlace(wordList).slice(0, minutes * WORDS_LOADED_PER_TEST_MINUTE);
-    }
+export function getWordBlock({ type }: TestOptions): string {
+    return shuffleInPlace(wordList).slice(0, WORDS_PER_WORDBLOCK).join(' ');
 }
 
 function shuffleInPlace<T>(arr: T[]): T[] {

@@ -39,6 +39,8 @@
     border: var(--input-border);
     font-size: large;
     padding: 4px 6px;
+    text-align: center;
+    user-select: none;
 }
 
 .words_container,

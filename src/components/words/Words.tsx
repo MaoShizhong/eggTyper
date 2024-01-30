@@ -3,15 +3,23 @@ import testStyles from './css/test.module.css';
 
 type WordsProps = {
     testType: TestType;
-    words: string;
-    letterCorrectness: boolean[];
+    words: string[];
+    // renderNewWordblock: () => void;
+    inputLetters: string;
     fontSize: number;
 };
 
 const ROWS = 5;
 
-export function Words({ testType, words, letterCorrectness, fontSize }: WordsProps) {
+export function Words({ testType, words, inputLetters, fontSize }: WordsProps) {
     const lineHeight = fontSize * 1.5;
+    const letters = words.join(' ').split('');
+    // console.log(inputLetters);
+
+    // if (inputLetters.length === letters.length * (2 / 3)) {
+    //     renderNewWordblock();
+    // }
+
     return (
         <div className={testStyles.words_container}>
             <div
@@ -21,10 +29,10 @@ export function Words({ testType, words, letterCorrectness, fontSize }: WordsPro
                     height: `${ROWS * lineHeight}px`,
                 }}
             >
-                {words.split('').map((letter: string, i: number): JSX.Element => {
-                    const currentLetter = letterCorrectness.length === i;
-                    const isScored = letterCorrectness.length >= i + 1;
-                    const correctness = letterCorrectness[i] ? 'correct' : 'wrong';
+                {letters.map((letter: string, i: number): JSX.Element => {
+                    const currentLetter = inputLetters.length === i;
+                    const isScored = inputLetters.length >= i + 1;
+                    const correctness = inputLetters[i] === letter ? 'correct' : 'wrong';
 
                     const classes = [];
                     if (currentLetter) classes.push(testStyles.current);

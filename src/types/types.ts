@@ -9,3 +9,9 @@ export type TestOptions = {
     type: TestType;
     duration: number;
 };
+
+export type LetterCorrectness = Array<boolean | 'space'>;
+export type CorrectnessCounts = {
+    correct: number;
+    wrong: number;
+};
