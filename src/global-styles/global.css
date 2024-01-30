@@ -25,6 +25,15 @@
         url('./fonts/Righteous-Regular.ttf') format('truetype');
 }
 
+@font-face {
+    font-family: 'Inconsolata';
+    font-weight: 400;
+    src:
+        local('Inconsolata-Regular'),
+        local('Inconsolata Regular'),
+        url('./fonts/Inconsolata.ttf') format('truetype');
+}
+
 * {
     box-sizing: border-box;
     font-family: inherit;

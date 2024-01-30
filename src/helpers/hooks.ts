@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { RefObject, useLayoutEffect, useState } from 'react';
 import { SetThemeAction, THEMES, ThemeName } from './themes';
 
 type ThemeSetter = [ThemeName, SetThemeAction];
@@ -25,3 +25,28 @@ export function useTheme(): ThemeSetter {
 
     return [currentTheme, setTheme];
 }
+
+export const useRowCapacity = (
+    rowContainerRef: RefObject<HTMLDivElement>,
+    fontSize: number
+): number => {
+    const DEFAULT_ROW_CAPACTIY = 64;
+    const [rowCapacity, setRowCapacity] = useState(DEFAULT_ROW_CAPACTIY);
+
+    useLayoutEffect((): (() => void) => {
+        const handleResize = (): void => {
+            if (!rowContainerRef.current) return;
+
+            const INCONSOLATA_CH_WIDTH = fontSize / 2;
+            const rowContainer = rowContainerRef.current;
+            setRowCapacity(Math.floor(rowContainer.offsetWidth / INCONSOLATA_CH_WIDTH));
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        return (): void => window.removeEventListener('resize', handleResize);
+    }, [rowContainerRef, fontSize]);
+
+    return rowCapacity;
+};
