@@ -20,7 +20,7 @@
     }
 }
 
-.words_container {
+.wordsContainer {
     background-color: var(--words-box);
     font-family: var(--font-mono);
     padding: 12px;
@@ -43,7 +43,7 @@
     user-select: none;
 }
 
-.words_container,
+.wordsContainer,
 .input {
     border-radius: 6px;
 }

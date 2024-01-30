@@ -13,13 +13,16 @@ export function Test() {
         type: 'words',
         duration: DEFAULT_TEST_DURATION,
     });
-    const [testWords, setTestWords] = useState([getWordBlock(testType), getWordBlock(testType)]);
+    const [testWords, setTestWords] = useState([
+        getWordBlock(testType.type),
+        getWordBlock(testType.type),
+        getWordBlock(testType.type),
+    ]);
     const [fontSize, setFontSize] = useState(20); // ! Will need input/slider
     const [testStarted, setTestStarted] = useState(false);
     const [timeRemaining, setTimeRemaining] = useState(testType.duration);
     const [timerIntervalID, setTimerIntervalID] = useState(1);
     const [showingResults, setShowingResults] = useState(false);
-    const [resetWordsStateOnNewTest, setResetWordsStateOnNewTest] = useState(0);
     const [inputLetters, setInputLetters] = useState('');
     const [wordsSubmitted, setWordsSubmitted] = useState(0);
     const [savedScore, setSavedScore] = useState<CorrectnessCounts>({ correct: 0, wrong: 0 });
@@ -77,7 +80,12 @@ export function Test() {
         setTestStarted(false);
         setTimeRemaining(testType.duration);
         setShowingResults(false);
-        setResetWordsStateOnNewTest((prev): number => prev + 1);
+        // setResetWordsStateOnNewTest((prev): number => prev + 1);
+        setTestWords([
+            getWordBlock(testType.type),
+            getWordBlock(testType.type),
+            getWordBlock(testType.type),
+        ]);
         setInputLetters('');
         setWordsSubmitted(0);
         setSavedScore({ correct: 0, wrong: 0 });
@@ -87,7 +95,7 @@ export function Test() {
             inputRef.current.value = '';
             inputRef.current.focus();
         }
-    }, [testType.duration, timerIntervalID]);
+    }, [testType, timerIntervalID]);
 
     const resetTestOnEsc = useCallback(
         (e: KeyboardEvent): void => {
@@ -96,9 +104,11 @@ export function Test() {
         [resetTest, testStarted, showingResults]
     );
 
-    // const renderNewWordblock = useCallback((): void => {
-    //     setTestWords((prev): string[] => [prev[prev.length - 1], getWordBlock(testType)]);
-    // }, [testType]);
+    const renderNewWordblock = useCallback((): void => {
+        const firstWordblockLength = testWords[0].length;
+        setTestWords([...testWords.slice(1), getWordBlock(testType.type)]);
+        setInputLetters((prev): string => prev.slice(firstWordblockLength + 1));
+    }, [testWords, testType]);
 
     useEffect((): (() => void) => {
         window.addEventListener('keydown', resetTestOnEsc);
@@ -113,6 +123,12 @@ export function Test() {
         }
     }, [timeRemaining, timerIntervalID]);
 
+    // dynamically append/remove word blocks - allows endless duration with no performance hit
+    const halfway = testWords[0].length + testWords[1].length / 2;
+    if (inputLetters.length > halfway) {
+        renderNewWordblock();
+    }
+
     return (
         <section className={testStyles.test}>
             <h1 className={testStyles.heading}>
@@ -125,10 +141,8 @@ export function Test() {
                 )}
             </h1>
             <PureWords
-                key={resetWordsStateOnNewTest}
                 testType={testType.type}
                 words={testWords}
-                // renderNewWordblock={renderNewWordblock}
                 inputLetters={inputLetters}
                 fontSize={fontSize}
             />

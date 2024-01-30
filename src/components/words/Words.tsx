@@ -4,7 +4,6 @@ import testStyles from './css/test.module.css';
 type WordsProps = {
     testType: TestType;
     words: string[];
-    // renderNewWordblock: () => void;
     inputLetters: string;
     fontSize: number;
 };
@@ -14,14 +13,9 @@ const ROWS = 5;
 export function Words({ testType, words, inputLetters, fontSize }: WordsProps) {
     const lineHeight = fontSize * 1.5;
     const letters = words.join(' ').split('');
-    // console.log(inputLetters);
-
-    // if (inputLetters.length === letters.length * (2 / 3)) {
-    //     renderNewWordblock();
-    // }
 
     return (
-        <div className={testStyles.words_container}>
+        <div className={testStyles.wordsContainer}>
             <div
                 style={{
                     fontSize: `${fontSize}px`,

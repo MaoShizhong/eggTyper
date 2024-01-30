@@ -1,8 +1,8 @@
 import { wordList } from 'random-words';
-import { TestOptions } from '../types/types';
+import { TestType } from '../types/types';
 import { ONE_HOUR, ONE_MINUTE, ONE_SECOND, WORDS_PER_WORDBLOCK } from './constants';
 
-export function getWordBlock({ type }: TestOptions): string {
+export function getWordBlock(testType: TestType): string {
     return shuffleInPlace(wordList).slice(0, WORDS_PER_WORDBLOCK).join(' ');
 }
 
