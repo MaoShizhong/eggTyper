@@ -23,7 +23,7 @@ export function Test() {
     const [timeRemaining, setTimeRemaining] = useState(testType.duration);
     const [timerIntervalID, setTimerIntervalID] = useState(1);
     const [showingResults, setShowingResults] = useState(false);
-    const [inputLetters, setInputLetters] = useState('');
+    const [inputChars, setInputChars] = useState('');
     const [wordsSubmitted, setWordsSubmitted] = useState(0);
     const [savedScore, setSavedScore] = useState<CorrectnessCounts>({ correct: 0, wrong: 0 });
 
@@ -39,22 +39,23 @@ export function Test() {
     }
 
     function submitWord(): void {
-        const indexOfLastSpace = inputLetters.lastIndexOf(' ') + 1;
-        const comparedLetters = inputLetters.slice(indexOfLastSpace);
+        const indexOfLastSpace = inputChars.lastIndexOf(' ') + 1;
+        const comparedChars = inputChars.slice(indexOfLastSpace);
         const joinedTestWords = testWords.join(' ');
+        const comparisonString = joinedTestWords.slice(indexOfLastSpace);
+        const lengthOfComparedWord = comparisonString.indexOf(' ');
 
-        const correctCount = comparedLetters
+        const correctCount = comparedChars
             .split('')
-            .filter(
-                (letter, i): boolean => letter === joinedTestWords[indexOfLastSpace + i]
-            ).length;
-        const wrongCount = comparedLetters.length - correctCount;
+            .filter((char, i): boolean => char === joinedTestWords[indexOfLastSpace + i]).length;
+        const wrongCount = comparedChars.length - correctCount;
 
         setSavedScore({
             correct: savedScore.correct + correctCount,
             wrong: savedScore.wrong + wrongCount,
         });
         setWordsSubmitted(wordsSubmitted + 1);
+        setInputChars(inputChars.slice(0, indexOfLastSpace + lengthOfComparedWord) + ' ');
 
         if (inputRef.current) inputRef.current.value = '';
     }
@@ -63,16 +64,19 @@ export function Test() {
         const inputValue = e.currentTarget.value;
 
         if (!testStarted) startTest();
-        if (inputValue[inputValue.length - 1] === ' ') submitWord();
+        if (inputValue[inputValue.length - 1] === ' ') {
+            submitWord();
+            return;
+        }
 
-        const indexOfLastSpace = inputLetters.lastIndexOf(' ') + 1;
-        const comparedLetters = inputLetters.slice(indexOfLastSpace);
-        const hasBackspaced = inputValue.length < comparedLetters.length;
+        const indexOfLastSpace = inputChars.lastIndexOf(' ') + 1;
+        const comparedChars = inputChars.slice(indexOfLastSpace);
+        const hasBackspaced = inputValue.length < comparedChars.length;
 
         if (hasBackspaced) {
-            setInputLetters(inputLetters.slice(0, indexOfLastSpace + inputValue.length));
+            setInputChars(inputChars.slice(0, indexOfLastSpace + inputValue.length));
         } else {
-            setInputLetters(`${inputLetters}${inputValue[inputValue.length - 1]}`);
+            setInputChars(`${inputChars}${inputValue[inputValue.length - 1]}`);
         }
     }
 
@@ -86,7 +90,7 @@ export function Test() {
             getWordBlock(testType.type),
             getWordBlock(testType.type),
         ]);
-        setInputLetters('');
+        setInputChars('');
         setWordsSubmitted(0);
         setSavedScore({ correct: 0, wrong: 0 });
         clearInterval(timerIntervalID);
@@ -107,7 +111,7 @@ export function Test() {
     const renderNewWordblock = useCallback((): void => {
         const firstWordblockLength = testWords[0].length;
         setTestWords([...testWords.slice(1), getWordBlock(testType.type)]);
-        setInputLetters((prev): string => prev.slice(firstWordblockLength + 1));
+        setInputChars((prev): string => prev.slice(firstWordblockLength + 1));
     }, [testWords, testType]);
 
     useEffect((): (() => void) => {
@@ -123,9 +127,10 @@ export function Test() {
         }
     }, [timeRemaining, timerIntervalID]);
 
+    // TODO: REPLACE THIS WITH PER-ROW ADJUSTMENTS
     // dynamically append/remove word blocks - allows endless duration with no performance hit
     const halfway = testWords[0].length + testWords[1].length / 2;
-    if (inputLetters.length > halfway) {
+    if (inputChars.length > halfway) {
         renderNewWordblock();
     }
 
@@ -142,8 +147,8 @@ export function Test() {
             </h1>
             <PureWords
                 testType={testType.type}
-                words={testWords}
-                inputLetters={inputLetters}
+                words={testWords.join(' ')}
+                inputChars={inputChars}
                 fontSize={fontSize}
             />
             <input

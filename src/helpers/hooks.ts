@@ -1,5 +1,6 @@
 import { RefObject, useLayoutEffect, useState } from 'react';
 import { SetThemeAction, THEMES, ThemeName } from './themes';
+import { getContentWidth } from './util';
 
 type ThemeSetter = [ThemeName, SetThemeAction];
 const DEFAULT_THEME: ThemeName = 'Cappuccino';
@@ -39,7 +40,7 @@ export const useRowCapacity = (
 
             const INCONSOLATA_CH_WIDTH = fontSize / 2;
             const rowContainer = rowContainerRef.current;
-            setRowCapacity(Math.floor(rowContainer.offsetWidth / INCONSOLATA_CH_WIDTH));
+            setRowCapacity(Math.floor(getContentWidth(rowContainer) / INCONSOLATA_CH_WIDTH));
         };
 
         handleResize();
