@@ -15,3 +15,8 @@ export type CorrectnessCounts = {
     correct: number;
     wrong: number;
 };
+
+export type WordScroll = {
+    firstRowLength: number;
+    scrollPoint: number;
+};

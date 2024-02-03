@@ -47,8 +47,8 @@ export function getContentWidth(element: HTMLElement): number {
 
 // input chars rely on rowed wordlist row lengths as breakpoints instead of max chars
 export function toRows(words: string, rowMaxChars: number, rowedWordlist?: string[][]): string[][] {
-    const rowedWordlistLengths = rowedWordlist?.map((row) => row.length);
-    let rowBreakpoint = rowedWordlistLengths ? rowedWordlistLengths[0] - 1 : rowMaxChars;
+    const rowedWordlistLengths = rowedWordlist?.map((row): number => row.length);
+    let rowBreakpoint = rowedWordlistLengths ? rowedWordlistLengths[0] - 1 : rowMaxChars - 1;
 
     // hack for `.slice` in the last loop
     const indicesRowEndSpaces = [-1];

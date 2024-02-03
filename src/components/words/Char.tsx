@@ -5,8 +5,6 @@ type CharProps = {
     isCurrentLetter: boolean;
     isScored: boolean;
     isCorrect: boolean;
-    isMiddleRow: boolean;
-    isLastChar: boolean;
 };
 
 export function Char({
@@ -14,9 +12,8 @@ export function Char({
     isCurrentLetter,
     isScored,
     isCorrect,
-    isMiddleRow,
-    isLastChar,
 }: CharProps) {
+
     const correctness = isCorrect ? 'correct' : 'wrong';
     const classes = [];
     if (isCurrentLetter) classes.push(testStyles.current);

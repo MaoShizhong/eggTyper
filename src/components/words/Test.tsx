@@ -1,7 +1,7 @@
 import { ChangeEvent, memo, useCallback, useEffect, useRef, useState } from 'react';
-import { DEFAULT_TEST_DURATION, ONE_SECOND } from '../../helpers/constants';
+import { DEFAULT_TEST_DURATION, ONE_SECOND, WORDS_PER_WORDBLOCK } from '../../helpers/constants';
 import { getWordBlock } from '../../helpers/util';
-import { CorrectnessCounts, TestOptions } from '../../types/types';
+import { CorrectnessCounts, TestOptions, WordScroll } from '../../types/types';
 import { Timer } from './Timer';
 import { Words } from './Words';
 import testStyles from './css/test.module.css';
@@ -13,11 +13,10 @@ export function Test() {
         type: 'words',
         duration: DEFAULT_TEST_DURATION,
     });
-    const [testWords, setTestWords] = useState([
-        getWordBlock(testType.type),
-        getWordBlock(testType.type),
-        getWordBlock(testType.type),
-    ]);
+    const [testWords, setTestWords] = useState(
+        `${getWordBlock(testType.type)} ${getWordBlock(testType.type)}`
+    );
+    const [wordScroll, setWordScroll] = useState<WordScroll>({ firstRowLength: 0, scrollPoint: 0 });
     const [fontSize, setFontSize] = useState(20); // ! Will need input/slider
     const [testStarted, setTestStarted] = useState(false);
     const [timeRemaining, setTimeRemaining] = useState(testType.duration);
@@ -41,13 +40,11 @@ export function Test() {
     function submitWord(): void {
         const indexOfLastSpace = inputChars.lastIndexOf(' ') + 1;
         const comparedChars = inputChars.slice(indexOfLastSpace);
-        const joinedTestWords = testWords.join(' ');
-        const comparisonString = joinedTestWords.slice(indexOfLastSpace);
-        const lengthOfComparedWord = comparisonString.indexOf(' ');
+        const lengthOfComparedWord = testWords.slice(indexOfLastSpace).indexOf(' ');
 
         const correctCount = comparedChars
             .split('')
-            .filter((char, i): boolean => char === joinedTestWords[indexOfLastSpace + i]).length;
+            .filter((char, i): boolean => char === testWords[indexOfLastSpace + i]).length;
         const wrongCount = comparedChars.length - correctCount;
 
         setSavedScore({
@@ -58,6 +55,7 @@ export function Test() {
         setInputChars(inputChars.slice(0, indexOfLastSpace + lengthOfComparedWord) + ' ');
 
         if (inputRef.current) inputRef.current.value = '';
+        if (inputChars.length >= wordScroll.scrollPoint) deleteFirstRow();
     }
 
     function handleInput(e: ChangeEvent<HTMLInputElement>): void {
@@ -78,6 +76,12 @@ export function Test() {
         } else {
             setInputChars(`${inputChars}${inputValue[inputValue.length - 1]}`);
         }
+    }
+
+    function deleteFirstRow(): void {
+        const withFirstRowDeleted = (prev: string): string => prev.slice(wordScroll.firstRowLength);
+        setTestWords(withFirstRowDeleted);
+        setInputChars(withFirstRowDeleted);
     }
 
     const resetTest = useCallback((): void => {
@@ -108,17 +112,12 @@ export function Test() {
         [resetTest, testStarted, showingResults]
     );
 
-    const renderNewWordblock = useCallback((): void => {
-        const firstWordblockLength = testWords[0].length;
-        setTestWords([...testWords.slice(1), getWordBlock(testType.type)]);
-        setInputChars((prev): string => prev.slice(firstWordblockLength + 1));
-    }, [testWords, testType]);
-
     useEffect((): (() => void) => {
         window.addEventListener('keydown', resetTestOnEsc);
         return (): void => window.removeEventListener('keydown', resetTestOnEsc);
     }, [resetTestOnEsc]);
 
+    // end test
     useEffect((): void => {
         if (timeRemaining <= 0) {
             setTestStarted(false);
@@ -127,12 +126,12 @@ export function Test() {
         }
     }, [timeRemaining, timerIntervalID]);
 
-    // TODO: REPLACE THIS WITH PER-ROW ADJUSTMENTS
-    // dynamically append/remove word blocks - allows endless duration with no performance hit
-    const halfway = testWords[0].length + testWords[1].length / 2;
-    if (inputChars.length > halfway) {
-        renderNewWordblock();
-    }
+    // endless test words
+    useEffect((): void => {
+        if (testStarted && wordsSubmitted && wordsSubmitted % WORDS_PER_WORDBLOCK === 0) {
+            setTestWords((prev): string => `${prev} ${getWordBlock(testType.type)}`);
+        }
+    }, [wordsSubmitted, testStarted, testType.type]);
 
     return (
         <section className={testStyles.test}>
@@ -147,8 +146,9 @@ export function Test() {
             </h1>
             <PureWords
                 testType={testType.type}
-                words={testWords.join(' ')}
+                words={testWords}
                 inputChars={inputChars}
+                setWordScroll={setWordScroll}
                 fontSize={fontSize}
             />
             <input
