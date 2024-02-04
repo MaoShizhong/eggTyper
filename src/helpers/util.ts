@@ -1,8 +1,19 @@
+import randQuote from 'quote-library';
 import { wordList } from 'random-words';
 import { TestType } from '../types/types';
 import { ONE_HOUR, ONE_MINUTE, ONE_SECOND, WORDS_PER_WORDBLOCK } from './constants';
 
 export function getWordBlock(testType: TestType): string {
+    if (testType === 'quotes') {
+        let quotes = '';
+        while (quotes.split(' ').length < WORDS_PER_WORDBLOCK) {
+            quotes = `${quotes} ${getRandomQuote()}`;
+        }
+
+        // remove leading space
+        return quotes.slice(1);
+    }
+
     return shuffleInPlace(wordList).slice(0, WORDS_PER_WORDBLOCK).join(' ');
 }
 
@@ -12,6 +23,15 @@ function shuffleInPlace<T>(arr: T[]): T[] {
         [arr[i], arr[j]] = [arr[j], arr[i]];
     }
     return arr;
+}
+
+function getRandomQuote(): string {
+    let quote;
+    do {
+        quote = randQuote.randomQuote().quoteText;
+    } while (quote.includes('�')); // some quotes contain a single bad character
+
+    return quote;
 }
 
 export function formatTime({ time, withLetters }: { time: number; withLetters: boolean }): string {

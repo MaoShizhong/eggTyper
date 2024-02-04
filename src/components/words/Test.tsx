@@ -88,12 +88,7 @@ export function Test() {
         setTestStarted(false);
         setTimeRemaining(testType.duration);
         setShowingResults(false);
-        // setResetWordsStateOnNewTest((prev): number => prev + 1);
-        setTestWords([
-            getWordBlock(testType.type),
-            getWordBlock(testType.type),
-            getWordBlock(testType.type),
-        ]);
+        setTestWords(`${getWordBlock(testType.type)} ${getWordBlock(testType.type)}`);
         setInputChars('');
         setWordsSubmitted(0);
         setSavedScore({ correct: 0, wrong: 0 });
