@@ -4,6 +4,7 @@
     flex-direction: column;
     gap: 8px;
     margin-inline: 16px;
+    position: relative;
     width: min(800px, 92vw);
 }
 
@@ -67,4 +68,19 @@
 
 .current {
     box-shadow: calc(var(--cursor-width) * -1) 0 var(--text-words-box);
+}
+
+.capsLock {
+    bottom: -2rem;
+    font-weight: bold;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+
+    & > kbd {
+        background-color: var(--words-box);
+        border: none;
+        color: var(--text-words-box);
+        padding-inline: 6px;
+    }
 }

@@ -2,6 +2,7 @@ import { ChangeEvent, memo, useCallback, useEffect, useRef, useState } from 'rea
 import { DEFAULT_TEST_DURATION, ONE_SECOND, WORDS_PER_WORDBLOCK } from '../../helpers/constants';
 import { getWordBlock } from '../../helpers/util';
 import { CorrectnessCounts, TestOptions, WordScroll } from '../../types/types';
+import { CapsLockIndicator } from './CapsLockIndicator';
 import { Results } from './Results';
 import { Timer } from './Timer';
 import { Words } from './Words';
@@ -85,6 +86,13 @@ export function Test() {
         setInputChars(withFirstRowDeleted);
     }
 
+    function endTest(): void {
+        submitWord(); // handles unfinished last word/no submitted words
+        setTestStarted(false);
+        setShowingResults(true);
+        clearInterval(timerIntervalID);
+    }
+
     const resetTest = useCallback((): void => {
         setTestStarted(false);
         setTimeRemaining(testType.duration);
@@ -114,21 +122,14 @@ export function Test() {
         return (): void => window.removeEventListener('keydown', resetTestOnEsc);
     }, [resetTest, testStarted, showingResults]);
 
-    // end of test
-    useEffect((): void => {
-        if (timeRemaining <= 0) {
-            setTestStarted(false);
-            setShowingResults(true);
-            clearInterval(timerIntervalID);
-        }
-    }, [timeRemaining, timerIntervalID]);
-
     // endless test words
     useEffect((): void => {
         if (testStarted && wordsSubmitted && wordsSubmitted % WORDS_PER_WORDBLOCK === 0) {
             setTestWords((prev): string => `${prev} ${getWordBlock(testType.type)}`);
         }
     }, [wordsSubmitted, testStarted, testType.type]);
+
+    if (testStarted && timeRemaining <= 0) endTest();
 
     return (
         <section className={testStyles.test}>
@@ -155,6 +156,7 @@ export function Test() {
                 onInput={handleInput}
                 ref={inputRef}
             />
+            <CapsLockIndicator toBeShown={!showingResults} />
             <Timer timeRemaining={timeRemaining} />
             {showingResults && <Results testDuration={testType.duration} scores={savedScore} />}
         </section>

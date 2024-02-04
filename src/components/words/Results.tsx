@@ -9,7 +9,7 @@ export function Results({ testDuration, scores }: ResultsProps) {
     const { correct: correctCharCount, wrong: wrongCharCount } = scores;
     const totalChars = correctCharCount + wrongCharCount;
 
-    const accuracy = correctCharCount / totalChars;
+    const accuracy = correctCharCount / (totalChars || 1); // prevent divide by 0
     const oneMinuteNormalisation = testDuration / ONE_MINUTE;
     const grossWPM = totalChars / CHARS_IN_WORD / oneMinuteNormalisation;
     const netWPM = grossWPM * accuracy;
