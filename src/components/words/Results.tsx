@@ -1,15 +1,15 @@
 import { CHARS_IN_WORD, ONE_MINUTE } from '../../helpers/constants';
 import { formatTime, toMaxOneDP } from '../../helpers/util';
+import { CorrectnessCounts } from '../../types/types';
 import resultsStyles from './css/results.module.css';
 
-type ResultsProps = { testDuration: number; scores: boolean[] };
+type ResultsProps = { testDuration: number; scores: CorrectnessCounts };
 
 export function Results({ testDuration, scores }: ResultsProps) {
-    const totalChars = scores.length;
-    const correctCount = scores.filter((score): boolean => score === true).length;
-    const wrongCount = scores.filter((score): boolean => score === false).length;
+    const { correct: correctCharCount, wrong: wrongCharCount } = scores;
+    const totalChars = correctCharCount + wrongCharCount;
 
-    const accuracy = correctCount / totalChars;
+    const accuracy = correctCharCount / totalChars;
     const oneMinuteNormalisation = testDuration / ONE_MINUTE;
     const grossWPM = totalChars / CHARS_IN_WORD / oneMinuteNormalisation;
     const netWPM = grossWPM * accuracy;
@@ -32,7 +32,7 @@ export function Results({ testDuration, scores }: ResultsProps) {
                 </section>
                 <section>
                     <h3>Errors</h3>
-                    <div>{wrongCount}</div>
+                    <div>{wrongCharCount}</div>
                 </section>
                 <section>
                     <h3>Accuracy</h3>

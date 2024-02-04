@@ -2,6 +2,7 @@ import { ChangeEvent, memo, useCallback, useEffect, useRef, useState } from 'rea
 import { DEFAULT_TEST_DURATION, ONE_SECOND, WORDS_PER_WORDBLOCK } from '../../helpers/constants';
 import { getWordBlock } from '../../helpers/util';
 import { CorrectnessCounts, TestOptions, WordScroll } from '../../types/types';
+import { Results } from './Results';
 import { Timer } from './Timer';
 import { Words } from './Words';
 import testStyles from './css/test.module.css';
@@ -93,26 +94,27 @@ export function Test() {
         setWordsSubmitted(0);
         setSavedScore({ correct: 0, wrong: 0 });
         clearInterval(timerIntervalID);
-
-        if (inputRef.current) {
-            inputRef.current.value = '';
-            inputRef.current.focus();
-        }
     }, [testType, timerIntervalID]);
 
-    const resetTestOnEsc = useCallback(
-        (e: KeyboardEvent): void => {
-            if ((testStarted || showingResults) && e.code === 'Escape') resetTest();
-        },
-        [resetTest, testStarted, showingResults]
-    );
+    useEffect((): void => {
+        const inputEl = inputRef.current;
+        if (inputEl) {
+            inputEl.value = '';
+            inputEl.disabled = showingResults;
+            inputEl.focus();
+        }
+    }, [showingResults]);
 
     useEffect((): (() => void) => {
+        const resetTestOnEsc = (e: KeyboardEvent): void => {
+            if ((testStarted || showingResults) && e.code === 'Escape') resetTest();
+        };
         window.addEventListener('keydown', resetTestOnEsc);
-        return (): void => window.removeEventListener('keydown', resetTestOnEsc);
-    }, [resetTestOnEsc]);
 
-    // end test
+        return (): void => window.removeEventListener('keydown', resetTestOnEsc);
+    }, [resetTest, testStarted, showingResults]);
+
+    // end of test
     useEffect((): void => {
         if (timeRemaining <= 0) {
             setTestStarted(false);
@@ -151,13 +153,10 @@ export function Test() {
                 type="text"
                 placeholder={testStarted ? undefined : 'Start typing here'}
                 onInput={handleInput}
-                disabled={showingResults}
                 ref={inputRef}
             />
             <Timer timeRemaining={timeRemaining} />
-            {/* {showingResults && (
-                <Results testDuration={testType.duration} scores={letterCorrectness} />
-            )} */}
+            {showingResults && <Results testDuration={testType.duration} scores={savedScore} />}
         </section>
     );
 }
