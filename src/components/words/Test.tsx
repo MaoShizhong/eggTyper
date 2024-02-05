@@ -1,7 +1,8 @@
 import { ChangeEvent, memo, useCallback, useEffect, useRef, useState } from 'react';
-import { DEFAULT_TEST_DURATION, ONE_SECOND, WORDS_PER_WORDBLOCK } from '../../helpers/constants';
+import { DEFAULT_TEST_OPTIONS, ONE_SECOND, WORDS_PER_WORDBLOCK } from '../../helpers/constants';
 import { getWordBlock } from '../../helpers/util';
-import { CorrectnessCounts, TestOptions, WordScroll } from '../../types/types';
+import { CorrectnessCounts, WordScroll } from '../../types/types';
+import { Options } from '../test_options/Options';
 import { CapsLockIndicator } from './CapsLockIndicator';
 import { Results } from './Results';
 import { Timer } from './Timer';
@@ -11,17 +12,14 @@ import testStyles from './css/test.module.css';
 const PureWords = memo(Words);
 
 export function Test() {
-    const [testType, setTestType] = useState<TestOptions>({
-        type: 'words',
-        duration: DEFAULT_TEST_DURATION,
-    });
+    const [testOptions, setTestOptions] = useState(DEFAULT_TEST_OPTIONS);
     const [testWords, setTestWords] = useState(
-        `${getWordBlock(testType.type)} ${getWordBlock(testType.type)}`
+        `${getWordBlock(testOptions.type)} ${getWordBlock(testOptions.type)}`
     );
     const [wordScroll, setWordScroll] = useState<WordScroll>({ firstRowLength: 0, scrollPoint: 0 });
     const [fontSize, setFontSize] = useState(20); // ! Will need input/slider
     const [testStarted, setTestStarted] = useState(false);
-    const [timeRemaining, setTimeRemaining] = useState(testType.duration);
+    const [timeRemaining, setTimeRemaining] = useState(testOptions.duration);
     const [timerIntervalID, setTimerIntervalID] = useState(1);
     const [showingResults, setShowingResults] = useState(false);
     const [inputChars, setInputChars] = useState('');
@@ -95,14 +93,14 @@ export function Test() {
 
     const resetTest = useCallback((): void => {
         setTestStarted(false);
-        setTimeRemaining(testType.duration);
+        setTimeRemaining(testOptions.duration);
         setShowingResults(false);
-        setTestWords(`${getWordBlock(testType.type)} ${getWordBlock(testType.type)}`);
+        setTestWords(`${getWordBlock(testOptions.type)} ${getWordBlock(testOptions.type)}`);
         setInputChars('');
         setWordsSubmitted(0);
         setSavedScore({ correct: 0, wrong: 0 });
         clearInterval(timerIntervalID);
-    }, [testType, timerIntervalID]);
+    }, [testOptions, timerIntervalID]);
 
     useEffect((): void => {
         const inputEl = inputRef.current;
@@ -125,14 +123,16 @@ export function Test() {
     // endless test words
     useEffect((): void => {
         if (testStarted && wordsSubmitted && wordsSubmitted % WORDS_PER_WORDBLOCK === 0) {
-            setTestWords((prev): string => `${prev} ${getWordBlock(testType.type)}`);
+            setTestWords((prev): string => `${prev} ${getWordBlock(testOptions.type)}`);
         }
-    }, [wordsSubmitted, testStarted, testType.type]);
+    }, [wordsSubmitted, testStarted, testOptions.type]);
 
     if (testStarted && timeRemaining <= 0) endTest();
 
     return (
         <section className={testStyles.test}>
+            <Options testOptions={testOptions} setTestOptions={setTestOptions} />
+
             <h1 className={testStyles.heading}>
                 {testStarted || showingResults ? (
                     <button onClick={resetTest}>
@@ -142,13 +142,14 @@ export function Test() {
                     'The timer will start when you begin typing below'
                 )}
             </h1>
+
             <PureWords
-                testType={testType.type}
                 words={testWords}
                 inputChars={inputChars}
                 setWordScroll={setWordScroll}
                 fontSize={fontSize}
             />
+
             <input
                 className={testStyles.input}
                 type="text"
@@ -156,9 +157,12 @@ export function Test() {
                 onInput={handleInput}
                 ref={inputRef}
             />
+
             <CapsLockIndicator toBeShown={!showingResults} />
+
             <Timer timeRemaining={timeRemaining} />
-            {showingResults && <Results testDuration={testType.duration} scores={savedScore} />}
+
+            {showingResults && <Results testDuration={testOptions.duration} scores={savedScore} />}
         </section>
     );
 }

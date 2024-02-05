@@ -2,19 +2,18 @@ import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import { ROWS } from '../../helpers/constants';
 import { useRowCapacity } from '../../helpers/hooks';
 import { toRows } from '../../helpers/util';
-import { TestType, WordScroll } from '../../types/types';
+import { WordScroll } from '../../types/types';
 import { Char } from './Char';
 import testStyles from './css/test.module.css';
 
 type WordsProps = {
-    testType: TestType;
     words: string;
     inputChars: string;
     setWordScroll: Dispatch<SetStateAction<WordScroll>>;
     fontSize: number;
 };
 
-export function Words({ testType, words, inputChars, setWordScroll, fontSize }: WordsProps) {
+export function Words({ words, inputChars, setWordScroll, fontSize }: WordsProps) {
     const rowContainerRef = useRef<HTMLDivElement>(null);
     const lineHeight = fontSize * 1.5;
     const rowCapacity = useRowCapacity(rowContainerRef, fontSize);

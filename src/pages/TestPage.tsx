@@ -1,9 +1,7 @@
 import { Test } from '../components/words/Test';
 import pageStyles from './css/pages.module.css';
 
-type TestProps = {};
-
-export function TestPage({}: TestProps) {
+export function TestPage() {
     return (
         <main className={`${pageStyles.main} ${pageStyles.testPage}`}>
             <Test />
