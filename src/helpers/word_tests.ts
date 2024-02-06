@@ -1,4 +1,5 @@
 import randQuote from 'quote-library';
+// @ts-expect-error: Current library has typo in index.d.ts
 import { wordList } from 'random-words';
 import { CapitalsOptions, NumbersOptions, TestOptions } from '../types/types';
 import { WORDS_PER_WORDBLOCK } from './constants';
