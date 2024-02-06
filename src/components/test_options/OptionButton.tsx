@@ -1,4 +1,5 @@
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { formatLabel } from '../../helpers/util';
 import { ModalTestOptions, TestOptionCategory } from './Options';
 import optionsStyles from './css/options.module.css';
 
@@ -33,23 +34,25 @@ export function OptionButton({
 
     return (
         <>
-            <input
-                id={fileName}
-                className={optionsStyles.radio}
-                type="radio"
-                name={category}
-                value={fileName}
-                disabled={isDisabled}
-                checked={isChecked}
-                onChange={selectTestOption}
-                required
-            />
-
             <label className={optionsStyles.option} htmlFor={fileName}>
                 <svg className={svgClasses.join(' ')}>
                     <use href={`/option_SVGs/${fileName}.svg#svg`} />
                 </svg>
-                {`${fileName.charAt(0).toUpperCase()}${fileName.slice(1).replaceAll('_', ' ')}`}
+
+                {formatLabel(fileName)}
+
+                <input
+                    id={fileName}
+                    className={optionsStyles.radio}
+                    type="radio"
+                    name={category}
+                    aria-label={formatLabel(fileName)}
+                    value={fileName}
+                    disabled={isDisabled}
+                    checked={isChecked}
+                    onChange={selectTestOption}
+                    required
+                />
             </label>
         </>
     );
