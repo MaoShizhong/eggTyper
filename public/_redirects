@@ -1,0 +1,2 @@
+/api/* https://eggtyper.adaptable.app/:splat 200
+/* /index.html 200
