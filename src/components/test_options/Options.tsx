@@ -32,7 +32,9 @@ export function Options({ testOptions, setTestOptions }: OptionsProps) {
 
     return (
         <>
-            <button onClick={toggleOptionsModal}>TestOptions</button>
+            <button className={optionsStyles.button} onClick={toggleOptionsModal}>
+                Test options
+            </button>
 
             <dialog className={optionsStyles.modal} onClick={closeOnClickOutside} ref={modalRef}>
                 <form className={optionsStyles.form} onSubmit={changeTestType}>

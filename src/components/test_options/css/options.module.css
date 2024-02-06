@@ -1,3 +1,16 @@
+.button {
+    align-self: center;
+    background-color: transparent;
+    color: var(--text-faded);
+    font-size: large;
+    transition: var(--transition);
+
+    &:hover {
+        color: var(--text-main);
+        transform: scale(1.35);
+    }
+}
+
 .modal {
     background-color: var(--background);
     border-color: var(--text-main);
