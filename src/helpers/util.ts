@@ -1,38 +1,4 @@
-import randQuote from 'quote-library';
-import { wordList } from 'random-words';
-import { TestOptions } from '../types/types';
-import { ONE_HOUR, ONE_MINUTE, ONE_SECOND, WORDS_PER_WORDBLOCK } from './constants';
-
-export function getWordBlock({ type, capitals, numbers }: TestOptions): string {
-    if (type === 'quotes') {
-        let quotes = '';
-        while (quotes.split(' ').length < WORDS_PER_WORDBLOCK) {
-            quotes = `${quotes} ${getRandomQuote()}`;
-        }
-
-        // remove leading space
-        return quotes.slice(1);
-    }
-
-    return shuffleInPlace(wordList).slice(0, WORDS_PER_WORDBLOCK).join(' ');
-}
-
-function shuffleInPlace<T>(arr: T[]): T[] {
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-}
-
-function getRandomQuote(): string {
-    let quote;
-    do {
-        quote = randQuote.randomQuote().quoteText;
-    } while (quote.includes('�')); // some quotes contain a single bad character
-
-    return quote;
-}
+import { ONE_HOUR, ONE_MINUTE, ONE_SECOND } from './constants';
 
 export function formatTime({ time, withLetters }: { time: number; withLetters: boolean }): string {
     const hours = Math.floor(time / ONE_HOUR);

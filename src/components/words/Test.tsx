@@ -1,6 +1,6 @@
 import { ChangeEvent, memo, useCallback, useEffect, useRef, useState } from 'react';
 import { DEFAULT_TEST_OPTIONS, ONE_SECOND, WORDS_PER_WORDBLOCK } from '../../helpers/constants';
-import { getWordBlock } from '../../helpers/util';
+import { getWordBlock } from '../../helpers/word_tests';
 import { CorrectnessCounts, WordScroll } from '../../types/types';
 import { Options } from '../test_options/Options';
 import { CapsLockIndicator } from './CapsLockIndicator';
