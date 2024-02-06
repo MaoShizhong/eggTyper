@@ -1,0 +1,28 @@
+.header {
+    background-color: var(--header);
+    color: var(--text-header);
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    position: relative;
+
+    & a {
+        color: unset;
+        text-decoration: none;
+    }
+}
+
+.logo {
+    align-items: center;
+    display: flex;
+    font-family: Righteous, var(--font-standard);
+    font-size: x-large;
+    gap: 6px;
+}
+
+.right {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+}
+

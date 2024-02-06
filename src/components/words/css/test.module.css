@@ -1,0 +1,87 @@
+.test {
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-inline: 16px;
+    margin-top: 48px;
+    position: relative;
+    width: min(800px, 92vw);
+}
+
+.heading {
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+
+    & > button {
+        background-color: transparent;
+        color: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+    }
+}
+
+.wordsContainer {
+    background-color: var(--words-box);
+    font-family: var(--font-mono);
+    padding: 12px;
+
+    & > div {
+        --cursor-width: 2px;
+
+        color: var(--text-words-box);
+        overflow: hidden;
+        padding-inline: var(--cursor-width);
+        white-space: pre-wrap;
+    }
+}
+
+.input {
+    border: var(--input-border);
+    font-size: large;
+    padding: 4px 6px;
+    text-align: center;
+    user-select: none;
+}
+
+.wordsContainer,
+.input {
+    border-radius: 6px;
+}
+
+.timer {
+    font-size: x-large;
+    font-weight: bold;
+    margin-inline: auto;
+}
+
+.correct {
+    /* TODO: Use var(--correct) when customisable */
+    color: #03aecc;
+}
+
+.wrong {
+    background-color: #dbb4b4;
+    /* TODO: Use var(--wrong) when customisable */
+    color: red;
+}
+
+.current {
+    box-shadow: calc(var(--cursor-width) * -1) 0 var(--text-words-box);
+}
+
+.capsLock {
+    bottom: -2rem;
+    font-weight: bold;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+
+    & > kbd {
+        background-color: var(--words-box);
+        border: none;
+        color: var(--text-words-box);
+        padding-inline: 6px;
+    }
+}

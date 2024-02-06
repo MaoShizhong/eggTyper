@@ -1,0 +1,112 @@
+.button {
+    align-self: center;
+    background-color: transparent;
+    color: var(--text-faded);
+    font-size: large;
+    margin-block: 12px;
+    transition: var(--transition);
+
+    &:hover:not(:disabled) {
+        color: var(--text-main);
+        transform: scale(1.35);
+    }
+
+    &:disabled {
+        cursor: initial;
+        opacity: 0.4;
+    }
+}
+
+.modal {
+    background-color: var(--background);
+    border-color: var(--text-main);
+    border-radius: 8px;
+    padding: 0;
+    width: min(95vw, 500px);
+
+    &::backdrop {
+        backdrop-filter: brightness(0.3);
+    }
+}
+
+.form {
+    color: var(--text-main);
+    padding: 12px;
+}
+
+.category {
+    border: 1px solid var(--text-faded);
+    display: flex;
+    gap: 1.5rem;
+    justify-content: space-evenly;
+    margin-block: 16px;
+    padding: 8px;
+
+    & > legend {
+        font-weight: bold;
+    }
+}
+
+.radio {
+    position: absolute;
+    z-index: -100;
+}
+
+.option {
+    align-items: center;
+    background-color: var(--background);
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+    padding: 8px;
+    position: relative;
+    text-align: center;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:has(> input:checked:focus-visible) {
+        outline: 2px solid var(--text-main);
+    }
+
+    & > svg {
+        --size: 48px;
+
+        height: var(--size);
+        transition: var(--transition);
+        width: var(--size);
+
+        &:hover:not(.selected) {
+            transform: scale(1.2);
+        }
+
+        &.selected:not(.disabled) {
+            transform: scale(1.35);
+        }
+
+        &:not(.selected),
+        &.disabled {
+            /* color: color-mix(in srgb, var(--text-main) 40%, var(--background)); */
+            color: var(--text-faded);
+        }
+    }
+}
+
+.buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: flex-end;
+
+    & > button {
+        background-color: transparent;
+        color: var(--text-main);
+        font-size: medium;
+        font-weight: bold;
+        transition: var(--transition);
+
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
+}

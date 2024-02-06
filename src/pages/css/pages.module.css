@@ -1,0 +1,9 @@
+.main {
+    background-color: var(--background);
+}
+
+.testPage {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
