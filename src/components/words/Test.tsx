@@ -107,12 +107,13 @@ export function Test() {
         setWordsSubmitted(0);
         setSavedScore({ correct: 0, wrong: 0 });
         clearInterval(timerIntervalID);
+
+        if (inputRef.current) inputRef.current.value = '';
     }, [testOptions, testDuration, timerIntervalID]);
 
     useEffect((): void => {
         const inputEl = inputRef.current;
         if (inputEl) {
-            inputEl.value = '';
             inputEl.disabled = showingResults;
             inputEl.focus();
         }
@@ -134,20 +135,25 @@ export function Test() {
         }
     }, [wordsSubmitted, testStarted, testOptions]);
 
-    if (testStarted && timeRemaining <= 0) endTest();
-
     // get new word test on options change
     useEffect((): void => {
         setTestWords(`${getWordBlock(testOptions)} ${getWordBlock(testOptions)}`);
     }, [testOptions]);
 
+    if (testStarted && timeRemaining <= 0) endTest();
+
     return (
         <section className={testStyles.test}>
-            <Options testOptions={testOptions} setTestOptions={setTestOptions} />
+            <Options
+                testOptions={testOptions}
+                setTestOptions={setTestOptions}
+                shouldDisableButtons={testStarted || showingResults}
+            />
             <Durations
                 selectedDuration={testDuration}
                 setTestDuration={setTestDuration}
                 setTimeRemaining={setTimeRemaining}
+                shouldDisableButtons={testStarted || showingResults}
             />
 
             <h1 className={testStyles.heading}>

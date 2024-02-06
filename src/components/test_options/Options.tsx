@@ -1,4 +1,4 @@
-import { Dispatch, FormEvent, SetStateAction, useRef, useState } from 'react';
+import { Dispatch, FormEvent, MouseEvent, SetStateAction, useRef, useState } from 'react';
 import { closeOnClickOutside } from '../../helpers/util';
 import { TestOptions, allTestOptions } from '../../types/types';
 import { OptionButton } from './OptionButton';
@@ -7,14 +7,18 @@ import optionsStyles from './css/options.module.css';
 type OptionsProps = {
     testOptions: TestOptions;
     setTestOptions: Dispatch<SetStateAction<TestOptions>>;
+    shouldDisableButtons: boolean;
 };
 export type TestOptionCategory = keyof TestOptions;
 
-export function Options({ testOptions, setTestOptions }: OptionsProps) {
+export function Options({ testOptions, setTestOptions, shouldDisableButtons }: OptionsProps) {
     const [selectedTestOptions, setSelectedTestOptions] = useState(testOptions);
     const modalRef = useRef<HTMLDialogElement>(null);
 
-    function toggleOptionsModal(): void {
+    function toggleOptionsModal(e: MouseEvent): void {
+        // prevent altering DOM in devtools
+        if (shouldDisableButtons) e.preventDefault();
+
         modalRef.current?.showModal();
     }
 
@@ -26,13 +30,17 @@ export function Options({ testOptions, setTestOptions }: OptionsProps) {
 
     return (
         <>
-            <button className={optionsStyles.button} onClick={toggleOptionsModal}>
+            <button
+                className={optionsStyles.button}
+                onClick={toggleOptionsModal}
+                disabled={shouldDisableButtons}
+            >
                 Test options
             </button>
 
             <dialog
                 className={optionsStyles.modal}
-                onClick={(e): void => closeOnClickOutside(e, modalRef)}
+                onMouseDown={(e): void => closeOnClickOutside(e, modalRef)}
                 ref={modalRef}
             >
                 <form className={optionsStyles.form} onSubmit={changeTestType}>

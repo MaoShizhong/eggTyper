@@ -29,4 +29,14 @@
         color: var(--text-main);
         transform: scale(1.5);
     }
+
+    &:hover:not(:disabled) {
+        color: var(--text-main);
+        transform: scale(1.35);
+    }
+
+    &:disabled {
+        cursor: initial;
+        opacity: 0.4;
+    }
 }

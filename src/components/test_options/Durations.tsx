@@ -7,10 +7,23 @@ type DurationsProps = {
     selectedDuration: number;
     setTestDuration: Dispatch<SetStateAction<number>>;
     setTimeRemaining: Dispatch<SetStateAction<number>>;
+    shouldDisableButtons: boolean;
 };
 
-export function Durations({ selectedDuration, setTestDuration, setTimeRemaining }: DurationsProps) {
+export function Durations({
+    selectedDuration,
+    setTestDuration,
+    setTimeRemaining,
+    shouldDisableButtons,
+}: DurationsProps) {
     const modalRef = useRef<HTMLDialogElement>(null);
+
+    function toggleCustomModal(e: MouseEvent): void {
+        // prevent altering DOM in devtools
+        if (shouldDisableButtons) e.preventDefault();
+
+        modalRef.current?.showModal();
+    }
 
     function setNewTestDuration(e: MouseEvent<HTMLButtonElement>): void {
         const newDuration = Number(e.currentTarget.value);
@@ -44,18 +57,20 @@ export function Durations({ selectedDuration, setTestDuration, setTimeRemaining 
                                     : durationStyles.button
                             }
                             value={duration}
+                            disabled={shouldDisableButtons}
                         >
                             {formatTime({ time: duration, padMinutes: false })}
                         </button>
                     )
                 )}
                 <button
-                    onClick={(): void => modalRef.current?.showModal()}
+                    onClick={toggleCustomModal}
                     className={
                         !DURATION_PRESETS_IN_S.includes(selectedDuration)
                             ? `${durationStyles.selected} ${durationStyles.button}`
                             : durationStyles.button
                     }
+                    disabled={shouldDisableButtons}
                 >
                     Custom
                 </button>
@@ -63,7 +78,7 @@ export function Durations({ selectedDuration, setTestDuration, setTimeRemaining 
 
             <dialog
                 className={durationStyles.modal}
-                onClick={(e): void => closeOnClickOutside(e, modalRef)}
+                onMouseDown={(e): void => closeOnClickOutside(e, modalRef)}
                 ref={modalRef}
             >
                 <form className={durationStyles.form} onSubmit={setCustomTestDuration}>
