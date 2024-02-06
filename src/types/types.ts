@@ -18,7 +18,6 @@ export type TestOptions = {
     type: TestType;
     capitals: CapitalsOptions;
     numbers: NumbersOptions;
-    duration: number;
 };
 
 export const allTestOptions = {

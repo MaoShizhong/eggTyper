@@ -1,7 +1,13 @@
 import { ChangeEvent, memo, useCallback, useEffect, useRef, useState } from 'react';
-import { DEFAULT_TEST_OPTIONS, ONE_SECOND, WORDS_PER_WORDBLOCK } from '../../helpers/constants';
+import {
+    DEFAULT_TEST_DURATION,
+    DEFAULT_TEST_OPTIONS,
+    ONE_SECOND,
+    WORDS_PER_WORDBLOCK,
+} from '../../helpers/constants';
 import { getWordBlock } from '../../helpers/word_tests';
 import { CorrectnessCounts, WordScroll } from '../../types/types';
+import { Durations } from '../test_options/Durations';
 import { Options } from '../test_options/Options';
 import { CapsLockIndicator } from './CapsLockIndicator';
 import { Results } from './Results';
@@ -19,7 +25,8 @@ export function Test() {
     const [wordScroll, setWordScroll] = useState<WordScroll>({ firstRowLength: 0, scrollPoint: 0 });
     const [fontSize, setFontSize] = useState(20); // ! Will need input/slider
     const [testStarted, setTestStarted] = useState(false);
-    const [timeRemaining, setTimeRemaining] = useState(testOptions.duration);
+    const [testDuration, setTestDuration] = useState(DEFAULT_TEST_DURATION);
+    const [timeRemaining, setTimeRemaining] = useState(testDuration);
     const [timerIntervalID, setTimerIntervalID] = useState(1);
     const [showingResults, setShowingResults] = useState(false);
     const [inputChars, setInputChars] = useState('');
@@ -93,14 +100,14 @@ export function Test() {
 
     const resetTest = useCallback((): void => {
         setTestStarted(false);
-        setTimeRemaining(testOptions.duration);
+        setTimeRemaining(testDuration);
         setShowingResults(false);
-        setTestWords(`${getWordBlock(testOptions.type)} ${getWordBlock(testOptions.type)}`);
+        setTestWords(`${getWordBlock(testOptions)} ${getWordBlock(testOptions)}`);
         setInputChars('');
         setWordsSubmitted(0);
         setSavedScore({ correct: 0, wrong: 0 });
         clearInterval(timerIntervalID);
-    }, [testOptions, timerIntervalID]);
+    }, [testOptions, testDuration, timerIntervalID]);
 
     useEffect((): void => {
         const inputEl = inputRef.current;
@@ -123,9 +130,9 @@ export function Test() {
     // endless test words
     useEffect((): void => {
         if (testStarted && wordsSubmitted && wordsSubmitted % WORDS_PER_WORDBLOCK === 0) {
-            setTestWords((prev): string => `${prev} ${getWordBlock(testOptions.type)}`);
+            setTestWords((prev): string => `${prev} ${getWordBlock(testOptions)}`);
         }
-    }, [wordsSubmitted, testStarted, testOptions.type]);
+    }, [wordsSubmitted, testStarted, testOptions]);
 
     if (testStarted && timeRemaining <= 0) endTest();
 
@@ -137,6 +144,11 @@ export function Test() {
     return (
         <section className={testStyles.test}>
             <Options testOptions={testOptions} setTestOptions={setTestOptions} />
+            <Durations
+                selectedDuration={testDuration}
+                setTestDuration={setTestDuration}
+                setTimeRemaining={setTimeRemaining}
+            />
 
             <h1 className={testStyles.heading}>
                 {testStarted || showingResults ? (
@@ -167,7 +179,7 @@ export function Test() {
 
             <Timer timeRemaining={timeRemaining} />
 
-            {showingResults && <Results testDuration={testOptions.duration} scores={savedScore} />}
+            {showingResults && <Results testDuration={testDuration} scores={savedScore} />}
         </section>
     );
 }

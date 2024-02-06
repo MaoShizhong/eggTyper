@@ -4,6 +4,7 @@
     flex-direction: column;
     gap: 8px;
     margin-inline: 16px;
+    margin-top: 48px;
     position: relative;
     width: min(800px, 92vw);
 }

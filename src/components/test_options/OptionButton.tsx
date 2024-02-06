@@ -1,13 +1,14 @@
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { formatLabel } from '../../helpers/util';
-import { ModalTestOptions, TestOptionCategory } from './Options';
+import { TestOptions } from '../../types/types';
+import { TestOptionCategory } from './Options';
 import optionsStyles from './css/options.module.css';
 
 type OptionButtonProps = {
     category: TestOptionCategory;
     fileName: string;
-    selectedTestOptions: ModalTestOptions;
-    setSelectedTestOptions: Dispatch<SetStateAction<ModalTestOptions>>;
+    selectedTestOptions: TestOptions;
+    setSelectedTestOptions: Dispatch<SetStateAction<TestOptions>>;
     isDefault: boolean;
 };
 

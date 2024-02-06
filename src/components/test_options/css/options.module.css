@@ -3,6 +3,7 @@
     background-color: transparent;
     color: var(--text-faded);
     font-size: large;
+    margin-block: 12px;
     transition: var(--transition);
 
     &:hover {

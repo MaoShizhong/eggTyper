@@ -1,11 +1,19 @@
 import { ONE_HOUR, ONE_MINUTE, ONE_SECOND } from './constants';
 
-export function formatTime({ time, withLetters }: { time: number; withLetters: boolean }): string {
+export function formatTime({
+    time,
+    withLetters = false,
+    padMinutes = true,
+}: {
+    time: number;
+    withLetters?: boolean;
+    padMinutes?: boolean;
+}): string {
     const hours = Math.floor(time / ONE_HOUR);
     const minutes = Math.floor((time - hours * ONE_HOUR) / ONE_MINUTE);
     const seconds = (time - hours * ONE_HOUR - minutes * ONE_MINUTE) / ONE_SECOND;
 
-    const minutesString = minutes.toString();
+    let minutesString = minutes.toString();
     const secondsString = seconds.toString();
 
     if (withLetters) {
@@ -13,12 +21,14 @@ export function formatTime({ time, withLetters }: { time: number; withLetters: b
         if (hours > 0) timeString = `${hours}h ${timeString}`;
 
         return timeString;
-    } else {
-        let timeString = `${minutesString.padStart(2, '0')}:${secondsString.padStart(2, '0')}`;
-        if (hours > 0) timeString = `${hours}:${timeString}`;
-
-        return timeString;
     }
+
+    if (padMinutes) minutesString = minutesString.padStart(2, '0');
+
+    let timeString = `${minutesString}:${secondsString.padStart(2, '0')}`;
+    if (hours > 0) timeString = `${hours}:${timeString}`;
+
+    return timeString;
 }
 
 export function toMaxOneDP(num: number): number {

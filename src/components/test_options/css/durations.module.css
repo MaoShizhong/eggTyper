@@ -1,0 +1,16 @@
+.buttons {
+    align-self: center;
+    display: flex;
+    gap: 2rem;
+    justify-content: space-evenly;
+    width: min(95vw, 400px);
+}
+
+.button {
+    composes: button from './options.module.css';
+
+    &.selected {
+        color: var(--text-main);
+        transform: scale(1.5);
+    }
+}

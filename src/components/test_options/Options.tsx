@@ -7,13 +7,10 @@ type OptionsProps = {
     testOptions: TestOptions;
     setTestOptions: Dispatch<SetStateAction<TestOptions>>;
 };
-export type ModalTestOptions = Omit<TestOptions, 'duration'>;
-export type TestOptionCategory = keyof ModalTestOptions;
+export type TestOptionCategory = keyof TestOptions;
 
 export function Options({ testOptions, setTestOptions }: OptionsProps) {
-    const { duration: _, ...modalTestOptions } = testOptions;
-    const [selectedTestOptions, setSelectedTestOptions] =
-        useState<ModalTestOptions>(modalTestOptions);
+    const [selectedTestOptions, setSelectedTestOptions] = useState(testOptions);
     const modalRef = useRef<HTMLDialogElement>(null);
 
     function toggleOptionsModal(): void {
