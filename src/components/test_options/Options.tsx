@@ -1,4 +1,5 @@
-import { Dispatch, FormEvent, MouseEvent, SetStateAction, useRef, useState } from 'react';
+import { Dispatch, FormEvent, SetStateAction, useRef, useState } from 'react';
+import { closeOnClickOutside } from '../../helpers/util';
 import { TestOptions, allTestOptions } from '../../types/types';
 import { OptionButton } from './OptionButton';
 import optionsStyles from './css/options.module.css';
@@ -17,10 +18,6 @@ export function Options({ testOptions, setTestOptions }: OptionsProps) {
         modalRef.current?.showModal();
     }
 
-    function closeOnClickOutside(e: MouseEvent): void {
-        if (e.target === modalRef.current) modalRef.current.close();
-    }
-
     function changeTestType(e: FormEvent): void {
         e.preventDefault();
         setTestOptions({ ...testOptions, ...selectedTestOptions });
@@ -33,7 +30,11 @@ export function Options({ testOptions, setTestOptions }: OptionsProps) {
                 Test options
             </button>
 
-            <dialog className={optionsStyles.modal} onClick={closeOnClickOutside} ref={modalRef}>
+            <dialog
+                className={optionsStyles.modal}
+                onClick={(e): void => closeOnClickOutside(e, modalRef)}
+                ref={modalRef}
+            >
                 <form className={optionsStyles.form} onSubmit={changeTestType}>
                     {Object.keys(allTestOptions).map((category): JSX.Element => {
                         const optionsCategory = category as TestOptionCategory;

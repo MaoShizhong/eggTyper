@@ -1,3 +1,19 @@
+.modal {
+    composes: modal from './options.module.css';
+    max-width: 260px;
+}
+
+.form {
+    composes: form from './options.module.css';
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.customFormButtons {
+    composes: buttons from './options.module.css';
+}
+
 .buttons {
     align-self: center;
     display: flex;

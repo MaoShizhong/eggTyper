@@ -1,3 +1,4 @@
+import { MouseEvent, RefObject } from 'react';
 import { ONE_HOUR, ONE_MINUTE, ONE_SECOND } from './constants';
 
 export function formatTime({
@@ -75,4 +76,8 @@ export function toRows(words: string, rowMaxChars: number, rowedWordlist?: strin
 
 export function formatLabel(text: string): string {
     return `${text.charAt(0).toUpperCase()}${text.slice(1).replaceAll('_', ' ')}`;
+}
+
+export function closeOnClickOutside(e: MouseEvent, modalRef: RefObject<HTMLDialogElement>): void {
+    if (e.target === modalRef.current) modalRef.current?.close();
 }
