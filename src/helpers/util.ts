@@ -1,10 +1,10 @@
 import randQuote from 'quote-library';
 import { wordList } from 'random-words';
-import { TestType } from '../types/types';
+import { TestOptions } from '../types/types';
 import { ONE_HOUR, ONE_MINUTE, ONE_SECOND, WORDS_PER_WORDBLOCK } from './constants';
 
-export function getWordBlock(testType: TestType): string {
-    if (testType === 'quotes') {
+export function getWordBlock({ type, capitals, numbers }: TestOptions): string {
+    if (type === 'quotes') {
         let quotes = '';
         while (quotes.split(' ').length < WORDS_PER_WORDBLOCK) {
             quotes = `${quotes} ${getRandomQuote()}`;

@@ -26,6 +26,8 @@ export function Options({ testOptions, setTestOptions }: OptionsProps) {
 
     function changeTestType(e: FormEvent): void {
         e.preventDefault();
+        setTestOptions({ ...testOptions, ...selectedTestOptions });
+        modalRef.current?.close();
     }
 
     return (
@@ -56,6 +58,13 @@ export function Options({ testOptions, setTestOptions }: OptionsProps) {
                             </fieldset>
                         );
                     })}
+
+                    <div className={optionsStyles.buttons}>
+                        <button type="button" onClick={(): void => modalRef.current?.close()}>
+                            Cancel
+                        </button>
+                        <button type="submit">Apply</button>
+                    </div>
                 </form>
             </dialog>
         </>

@@ -14,7 +14,7 @@ const PureWords = memo(Words);
 export function Test() {
     const [testOptions, setTestOptions] = useState(DEFAULT_TEST_OPTIONS);
     const [testWords, setTestWords] = useState(
-        `${getWordBlock(testOptions.type)} ${getWordBlock(testOptions.type)}`
+        `${getWordBlock(testOptions)} ${getWordBlock(testOptions)}`
     );
     const [wordScroll, setWordScroll] = useState<WordScroll>({ firstRowLength: 0, scrollPoint: 0 });
     const [fontSize, setFontSize] = useState(20); // ! Will need input/slider
@@ -128,6 +128,11 @@ export function Test() {
     }, [wordsSubmitted, testStarted, testOptions.type]);
 
     if (testStarted && timeRemaining <= 0) endTest();
+
+    // get new word test on options change
+    useEffect((): void => {
+        setTestWords(`${getWordBlock(testOptions)} ${getWordBlock(testOptions)}`);
+    }, [testOptions]);
 
     return (
         <section className={testStyles.test}>
