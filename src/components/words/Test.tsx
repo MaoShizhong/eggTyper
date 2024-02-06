@@ -23,7 +23,7 @@ export function Test() {
         `${getWordBlock(testOptions)} ${getWordBlock(testOptions)}`
     );
     const [wordScroll, setWordScroll] = useState<WordScroll>({ firstRowLength: 0, scrollPoint: 0 });
-    const [fontSize, setFontSize] = useState(20); // ! Will need input/slider
+    const [fontSize] = useState(20); // ! Will need input/slider, then add `setFontSize` variable
     const [testStarted, setTestStarted] = useState(false);
     const [testDuration, setTestDuration] = useState(DEFAULT_TEST_DURATION);
     const [timeRemaining, setTimeRemaining] = useState(testDuration);
