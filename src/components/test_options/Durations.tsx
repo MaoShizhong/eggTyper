@@ -1,29 +1,22 @@
 import { Dispatch, FormEvent, MouseEvent, SetStateAction, useRef } from 'react';
 import { DURATION_PRESETS_IN_S, ONE_SECOND } from '../../helpers/constants';
-import { closeOnClickOutside, formatTime } from '../../helpers/util';
+import { closeOnClickOutside, formatTime, openDialog } from '../../helpers/util';
 import durationStyles from './css/durations.module.css';
 
 type DurationsProps = {
     selectedDuration: number;
     setTestDuration: Dispatch<SetStateAction<number>>;
     setTimeRemaining: Dispatch<SetStateAction<number>>;
-    shouldDisableButtons: boolean;
+    isButtonDisabled: boolean;
 };
 
 export function Durations({
     selectedDuration,
     setTestDuration,
     setTimeRemaining,
-    shouldDisableButtons,
+    isButtonDisabled,
 }: DurationsProps) {
     const modalRef = useRef<HTMLDialogElement>(null);
-
-    function toggleCustomModal(e: MouseEvent): void {
-        // prevent altering DOM in devtools
-        if (shouldDisableButtons) e.preventDefault();
-
-        modalRef.current?.showModal();
-    }
 
     function setNewTestDuration(e: MouseEvent<HTMLButtonElement>): void {
         const newDuration = Number(e.currentTarget.value);
@@ -57,20 +50,26 @@ export function Durations({
                                     : durationStyles.button
                             }
                             value={duration}
-                            disabled={shouldDisableButtons}
+                            disabled={isButtonDisabled}
                         >
                             {formatTime({ time: duration, padMinutes: false })}
                         </button>
                     )
                 )}
                 <button
-                    onClick={toggleCustomModal}
+                    onClick={(): void =>
+                        openDialog({
+                            ref: modalRef,
+                            isModal: true,
+                            forcePreventOpen: isButtonDisabled,
+                        })
+                    }
                     className={
                         !DURATION_PRESETS_IN_S.includes(selectedDuration)
                             ? `${durationStyles.selected} ${durationStyles.button}`
                             : durationStyles.button
                     }
-                    disabled={shouldDisableButtons}
+                    disabled={isButtonDisabled}
                 >
                     Custom
                 </button>

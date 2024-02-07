@@ -1,14 +1,17 @@
-import { Dispatch, SetStateAction } from 'react';
+import { RefObject } from 'react';
+import { openDialog } from '../../helpers/util';
 import themeStyles from './css/theme_picker.module.css';
 
-type ThemeButtonProps = { setIsThemePickerShowing: Dispatch<SetStateAction<boolean>> };
+type ThemeButtonProps = {
+    themeDialog: RefObject<HTMLDialogElement>;
+};
 
-export function ThemeButton({ setIsThemePickerShowing }: ThemeButtonProps) {
+export function ThemeButton({ themeDialog }: ThemeButtonProps) {
     return (
         <button
             id="theme-button"
             className={themeStyles.themeButton}
-            onClick={(): void => setIsThemePickerShowing((prev) => !prev)}
+            onClick={(): void => openDialog({ ref: themeDialog })}
         >
             <svg height="36px" width="36px" viewBox="-25.6 -25.6 563.20 563.20" fill="currentColor">
                 <g>

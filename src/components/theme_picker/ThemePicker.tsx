@@ -1,21 +1,21 @@
-import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { SetThemeAction, THEMES, ThemeName } from '../../helpers/themes';
+import { ThemeButton } from './ThemeButton';
 import themeStyles from './css/theme_picker.module.css';
 
 type ThemePickerProps = {
     currentTheme: ThemeName;
     setTheme: SetThemeAction;
-    setIsThemePickerShowing: Dispatch<SetStateAction<boolean>>;
 };
 
-export function ThemePicker({ currentTheme, setTheme, setIsThemePickerShowing }: ThemePickerProps) {
+export function ThemePicker({ currentTheme, setTheme }: ThemePickerProps) {
     const themePickerRef = useRef<HTMLDialogElement>(null);
 
     useEffect((): (() => void) => {
         function closeThemePickerOnClickOutside(e: MouseEvent): void {
             const clickTarget = e.target as HTMLElement;
             if (!clickTarget.closest('#theme-picker') && !clickTarget.closest('#theme-button')) {
-                setIsThemePickerShowing(false);
+                themePickerRef.current?.close();
             }
         }
 
@@ -26,27 +26,33 @@ export function ThemePicker({ currentTheme, setTheme, setIsThemePickerShowing }:
 
     function changeTheme(newTheme: ThemeName): void {
         setTheme(newTheme);
-        setIsThemePickerShowing(false);
+        themePickerRef.current?.close();
     }
 
     return (
-        <dialog id="theme-picker" open className={themeStyles.themePicker} ref={themePickerRef}>
-            <ul className={themeStyles.themes}>
-                {Object.keys(THEMES).map(
-                    (theme: string, i: number): JSX.Element => (
-                        <li key={i}>
-                            <button
-                                className={
-                                    theme === currentTheme ? themeStyles.currentTheme : undefined
-                                }
-                                onClick={(): void => changeTheme(theme as ThemeName)}
-                            >
-                                {theme}
-                            </button>
-                        </li>
-                    )
-                )}
-            </ul>
-        </dialog>
+        <>
+            <ThemeButton themeDialog={themePickerRef} />
+
+            <dialog id="theme-picker" className={themeStyles.themePicker} ref={themePickerRef}>
+                <ul className={themeStyles.themes}>
+                    {Object.keys(THEMES).map(
+                        (theme: string, i: number): JSX.Element => (
+                            <li key={i}>
+                                <button
+                                    className={
+                                        theme === currentTheme
+                                            ? themeStyles.currentTheme
+                                            : undefined
+                                    }
+                                    onClick={(): void => changeTheme(theme as ThemeName)}
+                                >
+                                    {theme}
+                                </button>
+                            </li>
+                        )
+                    )}
+                </ul>
+            </dialog>
+        </>
     );
 }

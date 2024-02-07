@@ -1,26 +1,19 @@
-import { Dispatch, FormEvent, MouseEvent, SetStateAction, useRef, useState } from 'react';
-import { closeOnClickOutside } from '../../helpers/util';
+import { Dispatch, FormEvent, SetStateAction, useRef, useState } from 'react';
+import { closeOnClickOutside, openDialog } from '../../helpers/util';
 import { TestOptions, allTestOptions } from '../../types/types';
-import { OptionButton } from './OptionButton';
+import { OptionSelection } from './OptionSelection';
 import optionsStyles from './css/options.module.css';
 
 type OptionsProps = {
     testOptions: TestOptions;
     setTestOptions: Dispatch<SetStateAction<TestOptions>>;
-    shouldDisableButtons: boolean;
+    isButtonDisabled: boolean;
 };
 export type TestOptionCategory = keyof TestOptions;
 
-export function Options({ testOptions, setTestOptions, shouldDisableButtons }: OptionsProps) {
+export function Options({ testOptions, setTestOptions, isButtonDisabled }: OptionsProps) {
     const [selectedTestOptions, setSelectedTestOptions] = useState(testOptions);
     const modalRef = useRef<HTMLDialogElement>(null);
-
-    function toggleOptionsModal(e: MouseEvent): void {
-        // prevent altering DOM in devtools
-        if (shouldDisableButtons) e.preventDefault();
-
-        modalRef.current?.showModal();
-    }
 
     function changeTestType(e: FormEvent): void {
         e.preventDefault();
@@ -32,8 +25,10 @@ export function Options({ testOptions, setTestOptions, shouldDisableButtons }: O
         <>
             <button
                 className={optionsStyles.button}
-                onClick={toggleOptionsModal}
-                disabled={shouldDisableButtons}
+                onClick={(): void =>
+                    openDialog({ ref: modalRef, isModal: true, forcePreventOpen: isButtonDisabled })
+                }
+                disabled={isButtonDisabled}
             >
                 Test options
             </button>
@@ -53,7 +48,7 @@ export function Options({ testOptions, setTestOptions, shouldDisableButtons }: O
 
                                 {allTestOptions[optionsCategory].map((option, i): JSX.Element => {
                                     return (
-                                        <OptionButton
+                                        <OptionSelection
                                             key={option}
                                             category={optionsCategory}
                                             fileName={option}

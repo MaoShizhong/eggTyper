@@ -147,13 +147,13 @@ export function Test() {
             <Options
                 testOptions={testOptions}
                 setTestOptions={setTestOptions}
-                shouldDisableButtons={testStarted || showingResults}
+                isButtonDisabled={testStarted || showingResults}
             />
             <Durations
                 selectedDuration={testDuration}
                 setTestDuration={setTestDuration}
                 setTimeRemaining={setTimeRemaining}
-                shouldDisableButtons={testStarted || showingResults}
+                isButtonDisabled={testStarted || showingResults}
             />
 
             <h1 className={testStyles.heading}>
