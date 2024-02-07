@@ -57,14 +57,12 @@
 }
 
 .correct {
-    /* TODO: Use var(--correct) when customisable */
-    color: #03aecc;
+    color: var(--correct);
 }
 
 .wrong {
-    background-color: #dbb4b4;
-    /* TODO: Use var(--wrong) when customisable */
-    color: red;
+    background-color: color-mix(in hsl, var(--wrong) 30%, white);
+    color: var(--wrong);
 }
 
 .current {
