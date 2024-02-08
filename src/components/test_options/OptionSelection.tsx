@@ -4,7 +4,7 @@ import { TestOptions } from '../../types/types';
 import { TestOptionCategory } from './Options';
 import optionsStyles from './css/options.module.css';
 
-type OptionButtonProps = {
+type OptionSelectionProps = {
     category: TestOptionCategory;
     fileName: string;
     selectedTestOptions: TestOptions;
@@ -12,12 +12,12 @@ type OptionButtonProps = {
     isDefault: boolean;
 };
 
-export function OptionButton({
+export function OptionSelection({
     category,
     fileName,
     selectedTestOptions,
     setSelectedTestOptions,
-}: OptionButtonProps) {
+}: OptionSelectionProps) {
     const { type, capitals, numbers } = selectedTestOptions;
     const isChecked = fileName === type || fileName === capitals || fileName === numbers;
     const isDisabled = type === 'quotes' && category !== 'type';

@@ -1,4 +1,4 @@
-const themeProperties = [
+export const autoChangeThemeProperties = [
     '--header',
     '--background',
     '--words-box',
@@ -7,8 +7,10 @@ const themeProperties = [
     '--text-header',
     '--text-words-box',
     '--input-border',
+    '--correct',
+    '--wrong',
 ] as const;
-type ThemeProperties = (typeof themeProperties)[number];
+type ThemeProperties = (typeof autoChangeThemeProperties)[number];
 export type Theme = Record<ThemeProperties, string>;
 
 type Themes = { [key: string]: Theme };
@@ -22,6 +24,8 @@ export const THEMES = {
         '--text-header': '#fff4e6',
         '--text-words-box': '#e4d2c2',
         '--input-border': '1px solid #be9b7b',
+        '--correct': '#83e2a7',
+        '--wrong': '#6e3712',
     },
     Midnight: {
         '--header': '#101013',
@@ -32,6 +36,8 @@ export const THEMES = {
         '--text-header': '#DDDDDD',
         '--text-words-box': '#DDDDDD',
         '--input-border': 'none',
+        '--correct': '#24c4f9',
+        '--wrong': '#263364',
     },
     'Mocha Rose': {
         '--header': '#a8817d',
@@ -42,6 +48,8 @@ export const THEMES = {
         '--text-header': '#1A1A1A',
         '--text-words-box': '#1A1A1A',
         '--input-border': '1px solid #896A67',
+        '--correct': '#119092',
+        '--wrong': '#410458',
     },
     'Peach Candy': {
         '--header': '#ED254E',
@@ -52,6 +60,8 @@ export const THEMES = {
         '--text-header': '#FFFDF3',
         '--text-words-box': '#1A1A1A',
         '--input-border': '1px solid #C7B872',
+        '--correct': '#337dcc',
+        '--wrong': '#be2d4a',
     },
     'Pitch Black': {
         '--header': '#000000',
@@ -62,6 +72,8 @@ export const THEMES = {
         '--text-header': '#FFFDF3',
         '--text-words-box': '#FFFFFF',
         '--input-border': 'none',
+        '--correct': '#1bceee',
+        '--wrong': '#810909',
     },
     'Sandy Shores': {
         '--header': '#073b61',
@@ -72,6 +84,8 @@ export const THEMES = {
         '--text-header': '#ffffff',
         '--text-words-box': '#000e18',
         '--input-border': '1px solid #FF7D00',
+        '--correct': '#ffffff',
+        '--wrong': '#ad0000',
     },
     'Tropical Smoothie': {
         '--header': '#D63447',
@@ -82,6 +96,8 @@ export const THEMES = {
         '--text-header': '#FFFDF3',
         '--text-words-box': '#FFFFFF',
         '--input-border': '1px solid #D63447',
+        '--correct': '#000000',
+        '--wrong': '#56008f',
     },
     Tuxedo: {
         '--header': '#000000',
@@ -92,6 +108,8 @@ export const THEMES = {
         '--text-header': '#ffffff',
         '--text-words-box': '#000000',
         '--input-border': '1px solid #000000',
+        '--correct': '#2ba829',
+        '--wrong': '#303030',
     },
     'Water Bearer': {
         '--header': '#58668b',
@@ -102,6 +120,8 @@ export const THEMES = {
         '--text-header': '#FFFDF3',
         '--text-words-box': '#ffffff',
         '--input-border': '1px solid #58668b',
+        '--correct': '#292929',
+        '--wrong': '#58668b',
     },
 } satisfies Themes;
 export type ThemeName = keyof typeof THEMES;

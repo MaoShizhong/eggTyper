@@ -37,6 +37,7 @@
 * {
     box-sizing: border-box;
     font-family: inherit;
+    transition: var(--transition);
 }
 
 body {
@@ -45,9 +46,10 @@ body {
 }
 
 button {
+    background-color: transparent;
     border: none;
+    color: inherit;
     padding: 0;
-    transition: var(--transition);
 
     &:hover {
         cursor: pointer;

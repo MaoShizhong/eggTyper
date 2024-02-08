@@ -81,3 +81,18 @@ export function formatLabel(text: string): string {
 export function closeOnClickOutside(e: MouseEvent, modalRef: RefObject<HTMLDialogElement>): void {
     if (e.target === modalRef.current) modalRef.current?.close();
 }
+
+export function openDialog({
+    ref,
+    isModal = false,
+    forcePreventOpen = false,
+}: {
+    ref: RefObject<HTMLDialogElement>;
+    isModal?: boolean;
+    forcePreventOpen?: boolean; // prevent opening by removing button disabled in DOM
+}): void {
+    if (!ref.current || forcePreventOpen) return;
+
+    if (isModal) ref.current.showModal();
+    else ref.current.show();
+}

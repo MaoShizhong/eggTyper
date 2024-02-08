@@ -1,26 +1,22 @@
-import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import { UIOptions } from './components/UI_customisation/UIOptions';
 import { Header } from './components/header/Header';
-import { ThemeButton } from './components/theme_picker/ThemeButton';
-import { ThemePicker } from './components/theme_picker/ThemePicker';
-import { useTheme } from './helpers/hooks';
+import { useFontSize, useTheme } from './helpers/hooks';
 
 export function App() {
     const [theme, setTheme] = useTheme();
-    const [isThemePickerShowing, setIsThemePickerShowing] = useState(false);
+    const [fontSize, setFontSize] = useFontSize();
 
     return (
         <>
             <Header />
-            <Outlet />
-            <ThemeButton setIsThemePickerShowing={setIsThemePickerShowing} />
-            {isThemePickerShowing && (
-                <ThemePicker
-                    currentTheme={theme}
-                    setTheme={setTheme}
-                    setIsThemePickerShowing={setIsThemePickerShowing}
-                />
-            )}
+            <Outlet context={{ fontSize }} />
+            <UIOptions
+                theme={theme}
+                setTheme={setTheme}
+                fontSize={fontSize}
+                setFontSize={setFontSize}
+            />
         </>
     );
 }

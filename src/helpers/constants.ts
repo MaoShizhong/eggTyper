@@ -1,4 +1,5 @@
 import { TestOptions } from '../types/types';
+import { ThemeName } from './themes';
 
 export const ONE_SECOND = 1000;
 export const ONE_MINUTE = 60 * ONE_SECOND;
@@ -22,3 +23,6 @@ export const DURATION_PRESETS_IN_S = [
     1.5 * ONE_MINUTE,
     2 * ONE_MINUTE,
 ];
+
+export const DEFAULT_THEME: ThemeName = 'Cappuccino';
+export const DEFAULT_FONT_SIZE = 20;
