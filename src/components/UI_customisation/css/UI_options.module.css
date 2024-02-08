@@ -1,0 +1,109 @@
+.options {
+    --distance-from-edge: 12px;
+
+    bottom: var(--distance-from-edge);
+    display: flex;
+    gap: 24px;
+    position: fixed;
+    right: var(--distance-from-edge);
+}
+
+.optionsButton {
+    --button-size: 1.75rem;
+
+    background-color: transparent;
+    color: var(--text-main);
+    display: grid;
+    height: var(--button-size);
+    place-content: center;
+    position: relative;
+    width: var(--button-size);
+
+    & > svg {
+        height: 100%;
+        width: 100%;
+    }
+
+    &:hover {
+        transform: scale(1.2);
+    }
+}
+
+.dialog {
+    background-color: var(--header);
+    border: 2px solid var(--text-header);
+    border-radius: 6px;
+    bottom: 150%;
+    color: var(--text-header);
+    left: auto;
+    padding: 0;
+    position: absolute;
+    width: max-content;
+
+    & > div {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        padding: 14px;
+    }
+
+    & h2 {
+        font-size: unset;
+        margin: 0;
+    }
+}
+
+.themes {
+    list-style: none;
+    padding: 0;
+}
+
+.themes button {
+    background-color: transparent;
+    color: inherit;
+    font-size: large;
+    padding: 3px 24px;
+    width: 100%;
+
+    &:hover {
+        background-color: color-mix(in srgb, var(--header) 75%, white);
+    }
+}
+
+.currentTheme {
+    font-weight: bold;
+}
+
+.colourOptions {
+    display: flex;
+    justify-content: space-between;
+
+    & > button {
+        background-color: transparent;
+        color: inherit;
+        font-size: inherit;
+    }
+
+    & > label {
+        align-items: center;
+        display: flex;
+        gap: 4px;
+    }
+
+    & > *:hover {
+        text-decoration: underline;
+        text-underline-offset: 6px;
+    }
+}
+
+.colourPreview {
+    --size: 45%;
+    --offset: -4px;
+
+    border: 2px solid var(--background);
+    height: var(--size);
+    position: absolute;
+    right: var(--offset);
+    top: var(--offset);
+    width: var(--size);
+}

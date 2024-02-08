@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom';
+import { UIOptions } from './components/UI_customisation/UIOptions';
 import { Header } from './components/header/Header';
-import { CorrectnessColourPicker } from './components/theme_picker/CorrectnessColourPicker';
-import { ThemePicker } from './components/theme_picker/ThemePicker';
 import { useTheme } from './helpers/hooks';
 
 export function App() {
@@ -11,9 +10,7 @@ export function App() {
         <>
             <Header />
             <Outlet />
-            <CorrectnessColourPicker correctness="correct" theme={theme} />
-            <CorrectnessColourPicker correctness="wrong" theme={theme} />
-            <ThemePicker currentTheme={theme} setTheme={setTheme} />
+            <UIOptions theme={theme} setTheme={setTheme} />
         </>
     );
 }
