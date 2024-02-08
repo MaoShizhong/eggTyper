@@ -182,9 +182,9 @@ export function Test() {
                 ref={inputRef}
             />
 
-            <CapsLockIndicator toBeShown={!showingResults} />
-
             <Timer timeRemaining={timeRemaining} />
+
+            <CapsLockIndicator toBeShown={!showingResults} />
 
             {showingResults && <Results testDuration={testDuration} scores={savedScore} />}
         </section>

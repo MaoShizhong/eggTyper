@@ -64,6 +64,7 @@ button {
 
 main {
     flex: 1;
+    padding-bottom: 96px;
 }
 
 kbd {
