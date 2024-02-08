@@ -107,3 +107,26 @@
     top: var(--offset);
     width: var(--size);
 }
+
+.fontForm {
+    align-items: center;
+    display: flex;
+    gap: 4px;
+    padding: 12px;
+
+    & > input {
+        width: 7ch;
+    }
+
+    & > button {
+        background-color: transparent;
+        color: inherit;
+        font-size: inherit;
+        padding-inline: 4px;
+
+        &:hover {
+            text-decoration: underline;
+            text-underline-offset: 6px;
+        }
+    }
+}

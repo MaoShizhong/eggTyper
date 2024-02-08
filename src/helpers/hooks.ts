@@ -12,7 +12,9 @@ export function useTheme(): ThemeSetter {
         const root = document.querySelector<HTMLHtmlElement>(':root');
 
         if (!root) {
-            throw new Error('There is no <html> element. This would be a very unlikely occurrence.');
+            throw new Error(
+                'There is no <html> element. This would be a very unlikely occurrence.'
+            );
         }
 
         for (const [property, value] of Object.entries(THEMES[theme])) {
@@ -38,7 +40,7 @@ export const useRowCapacity = (
         const handleResize = (): void => {
             if (!rowContainerRef.current) return;
 
-            const INCONSOLATA_CH_WIDTH = fontSize / 2;
+            const INCONSOLATA_CH_WIDTH = Math.ceil(fontSize / 2);
             const rowContainer = rowContainerRef.current;
             setRowCapacity(Math.floor(getContentWidth(rowContainer) / INCONSOLATA_CH_WIDTH));
         };

@@ -25,3 +25,4 @@ export const DURATION_PRESETS_IN_S = [
 ];
 
 export const DEFAULT_THEME: ThemeName = 'Cappuccino';
+export const DEFAULT_FONT_SIZE = 20;

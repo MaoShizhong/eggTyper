@@ -1,4 +1,5 @@
 import { ChangeEvent, memo, useCallback, useEffect, useRef, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import {
     DEFAULT_TEST_DURATION,
     DEFAULT_TEST_OPTIONS,
@@ -23,7 +24,6 @@ export function Test() {
         `${getWordBlock(testOptions)} ${getWordBlock(testOptions)}`
     );
     const [wordScroll, setWordScroll] = useState<WordScroll>({ firstRowLength: 0, scrollPoint: 0 });
-    const [fontSize] = useState(20); // ! Will need input/slider, then add `setFontSize` variable
     const [testStarted, setTestStarted] = useState(false);
     const [testDuration, setTestDuration] = useState(DEFAULT_TEST_DURATION);
     const [timeRemaining, setTimeRemaining] = useState(testDuration);
@@ -32,6 +32,7 @@ export function Test() {
     const [inputChars, setInputChars] = useState('');
     const [wordsSubmitted, setWordsSubmitted] = useState(0);
     const [savedScore, setSavedScore] = useState<CorrectnessCounts>({ correct: 0, wrong: 0 });
+    const { fontSize } = useOutletContext<{ fontSize: number }>();
 
     const inputRef = useRef<HTMLInputElement>(null);
 

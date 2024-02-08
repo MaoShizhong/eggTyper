@@ -26,11 +26,6 @@ export function CorrectnessColourPicker({ correctness, theme }: CorrectnessColou
         setColour(newColour);
     }
 
-    function setThemeColour(): void {
-        setColour(themeColour);
-        dialogRef.current?.close();
-    }
-
     useEffect((): void => {
         setColour(THEMES[theme][`--${correctness}`]);
     }, [correctness, theme]);
@@ -58,7 +53,7 @@ export function CorrectnessColourPicker({ correctness, theme }: CorrectnessColou
                     <h2>Set indicator colour for {correctness} letters:</h2>
 
                     <div className={styles.colourOptions}>
-                        <button type="button" onClick={setThemeColour}>
+                        <button type="button" onClick={(): void => setColour(themeColour)}>
                             Use theme colour
                         </button>
 
