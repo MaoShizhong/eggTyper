@@ -11,7 +11,6 @@
 .optionsButton {
     --button-size: 1.75rem;
 
-    background-color: transparent;
     color: var(--text-main);
     display: grid;
     height: var(--button-size);
@@ -59,7 +58,6 @@
 }
 
 .themes button {
-    background-color: transparent;
     color: inherit;
     font-size: large;
     padding: 3px 24px;
@@ -79,7 +77,6 @@
     justify-content: space-between;
 
     & > button {
-        background-color: transparent;
         color: inherit;
         font-size: inherit;
     }
@@ -119,7 +116,6 @@
     }
 
     & > button {
-        background-color: transparent;
         color: inherit;
         font-size: inherit;
         padding-inline: 4px;

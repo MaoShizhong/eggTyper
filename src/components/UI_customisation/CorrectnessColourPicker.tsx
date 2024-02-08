@@ -11,10 +11,12 @@ type CorrectnessColourPickerProps = {
 };
 
 export function CorrectnessColourPicker({ correctness, theme }: CorrectnessColourPickerProps) {
+    const isMounted = useRef(false);
     const dialogRef = useRef<HTMLDialogElement>(null);
     const buttonID = `${correctness}-button`;
+    const localStorageThemeColour = localStorage.getItem(`${correctness}-colour`);
     const themeColour = THEMES[theme][`--${correctness}`];
-    const [colour, setColour] = useState(themeColour);
+    const [colour, setColour] = useState(localStorageThemeColour ?? themeColour);
 
     function setCorrectnessColour(
         e: ChangeEvent<HTMLInputElement> | MouseEvent<HTMLButtonElement>,
@@ -26,13 +28,24 @@ export function CorrectnessColourPicker({ correctness, theme }: CorrectnessColou
         setColour(newColour);
     }
 
-    useEffect((): void => {
-        setColour(THEMES[theme][`--${correctness}`]);
-    }, [correctness, theme]);
+    useEffect((): (() => void) => {
+        // prevent theme loading on mount overriding local storage colour
+        if (isMounted.current) {
+            setColour(themeColour);
+        } else {
+            isMounted.current = true;
+        }
+
+        // will break in development due to strict mode forcing double effect run
+        return (): void => {
+            isMounted.current = false;
+        };
+    }, [themeColour]);
 
     useEffect((): void => {
         const root = document.querySelector<HTMLHtmlElement>(':root');
         root?.style.setProperty(`--${correctness}`, colour);
+        localStorage.setItem(`${correctness}-colour`, colour);
     }, [correctness, colour]);
 
     return (
