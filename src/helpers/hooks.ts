@@ -1,9 +1,9 @@
 import { RefObject, useLayoutEffect, useState } from 'react';
+import { DEFAULT_THEME } from './constants';
 import { SetThemeAction, THEMES, ThemeName } from './themes';
 import { getContentWidth } from './util';
 
 type ThemeSetter = [ThemeName, SetThemeAction];
-const DEFAULT_THEME: ThemeName = 'Cappuccino';
 
 export function useTheme(): ThemeSetter {
     const [currentTheme, setCurrentTheme] = useState(DEFAULT_THEME);
@@ -12,7 +12,7 @@ export function useTheme(): ThemeSetter {
         const root = document.querySelector<HTMLHtmlElement>(':root');
 
         if (!root) {
-            throw new Error('There is no <html> element. This would be a very unlikely occurence.');
+            throw new Error('There is no <html> element. This would be a very unlikely occurrence.');
         }
 
         for (const [property, value] of Object.entries(THEMES[theme])) {

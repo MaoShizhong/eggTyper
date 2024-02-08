@@ -21,13 +21,17 @@ export function CorrectnessColourPicker({ correctness, theme }: CorrectnessColou
     }
 
     useEffect((): void => {
+        setColour(THEMES[theme][`--${correctness}`]);
+    }, [correctness, theme]);
+
+    useEffect((): void => {
         const root = document.querySelector<HTMLHtmlElement>(':root');
         root?.style.setProperty(`--${correctness}`, colour);
     }, [correctness, colour]);
 
     return (
         <div>
-            {correctness}: {colour}{' '}
+            {correctness}: {colour}
             <input type="color" value={colour} onChange={setCorrectnessColour} />
             <button onClick={(e): void => setCorrectnessColour(e, true)}>Use theme colour</button>
         </div>
