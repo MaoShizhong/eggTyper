@@ -52,7 +52,7 @@
 .timer {
     font-size: x-large;
     font-weight: bold;
-    margin-inline: auto;
+    margin: 1rem auto;
 }
 
 .correct {
@@ -69,11 +69,8 @@
 }
 
 .capsLock {
-    bottom: -2rem;
     font-weight: bold;
-    left: 50%;
-    position: absolute;
-    transform: translateX(-50%);
+    margin-inline: auto;
 
     & > kbd {
         background-color: var(--words-box);

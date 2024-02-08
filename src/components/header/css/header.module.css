@@ -4,7 +4,9 @@
     display: flex;
     justify-content: space-between;
     padding: 8px;
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 
     & a {
         color: unset;
@@ -25,4 +27,3 @@
     display: flex;
     gap: 12px;
 }
-

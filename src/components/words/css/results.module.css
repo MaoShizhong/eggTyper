@@ -1,5 +1,9 @@
 .results {
     text-align: center;
+
+    & > h2 {
+        margin-block: 0 1rem;
+    }
 }
 
 .stats {
