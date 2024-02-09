@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { THEMES, ThemeName } from '../../helpers/themes';
 import { CustomiserButton } from './CustomiserButton';
 import { UIOptionsDialog } from './UIOptionsDialog';
@@ -11,41 +11,23 @@ type CorrectnessColourPickerProps = {
 };
 
 export function CorrectnessColourPicker({ correctness, theme }: CorrectnessColourPickerProps) {
-    const isMounted = useRef(false);
     const dialogRef = useRef<HTMLDialogElement>(null);
     const buttonID = `${correctness}-button`;
-    const localStorageThemeColour = localStorage.getItem(`${correctness}-colour`);
+    const localStorageColour = localStorage.getItem(`${correctness}-colour`);
     const themeColour = THEMES[theme][`--${correctness}`];
-    const [colour, setColour] = useState(localStorageThemeColour ?? themeColour);
+    const colour = localStorageColour ?? themeColour;
+    const [swatchColour, setSwatchColour] = useState<string | null>(null);
 
-    function setCorrectnessColour(
-        e: ChangeEvent<HTMLInputElement> | MouseEvent<HTMLButtonElement>,
-        useThemeColour?: boolean
-    ): void {
-        const newColour = useThemeColour
-            ? THEMES[theme][`--${correctness}`]
-            : e.currentTarget.value;
-        setColour(newColour);
+    function setColour(newColour: string): void {
+        const root = document.querySelector<HTMLHtmlElement>(':root');
+        root?.style.setProperty(`--${correctness}`, newColour);
+        localStorage.setItem(`${correctness}-colour`, newColour);
+        setSwatchColour(newColour);
     }
-
-    useEffect((): (() => void) => {
-        // prevent theme loading on mount overriding local storage colour
-        if (isMounted.current) {
-            setColour(themeColour);
-        } else {
-            isMounted.current = true;
-        }
-
-        // will break in development due to strict mode forcing double effect run
-        return (): void => {
-            isMounted.current = false;
-        };
-    }, [themeColour]);
 
     useEffect((): void => {
         const root = document.querySelector<HTMLHtmlElement>(':root');
         root?.style.setProperty(`--${correctness}`, colour);
-        localStorage.setItem(`${correctness}-colour`, colour);
     }, [correctness, colour]);
 
     return (
@@ -54,7 +36,7 @@ export function CorrectnessColourPicker({ correctness, theme }: CorrectnessColou
                 svgFileName={correctness}
                 elementID={buttonID}
                 dialogRef={dialogRef}
-                currentColour={colour}
+                currentColour={swatchColour ?? colour}
             />
 
             <UIOptionsDialog
@@ -75,8 +57,8 @@ export function CorrectnessColourPicker({ correctness, theme }: CorrectnessColou
                             <input
                                 id={`${correctness}-input`}
                                 type="color"
-                                value={colour}
-                                onChange={setCorrectnessColour}
+                                defaultValue={swatchColour ?? colour}
+                                onChange={(e): void => setColour(e.currentTarget.value)}
                             />
                         </label>
                     </div>
