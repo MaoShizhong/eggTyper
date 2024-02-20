@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import { useCorrectnessColour } from '../../helpers/hooks';
 import { THEMES, ThemeName } from '../../helpers/themes';
 import { CustomiserButton } from './CustomiserButton';
 import { UIOptionsDialog } from './UIOptionsDialog';
@@ -13,22 +14,7 @@ type CorrectnessColourPickerProps = {
 export function CorrectnessColourPicker({ correctness, theme }: CorrectnessColourPickerProps) {
     const dialogRef = useRef<HTMLDialogElement>(null);
     const buttonID = `${correctness}-button`;
-    const localStorageColour = localStorage.getItem(`${correctness}-colour`);
-    const themeColour = THEMES[theme][`--${correctness}`];
-    const colour = localStorageColour ?? themeColour;
-    const [swatchColour, setSwatchColour] = useState<string | null>(null);
-
-    function setColour(newColour: string): void {
-        const root = document.querySelector<HTMLHtmlElement>(':root');
-        root?.style.setProperty(`--${correctness}`, newColour);
-        localStorage.setItem(`${correctness}-colour`, newColour);
-        setSwatchColour(newColour);
-    }
-
-    useEffect((): void => {
-        const root = document.querySelector<HTMLHtmlElement>(':root');
-        root?.style.setProperty(`--${correctness}`, colour);
-    }, [correctness, colour]);
+    const [colour, setColour] = useCorrectnessColour(correctness, theme);
 
     return (
         <>
@@ -36,7 +22,7 @@ export function CorrectnessColourPicker({ correctness, theme }: CorrectnessColou
                 svgFileName={correctness}
                 elementID={buttonID}
                 dialogRef={dialogRef}
-                currentColour={swatchColour ?? colour}
+                currentColour={colour}
             />
 
             <UIOptionsDialog
@@ -48,7 +34,10 @@ export function CorrectnessColourPicker({ correctness, theme }: CorrectnessColou
                     <h2>Set indicator colour for {correctness} letters:</h2>
 
                     <div className={styles.colourOptions}>
-                        <button type="button" onClick={(): void => setColour(themeColour)}>
+                        <button
+                            type="button"
+                            onClick={(): void => setColour(THEMES[theme][`--${correctness}`])}
+                        >
                             Use theme colour
                         </button>
 
@@ -57,7 +46,7 @@ export function CorrectnessColourPicker({ correctness, theme }: CorrectnessColou
                             <input
                                 id={`${correctness}-input`}
                                 type="color"
-                                defaultValue={swatchColour ?? colour}
+                                value={colour}
                                 onChange={(e): void => setColour(e.currentTarget.value)}
                             />
                         </label>

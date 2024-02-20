@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState } from 'react';
-import { SetThemeAction, ThemeName } from '../../helpers/themes';
+import { ThemeName } from '../../helpers/themes';
 import { CorrectnessColourPicker } from './CorrectnessColourPicker';
 import { FontSize } from './FontSize';
 import { ThemePicker } from './ThemePicker';
@@ -7,7 +7,7 @@ import styles from './css/UI_options.module.css';
 
 type UIOptionsProps = {
     theme: ThemeName;
-    setTheme: SetThemeAction;
+    setTheme: Dispatch<SetStateAction<ThemeName>>;
     fontSize: number;
     setFontSize: Dispatch<SetStateAction<number>>;
 };

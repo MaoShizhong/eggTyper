@@ -125,4 +125,3 @@ export const THEMES = {
     },
 } satisfies Themes;
 export type ThemeName = keyof typeof THEMES;
-export type SetThemeAction = (theme: ThemeName) => void;
