@@ -1,4 +1,3 @@
-
 import { useRef } from 'react';
 import { useCorrectnessColour } from '../../helpers/hooks';
 import { THEMES, ThemeName } from '../../helpers/themes';
@@ -23,7 +22,7 @@ export function CorrectnessColourPicker({ correctness, theme }: CorrectnessColou
                 svgFileName={correctness}
                 elementID={buttonID}
                 dialogRef={dialogRef}
-                currentColour={swatchColour ?? colour}
+                currentColour={colour}
             />
 
             <UIOptionsDialog
