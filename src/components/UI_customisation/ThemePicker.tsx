@@ -1,12 +1,12 @@
 import { Dispatch, SetStateAction, useRef } from 'react';
-import { SetThemeAction, THEMES, ThemeName } from '../../helpers/themes';
+import { THEMES, ThemeName } from '../../helpers/themes';
 import { CustomiserButton } from './CustomiserButton';
 import { UIOptionsDialog } from './UIOptionsDialog';
 import styles from './css/UI_options.module.css';
 
 type ThemePickerProps = {
     currentTheme: ThemeName;
-    setTheme: SetThemeAction;
+    setTheme: Dispatch<SetStateAction<ThemeName>>;
     setColourKey: Dispatch<SetStateAction<number>>;
 };
 

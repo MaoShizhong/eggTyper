@@ -1,37 +1,40 @@
 import { Dispatch, RefObject, SetStateAction, useEffect, useLayoutEffect, useState } from 'react';
 import { DEFAULT_FONT_SIZE, DEFAULT_THEME } from './constants';
-import { SetThemeAction, THEMES, ThemeName } from './themes';
+import { THEMES, ThemeName } from './themes';
 import { getContentWidth } from './util';
 
-type ThemeSetter = [ThemeName, SetThemeAction];
+type ThemeSetter = [ThemeName, Dispatch<SetStateAction<ThemeName>>];
+type CorrectnessColourSetter = [string, Dispatch<SetStateAction<string>>];
 type FontSizeSetter = [number, Dispatch<SetStateAction<number>>];
 
 export function useTheme(): ThemeSetter {
     const localStorageTheme = localStorage.getItem('theme') as ThemeName | null;
     const [currentTheme, setCurrentTheme] = useState(localStorageTheme ?? DEFAULT_THEME);
 
-    function setTheme(theme: ThemeName): void {
-        const root = document.querySelector<HTMLHtmlElement>(':root');
-
-        if (!root) {
-            throw new Error(
-                'There is no <html> element. This would be a very unlikely occurrence.'
-            );
+    useLayoutEffect((): void => {
+        localStorage.setItem('theme', currentTheme);
+        for (const [property, value] of Object.entries(THEMES[currentTheme])) {
+            document.documentElement.style.setProperty(property, value);
         }
+    }, [currentTheme]);
 
-        for (const [property, value] of Object.entries(THEMES[theme])) {
-            root.style.setProperty(property, value);
-        }
+    return [currentTheme, setCurrentTheme];
+}
 
-        if (theme !== currentTheme) {
-            setCurrentTheme(theme);
-            localStorage.setItem('theme', theme);
-        }
-    }
+export function useCorrectnessColour(
+    correctness: 'correct' | 'wrong',
+    theme: ThemeName
+): CorrectnessColourSetter {
+    const localStorageColour = localStorage.getItem(`${correctness}-colour`);
+    const themeColour = THEMES[theme][`--${correctness}`];
+    const [colour, setColour] = useState(localStorageColour ?? themeColour);
 
-    setTheme(currentTheme);
+    useEffect((): void => {
+        document.documentElement.style.setProperty(`--${correctness}`, colour);
+        localStorage.setItem(`${correctness}-colour`, colour);
+    }, [correctness, colour]);
 
-    return [currentTheme, setTheme];
+    return [colour, setColour];
 }
 
 export function useRowCapacity(
