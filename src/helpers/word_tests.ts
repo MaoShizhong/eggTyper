@@ -11,8 +11,7 @@ export function getWordBlock({ type, capitals, numbers }: TestOptions): string {
             quotes = `${quotes} ${getRandomQuote()}`;
         }
 
-        // remove leading space
-        return quotes.slice(1);
+        return quotes.trim();
     }
 
     let words = wordList;
